@@ -142,11 +142,21 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="cajaUsuario">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="69" green="55" red="47" type="rgb"/>
+            </Property>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cajaUsuarioActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="cajaPassword">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="69" green="55" red="47" type="rgb"/>
+            </Property>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnIniciarSesion">
           <Properties>

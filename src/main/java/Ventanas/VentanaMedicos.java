@@ -87,13 +87,16 @@ public class VentanaMedicos extends javax.swing.JPanel {
 
         jTextField6.setBackground(new java.awt.Color(71, 85, 105));
 
-        jButton1.setBackground(new java.awt.Color(71, 85, 105));
+        jButton1.setBackground(new java.awt.Color(40, 40, 40));
+        jButton1.setForeground(new java.awt.Color(241, 245, 249));
         jButton1.setText("AGREGAR");
 
-        jButton2.setBackground(new java.awt.Color(71, 85, 105));
+        jButton2.setBackground(new java.awt.Color(40, 40, 40));
+        jButton2.setForeground(new java.awt.Color(241, 245, 249));
         jButton2.setText("ELIMINAR");
 
-        jButton3.setBackground(new java.awt.Color(71, 85, 105));
+        jButton3.setBackground(new java.awt.Color(40, 40, 40));
+        jButton3.setForeground(new java.awt.Color(241, 245, 249));
         jButton3.setText("EDITAR");
 
         jScrollPane1.setBackground(new java.awt.Color(241, 245, 249));

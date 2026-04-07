@@ -85,11 +85,14 @@ public class inicioSesion extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(241, 245, 249));
         jLabel1.setText("ACCESO AL SYSTEMA");
 
+        cajaUsuario.setBackground(new java.awt.Color(71, 85, 105));
         cajaUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cajaUsuarioActionPerformed(evt);
             }
         });
+
+        cajaPassword.setBackground(new java.awt.Color(71, 85, 105));
 
         btnIniciarSesion.setBackground(new java.awt.Color(40, 40, 40));
         btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -187,7 +190,7 @@ public class inicioSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
