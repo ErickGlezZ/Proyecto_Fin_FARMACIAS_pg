@@ -94,10 +94,10 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="63" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jButton1" min="-2" pref="253" max="-2" attributes="0"/>
-                      <Component id="jTextField1" min="-2" pref="253" max="-2" attributes="0"/>
+                      <Component id="btnIniciarSesion" min="-2" pref="253" max="-2" attributes="0"/>
+                      <Component id="cajaUsuario" min="-2" pref="253" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <Component id="jPasswordField1" alignment="1" min="-2" pref="253" max="-2" attributes="0"/>
+                      <Component id="cajaPassword" alignment="1" min="-2" pref="253" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
               </Group>
@@ -109,11 +109,11 @@
                   <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                  <Component id="jTextField1" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="cajaUsuario" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                  <Component id="jPasswordField1" min="-2" pref="50" max="-2" attributes="0"/>
+                  <Component id="cajaPassword" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="btnIniciarSesion" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace pref="194" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -131,14 +131,14 @@
             <Property name="text" type="java.lang.String" value="ACCESO AL SYSTEMA"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="cajaUsuario">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cajaUsuarioActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JPasswordField" name="jPasswordField1">
+        <Component class="javax.swing.JPasswordField" name="cajaPassword">
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnIniciarSesion">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="28" green="28" red="28" type="rgb"/>
@@ -151,6 +151,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="INICIAR SESI&#xd3;N"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIniciarSesionActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
