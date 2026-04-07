@@ -4,7 +4,7 @@
  */
 package login;
 
-import com.mycompany.proyecto_fin_farmacias_pg.VentanaPrincipal;
+import com.mycompany.proyecto_fin_farmacias_pg.VentanaInicio;
 import java.awt.BorderLayout;
 import javax.swing.SwingUtilities;
 import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
@@ -157,10 +157,10 @@ public class inicioSesion extends javax.swing.JFrame {
                     @Override
                     public void run() {
                         
-                        new VentanaPrincipal();
+                        new VentanaInicio();
                         
                         
-                        //new VentanaPrincipal(Login.this);
+                        //new VentanaInicio(Login.this);
                     }
                 });
                 cajaUsuario.setText("");

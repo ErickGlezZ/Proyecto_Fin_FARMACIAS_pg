@@ -4,6 +4,10 @@
  */
 package com.mycompany.proyecto_fin_farmacias_pg;
 
+import Ventanas.VentanaMedicos;
+import Ventanas.VentanaPacientes;
+import Ventanas.VentanaPrincipal;
+import Ventanas.VentanaRecetas;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -15,15 +19,15 @@ import login.inicioSesion;
  *
  * @author erick
  */
-public class VentanaPrincipal extends javax.swing.JFrame {
+public class VentanaInicio extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaInicio.class.getName());
     private JPanel panelSeleccionado = null;
     
     /**
      * Creates new form VentanaPrincipal
      */
-    public VentanaPrincipal() {
+    public VentanaInicio() {
         initComponents();
         
         setLocationRelativeTo(null);
@@ -58,12 +62,209 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         panelPacientes.setBorder(null);
         panelPacientes.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-
         
+        // LABELS no deben tapar el fondo
+        lblInicio.setOpaque(false);
+
+        // Evento del botón-panel
+        panelInicio.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseEntered(java.awt.event.MouseEvent e) {
+            if (panelSeleccionado != panelInicio) {
+            panelInicio.setBackground(new Color(30, 41, 59));
+        }
+        }
+
+        @Override
+        public void mouseExited(java.awt.event.MouseEvent e) {
+             if (panelSeleccionado != panelInicio) {
+            panelInicio.setBackground(new Color(30, 41, 59));
+        }
+        }
+
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            System.out.println("Click en Inicio");
+            seleccionarPanel(panelInicio);
+
+            panelMedicos.setBackground(new Color(30, 41, 59));
+
+            panelContenido.removeAll();
+            panelContenido.add(new VentanaPrincipal());
+            panelContenido.revalidate();
+            panelContenido.repaint();    
+        }
+    });
+        
+        
+    //==================LABEL MEDICOS=========================
     
+        lblMedicos.setOpaque(false);
 
+        // Evento del botón-panel
+        panelMedicos.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseEntered(java.awt.event.MouseEvent e) {
+             if (panelSeleccionado != panelMedicos) {
+            panelMedicos.setBackground(new Color(30, 41, 59));
+        }
+        }
+
+        @Override
+        public void mouseExited(java.awt.event.MouseEvent e) {
+             if (panelSeleccionado != panelMedicos) {
+            panelMedicos.setBackground(new Color(30, 41, 59));
+        }
+        }
+
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            System.out.println("Click en Médicos");
+            seleccionarPanel(panelMedicos);
+
+            panelInicio.setBackground(new Color(30, 41, 59));
+            panelContenido.removeAll();
+            panelContenido.add(new VentanaMedicos());
+            panelContenido.revalidate();
+            panelContenido.repaint();    
+        }
+    });
         
+        
+        //==================LABEL PACIENTES====================
+    
+        lblPacientes.setOpaque(false);
+
+        // Evento del botón-panel
+        panelPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseEntered(java.awt.event.MouseEvent e) {
+             if (panelSeleccionado != panelPacientes) {
+            panelPacientes.setBackground(new Color(30, 41, 59));
+        }
+        }
+
+        @Override
+        public void mouseExited(java.awt.event.MouseEvent e) {
+             if (panelSeleccionado != panelPacientes) {
+            panelPacientes.setBackground(new Color(30, 41, 59));
+        }
+        }
+
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            System.out.println("Click en Pacientes");
+            seleccionarPanel(panelPacientes);
+
+            panelInicio.setBackground(new Color(30, 41, 59));
+            panelContenido.removeAll();
+            panelContenido.add(new VentanaPacientes());
+            panelContenido.revalidate();
+            panelContenido.repaint();    
+        }
+    });
+    
+    
+    //===================LABEL RECETAS========================
+    
+    lblRecetas.setOpaque(false);
+    panelRecetas.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseEntered(java.awt.event.MouseEvent e) {
+             if (panelSeleccionado != panelRecetas) {
+            panelRecetas.setBackground(new Color(30, 41, 59));
+        }
+        }
+
+        @Override
+        public void mouseExited(java.awt.event.MouseEvent e) {
+             if (panelSeleccionado != panelRecetas) {
+            panelRecetas.setBackground(new Color(30, 41, 59));
+        }
+        }
+
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            System.out.println("Click en Recetas");
+            seleccionarPanel(panelRecetas);
+
+            panelInicio.setBackground(new Color(30, 41, 59));
+            panelContenido.removeAll();
+            panelContenido.add(new VentanaRecetas());
+            panelContenido.revalidate();
+            panelContenido.repaint();    
+        }
+    });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    //=================LABEL CERRAR SESION==============
+        lblCerrarSesion.setOpaque(false);
+
+        // Evento del botón-panel
+        panelCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseEntered(java.awt.event.MouseEvent e) {
+             if (panelSeleccionado != panelCerrarSesion) {
+            panelCerrarSesion.setBackground(new Color(30, 41, 59));
+        }
+        }
+
+        @Override
+        public void mouseExited(java.awt.event.MouseEvent e) {
+             if (panelSeleccionado != panelCerrarSesion) {
+            panelCerrarSesion.setBackground(new Color(30, 41, 59));
+        }
+        }
+
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            System.out.println("Click en Cerrar Sesion");
+            seleccionarPanel(panelPacientes);
+
+            panelInicio.setBackground(new Color(30, 41, 59));
+            /*
+            panelContenido.removeAll();
+            panelContenido.add(new VentanaPacientes());
+            panelContenido.revalidate();
+            panelContenido.repaint();  
+            */
+            VentanaInicio.this.dispose();
+            java.awt.EventQueue.invokeLater(() -> new inicioSesion().setVisible(true));
+        }
+    });
+    }   
+        
+        
+        public void cargarPanelInicio() {
+        panelContenido.removeAll();
+        panelContenido.add(new Ventanas.VentanaPrincipal(), BorderLayout.CENTER);
+        panelContenido.revalidate();
+        panelContenido.repaint();
     }
+
+
+        private void seleccionarPanel(JPanel panel) {
+
+        // Restaurar el panel anterior
+        if (panelSeleccionado != null) {
+            panelSeleccionado.setBackground(new Color(30, 41, 59));  // color normal
+        }
+
+        // Activar el nuevo panel
+        panel.setBackground(new Color(60, 90, 150)); // color seleccionado
+        panelSeleccionado = panel;
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -277,7 +478,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VentanaPrincipal().setVisible(true));
+        //java.awt.EventQueue.invokeLater(() -> new VentanaInicio().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
