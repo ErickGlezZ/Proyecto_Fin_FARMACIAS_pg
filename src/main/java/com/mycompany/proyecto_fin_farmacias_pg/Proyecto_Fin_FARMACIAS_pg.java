@@ -36,16 +36,32 @@ public class Proyecto_Fin_FARMACIAS_pg {
             UIManager.put("Button.pressedBackground", new Color(200, 220, 250));
            
 
-            UIManager.put("defaultFont", new Font("Inter", Font.PLAIN, 12));
+            UIManager.put("defaultFont", new Font("Inter", Font.PLAIN, 14));
+            UIManager.put("Component.font", new Font("Inter", Font.PLAIN, 14));
             UIManager.put("Button.font", new Font("Inter", Font.BOLD, 14));
+            UIManager.put("Label.font", new Font("Inter", Font.BOLD, 16));
             
-            UIManager.put("Panel.background", new Color(30,41,59));  // Fondo principal
-            UIManager.put("Label.foreground", new Color(241,245,249));  // Texto claro
-            //UIManager.put("TextField.background", new Color(46,61,84)); // Fondo campos
-            UIManager.put("TextField.foreground", new Color(241,245,249)); // Texto campos
 
-            //UIManager.put("Button.border", BorderFactory.createLineBorder(new Color(59,130,246), 1));
+       
+            /*
+            FlatMacLightLaf.setup();  
+            //FlatMacDarkLaf.setup();
             
+            UIManager.put("Component.arc", 20);
+            UIManager.put("Button.arc", 20);
+            UIManager.put("TextComponent.arc", 20);
+            UIManager.put("CheckBox.arc", 20);
+
+            UIManager.put("Component.focusWidth", 1);
+            UIManager.put("Button.hoverBackground", new Color(220, 235, 255));
+            UIManager.put("Button.pressedBackground", new Color(200, 220, 250));
+
+            UIManager.put("defaultFont", new Font("Inter", Font.ITALIC, 12));
+
+        } catch(Exception ex) {
+            System.err.println("Error al cargar FlatLaf");
+        }
+            */
         } catch(Exception ex) {
             System.err.println("Error al cargar FlatLaf");
         }

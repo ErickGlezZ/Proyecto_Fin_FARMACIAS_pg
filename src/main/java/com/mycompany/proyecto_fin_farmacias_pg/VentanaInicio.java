@@ -363,6 +363,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         panelCerrarSesion.setBackground(new java.awt.Color(30, 41, 59));
 
         lblCerrarSesion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblCerrarSesion.setForeground(new java.awt.Color(241, 245, 249));
         lblCerrarSesion.setText("CERRAR SESIÓN");
 
         javax.swing.GroupLayout panelCerrarSesionLayout = new javax.swing.GroupLayout(panelCerrarSesion);
