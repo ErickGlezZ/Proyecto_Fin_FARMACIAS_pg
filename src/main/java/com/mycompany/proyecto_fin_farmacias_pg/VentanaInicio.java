@@ -44,7 +44,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         getContentPane().add(panelContenido, BorderLayout.CENTER);
 
         panelContenido.setLayout(new BorderLayout());
-        //cargarPanelInicio();
+        cargarPanelInicio();
         
         // Panel tipo botón "sin contorno"
         panelInicio.setOpaque(true);
@@ -196,18 +196,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         }
     });
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
     //=================LABEL CERRAR SESION==============
         lblCerrarSesion.setOpaque(false);
 
