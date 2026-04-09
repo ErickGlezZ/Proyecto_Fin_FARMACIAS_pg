@@ -5,6 +5,7 @@
 package Controlador;
 
 import ConexionBD.ConexionBD;
+import Modelo.ResultSetTableModel;
 import java.sql.SQLException;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
