@@ -34,12 +34,13 @@ public class Proyecto_Fin_FARMACIAS_pg {
             UIManager.put("Component.focusWidth", 1);
             UIManager.put("Button.hoverBackground", new Color(96,165,250));
             UIManager.put("Button.pressedBackground", new Color(200, 220, 250));
+            UIManager.put("Panel.background", new Color(46,61,84));
            
 
             UIManager.put("defaultFont", new Font("Inter", Font.PLAIN, 14));
             UIManager.put("Component.font", new Font("Inter", Font.PLAIN, 14));
             UIManager.put("Button.font", new Font("Inter", Font.BOLD, 14));
-            UIManager.put("Label.font", new Font("Inter", Font.BOLD, 16));
+            UIManager.put("Label.font", new Font("Inter", Font.BOLD, 14));
             
 
        

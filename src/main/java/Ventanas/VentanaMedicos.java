@@ -4,6 +4,10 @@
  */
 package Ventanas;
 
+import Controlador.MedicoDAO;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author erick
@@ -13,8 +17,11 @@ public class VentanaMedicos extends javax.swing.JPanel {
     /**
      * Creates new form VentanaMedicos
      */
+    MedicoDAO medicoDAO = MedicoDAO.getInstancia();
     public VentanaMedicos() {
         initComponents();
+        
+        medicoDAO.actualizarTabla(tablaRegMedicos);
     }
 
     /**
@@ -38,15 +45,15 @@ public class VentanaMedicos extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnAgregarMedicos = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaRegMedicos = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
 
-        setBackground(new java.awt.Color(51, 65, 85));
+        setBackground(new java.awt.Color(46, 61, 84));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(241, 245, 249));
@@ -89,9 +96,14 @@ public class VentanaMedicos extends javax.swing.JPanel {
 
         jTextField6.setBackground(new java.awt.Color(71, 85, 105));
 
-        jButton1.setBackground(new java.awt.Color(40, 40, 40));
-        jButton1.setForeground(new java.awt.Color(241, 245, 249));
-        jButton1.setText("AGREGAR");
+        btnAgregarMedicos.setBackground(new java.awt.Color(40, 40, 40));
+        btnAgregarMedicos.setForeground(new java.awt.Color(241, 245, 249));
+        btnAgregarMedicos.setText("NUEVO");
+        btnAgregarMedicos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarMedicosActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(40, 40, 40));
         jButton2.setForeground(new java.awt.Color(241, 245, 249));
@@ -104,8 +116,8 @@ public class VentanaMedicos extends javax.swing.JPanel {
         jScrollPane1.setBackground(new java.awt.Color(241, 245, 249));
         jScrollPane1.setForeground(new java.awt.Color(71, 85, 105));
 
-        jTable1.setBackground(new java.awt.Color(71, 85, 105));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaRegMedicos.setBackground(new java.awt.Color(71, 85, 105));
+        tablaRegMedicos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -116,7 +128,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaRegMedicos);
 
         jLabel3.setText("Buscar");
 
@@ -163,7 +175,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -195,7 +207,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -204,14 +216,22 @@ public class VentanaMedicos extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+    
+    private void btnAgregarMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMedicosActionPerformed
+        JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(this);
+        Dg_MedicosAltas dialog = new Dg_MedicosAltas(parent, true, tablaRegMedicos); // modal
+        dialog.setVisible(true);
+        medicoDAO.actualizarTabla(tablaRegMedicos);
+    }//GEN-LAST:event_btnAgregarMedicosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnAgregarMedicos;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
@@ -222,7 +242,6 @@ public class VentanaMedicos extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -230,5 +249,6 @@ public class VentanaMedicos extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JTable tablaRegMedicos;
     // End of variables declaration//GEN-END:variables
 }

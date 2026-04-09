@@ -4,6 +4,11 @@
  */
 package Ventanas;
 
+import Controlador.MedicoDAO;
+import Modelo.Medico;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+
 /**
  *
  * @author erick
@@ -15,9 +20,16 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
     /**
      * Creates new form Dg_MedicosAltas
      */
-    public Dg_MedicosAltas(java.awt.Frame parent, boolean modal) {
+    MedicoDAO medicoDAO = MedicoDAO.getInstancia();
+    private javax.swing.JTable tablaRegMedicos;
+    public Dg_MedicosAltas(java.awt.Frame parent, boolean modal, javax.swing.JTable tablaRegMedicos) {
         super(parent, modal);
+        this.tablaRegMedicos = tablaRegMedicos;
         initComponents();
+        setTitle("Agregar Médico");  
+        setSize(350, 450);           
+        setLocationRelativeTo(null);  
+        setResizable(false); 
     }
 
     /**
@@ -29,21 +41,152 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        cajaSSNAltas = new javax.swing.JTextField();
+        cajaNombreAltas = new javax.swing.JTextField();
+        cajaPaternoAltas = new javax.swing.JTextField();
+        cbEspecialidadAltas = new javax.swing.JComboBox<>();
+        cajaExperienciaAltas = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        btnAgregarMedAltas = new javax.swing.JButton();
+        cajaMaternoAltas = new javax.swing.JTextField();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(51, 65, 85));
+
+        jLabel2.setForeground(new java.awt.Color(241, 245, 249));
+        jLabel2.setText("SSN:");
+
+        jLabel3.setForeground(new java.awt.Color(241, 245, 249));
+        jLabel3.setText("Nombre:");
+
+        jLabel4.setForeground(new java.awt.Color(241, 245, 249));
+        jLabel4.setText("Apellido Paterno:");
+
+        jLabel5.setForeground(new java.awt.Color(241, 245, 249));
+        jLabel5.setText("Apellido Materno:");
+
+        jLabel6.setForeground(new java.awt.Color(241, 245, 249));
+        jLabel6.setText("Especialidad:");
+
+        jLabel7.setForeground(new java.awt.Color(241, 245, 249));
+        jLabel7.setText("Años Experiencia:");
+
+        cajaSSNAltas.setBackground(new java.awt.Color(71, 85, 105));
+
+        cajaNombreAltas.setBackground(new java.awt.Color(71, 85, 105));
+
+        cajaPaternoAltas.setBackground(new java.awt.Color(71, 85, 105));
+
+        cbEspecialidadAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cbEspecialidadAltas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elige Especialidad...", "Cardiología", "Pediatría", "Ginecología", "Medicina General", "Dermatología", "Neurología", "Oncología", "Oftalmología" }));
+
+        cajaExperienciaAltas.setBackground(new java.awt.Color(71, 85, 105));
+
+        jButton1.setText("Restablecer");
+
+        btnAgregarMedAltas.setText("Agregar");
+        btnAgregarMedAltas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarMedAltasActionPerformed(evt);
+            }
+        });
+
+        cajaMaternoAltas.setBackground(new java.awt.Color(71, 85, 105));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(cajaExperienciaAltas, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cajaSSNAltas, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cajaNombreAltas, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cajaPaternoAltas, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbEspecialidadAltas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnAgregarMedAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cajaMaternoAltas))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cajaSSNAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cajaNombreAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cajaPaternoAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(cajaMaternoAltas))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbEspecialidadAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cajaExperienciaAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(btnAgregarMedAltas))
+                .addGap(41, 41, 41))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgregarMedAltasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMedAltasActionPerformed
+        
+        Medico m = new Medico(cajaSSNAltas.getText().trim(),
+                cajaNombreAltas.getText(),
+                cajaPaternoAltas.getText(),
+                cajaMaternoAltas.getText(),
+                cbEspecialidadAltas.getSelectedItem().toString(),
+                Byte.parseByte(cajaExperienciaAltas.getText()));
+        
+        
+        if (medicoDAO.agregarMedico(m)) {
+                JOptionPane.showMessageDialog(this,"Registro Agregado CORRECTAMENTE");
+                System.out.println("Registro Agregado CORRECTAMENTE");
+                
+                
+                //medicoDAO.actualizarTabla(tablaRegMedicos);
+        }else{
+                    JOptionPane.showMessageDialog(this,"Error en la insercion");
+                    System.out.println("ERROR en la insercion");
+             }
+    }//GEN-LAST:event_btnAgregarMedAltasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -68,9 +211,10 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            JTable tablaDummy = new JTable();
             @Override
             public void run() {
-                Dg_MedicosAltas dialog = new Dg_MedicosAltas(new javax.swing.JFrame(), true);
+                Dg_MedicosAltas dialog = new Dg_MedicosAltas(new javax.swing.JFrame(), true, tablaDummy);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -83,5 +227,19 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarMedAltas;
+    private javax.swing.JTextField cajaExperienciaAltas;
+    private javax.swing.JTextField cajaMaternoAltas;
+    private javax.swing.JTextField cajaNombreAltas;
+    private javax.swing.JTextField cajaPaternoAltas;
+    private javax.swing.JTextField cajaSSNAltas;
+    private javax.swing.JComboBox<String> cbEspecialidadAltas;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     // End of variables declaration//GEN-END:variables
 }
