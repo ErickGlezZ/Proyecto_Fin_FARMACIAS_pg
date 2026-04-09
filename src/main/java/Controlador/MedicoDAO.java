@@ -5,6 +5,7 @@
 package Controlador;
 
 import ConexionBD.ConexionBD;
+import Modelo.Medico;
 import Modelo.ResultSetTableModel;
 import java.sql.SQLException;
 import javax.swing.JDialog;
@@ -81,7 +82,7 @@ public class MedicoDAO {
     
     
     //============================ALTAS=====================
-    /*
+    
     public boolean agregarMedico(Medico medico){
         String sql = "INSERT INTO Medicos (SSN, Nombre, Ape_Paterno, Ape_Materno, Especialidad, Años_Experiencia) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
@@ -94,5 +95,5 @@ public class MedicoDAO {
                 medico.getEspecialidad(),
                 medico.getAños());
     }
-    */
+    
 }
