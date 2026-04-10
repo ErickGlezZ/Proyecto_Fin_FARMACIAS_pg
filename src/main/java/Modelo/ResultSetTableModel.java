@@ -101,7 +101,8 @@ public class ResultSetTableModel extends AbstractTableModel {
         // si ocurren problemas arriba, devolver 0 para el n�mero de columnas
         return 0;
     }
-
+    
+    /*
     // obtener el nombre de una columna espec�fica en el objeto ResultSet
     public String getColumnName( int columna ) throws IllegalStateException
     {
@@ -120,6 +121,39 @@ public class ResultSetTableModel extends AbstractTableModel {
         }
 
         // si hay problemas, devolver cadena vac�a para el nombre de la columna
+        return "";
+    }
+    */
+    
+    @Override
+    public String getColumnName(int columna) throws IllegalStateException {
+        if (!conectadoALaBaseDeDatos)
+            throw new IllegalStateException("No hay conexion a la base de datos");
+
+        try {
+            String nombreColumna = metaDatos.getColumnName(columna + 1);
+
+            switch (nombreColumna) {
+                case "ssn":
+                    return "SSN";
+                case "nombre":
+                    return "Nombre";
+                case "ape_paterno":
+                    return "Apellido Paterno";
+                case "ape_materno":
+                    return "Apellido Materno";
+                case "especialidad":
+                    return "Especialidad";
+                case "años_experiencia":
+                    return "Años Experiencia";
+                default:
+                    return nombreColumna;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return "";
     }
 
