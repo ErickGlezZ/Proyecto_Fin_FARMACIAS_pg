@@ -96,4 +96,43 @@ public class MedicoDAO {
                 medico.getAños());
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //=====================CONSULTAS========================
+    public ResultSetTableModel obtenerMedicosFiltrados(String texto) {
+    String consulta = 
+        "SELECT * FROM medicos WHERE " +
+        "LOWER(nombre) LIKE ? OR " +
+        "LOWER(ape_paterno) LIKE ? OR " +
+        "LOWER(ape_materno) LIKE ? OR " +
+        "LOWER(especialidad) LIKE ? OR " +
+        "CAST(años_experiencia AS TEXT) LIKE ? OR " +
+        "CAST(ssn AS TEXT) LIKE ?";
+
+    String valor = "%" + texto.toLowerCase() + "%";
+
+    try {
+        return new ResultSetTableModel(
+            conexionBD.getDriver(),
+            conexionBD.getURL(),
+            consulta,
+            valor, valor, valor, valor, valor, valor
+        );
+    } catch (SQLException | ClassNotFoundException e) {
+        throw new RuntimeException("Error al filtrar medicos", e);
+    }
+}
+    
+    
 }

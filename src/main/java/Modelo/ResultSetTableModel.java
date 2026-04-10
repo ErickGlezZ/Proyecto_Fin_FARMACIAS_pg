@@ -5,6 +5,7 @@
 package Modelo;
 
 
+import ConexionBD.ConexionBD;
 import java.sql.*;
 import java.util.*;
 import javax.swing.table.*;
@@ -33,7 +34,8 @@ public class ResultSetTableModel extends AbstractTableModel {
         Class.forName( controlador );
 
         // conectarse a la base de datos
-        conexion = DriverManager.getConnection( url,"erick","erick" );
+        //conexion = DriverManager.getConnection( url,"erick","erick" );
+        conexion = ConexionBD.getInstancia().getConexion();
 
         // crear objeto Statement para consultar la base de datos
         instruccion = conexion.createStatement(
@@ -51,7 +53,8 @@ public class ResultSetTableModel extends AbstractTableModel {
     public ResultSetTableModel(String controlador, String url, String consulta, Object... params)
             throws SQLException, ClassNotFoundException {
         Class.forName(controlador);
-        conexion = DriverManager.getConnection(url,"erick","erick");
+        //conexion = DriverManager.getConnection(url,"erick","erick");
+        conexion = ConexionBD.getInstancia().getConexion();
         conectadoALaBaseDeDatos = true;
         establecerConsultaConParametros(consulta, params);
     }
@@ -252,7 +255,8 @@ public class ResultSetTableModel extends AbstractTableModel {
         // cerrar objetos Statement y Connection
         try {
             instruccion.close();
-            conexion.close();
+            conjuntoResultados.close();
+            //conexion.close();
         }
 
         // atrapar excepciones SQLException e imprimir mensaje de error
