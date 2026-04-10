@@ -97,6 +97,11 @@ public class MedicoDAO {
     }
     
     
+    //======================BAJAS==========================
+    public boolean eliminarMedico(String SSN){
+        String sql = "DELETE FROM Medicos WHERE SSN = ?";
+        return conexionBD.ejecutarInstruccionLMD(sql, SSN);
+    }
     
     
     

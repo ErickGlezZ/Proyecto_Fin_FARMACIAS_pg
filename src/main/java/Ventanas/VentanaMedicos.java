@@ -7,6 +7,7 @@ package Ventanas;
 import Controlador.MedicoDAO;
 import Modelo.ResultSetTableModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -24,6 +25,16 @@ public class VentanaMedicos extends javax.swing.JPanel {
     MedicoDAO medicoDAO = MedicoDAO.getInstancia();
     public VentanaMedicos() {
         initComponents();
+        
+        
+        cajaSSNMedicos.setEditable(false);
+        cajaNombreMedicos.setEnabled(false);
+        cajaApPaternoMedicos.setEnabled(false);
+        cajaApMaternoMedicos.setEnabled(false);
+        cbEspecialidadMedicos.setEnabled(false);
+        cajaExperienciaMedicos.setEnabled(false);
+        btnEliminarMedicos.setEnabled(false);
+        btnEditarMedicos.setEnabled(false);
         
         medicoDAO.actualizarTabla(tablaRegMedicos);
         
@@ -46,8 +57,11 @@ public class VentanaMedicos extends javax.swing.JPanel {
             cajaNombreMedicos.setText(tablaRegMedicos.getValueAt(fila, 1).toString());
             cajaApPaternoMedicos.setText(tablaRegMedicos.getValueAt(fila, 2).toString());
             cajaApMaternoMedicos.setText(tablaRegMedicos.getValueAt(fila, 3).toString());
-            cajaEspecialidadMedicos.setText(tablaRegMedicos.getValueAt(fila, 4).toString());
+            cbEspecialidadMedicos.setSelectedItem(tablaRegMedicos.getValueAt(fila, 4).toString());
             cajaExperienciaMedicos.setText(tablaRegMedicos.getValueAt(fila, 5).toString());
+            
+            btnEliminarMedicos.setEnabled(true);
+            btnEditarMedicos.setEnabled(true);
             }
         }
     });
@@ -70,7 +84,6 @@ public class VentanaMedicos extends javax.swing.JPanel {
         cajaApPaternoMedicos = new javax.swing.JTextField();
         cajaApMaternoMedicos = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        cajaEspecialidadMedicos = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cajaExperienciaMedicos = new javax.swing.JTextField();
@@ -81,6 +94,8 @@ public class VentanaMedicos extends javax.swing.JPanel {
         tablaRegMedicos = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         cajaBusqueda = new javax.swing.JTextField();
+        cbEspecialidadMedicos = new javax.swing.JComboBox<>();
+        btnLimpiarCampos = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(46, 61, 84));
 
@@ -113,8 +128,6 @@ public class VentanaMedicos extends javax.swing.JPanel {
         jLabel5.setForeground(new java.awt.Color(241, 245, 249));
         jLabel5.setText("Especialidad:");
 
-        cajaEspecialidadMedicos.setBackground(new java.awt.Color(71, 85, 105));
-
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(241, 245, 249));
         jLabel6.setText("Nombre:");
@@ -137,6 +150,11 @@ public class VentanaMedicos extends javax.swing.JPanel {
         btnEliminarMedicos.setBackground(new java.awt.Color(40, 40, 40));
         btnEliminarMedicos.setForeground(new java.awt.Color(241, 245, 249));
         btnEliminarMedicos.setText("ELIMINAR");
+        btnEliminarMedicos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarMedicosActionPerformed(evt);
+            }
+        });
 
         btnEditarMedicos.setBackground(new java.awt.Color(40, 40, 40));
         btnEditarMedicos.setForeground(new java.awt.Color(241, 245, 249));
@@ -165,6 +183,17 @@ public class VentanaMedicos extends javax.swing.JPanel {
             }
         });
 
+        cbEspecialidadMedicos.setBackground(new java.awt.Color(71, 85, 105));
+        cbEspecialidadMedicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elige Especialidad...", "Cardiología", "Pediatría", "Ginecología", "Medicina General", "Dermatología", "Neurología", "Oncología", "Oftalmología" }));
+
+        btnLimpiarCampos.setBackground(new java.awt.Color(40, 40, 40));
+        btnLimpiarCampos.setText("LIMPIAR");
+        btnLimpiarCampos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarCamposActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,7 +214,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
                                         .addGap(12, 12, 12)
                                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cajaEspecialidadMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cbEspecialidadMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel7))
                                     .addGroup(layout.createSequentialGroup()
@@ -203,9 +232,11 @@ public class VentanaMedicos extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnEliminarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,23 +264,48 @@ public class VentanaMedicos extends javax.swing.JPanel {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cajaApMaternoMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaEspecialidadMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaExperienciaMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                    .addComponent(cajaExperienciaMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbEspecialidadMedicos, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnEliminarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnEditarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(cajaBusqueda)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEditarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     
+    public void limpiarCampos(){
+        cajaSSNMedicos.setText("");
+        cajaNombreMedicos.setText("");
+        cajaApPaternoMedicos.setText("");
+        cajaApMaternoMedicos.setText("");
+        cbEspecialidadMedicos.setSelectedIndex(0);
+        cajaExperienciaMedicos.setText("");
+        cajaBusqueda.setText("");
+        btnEliminarMedicos.setEnabled(false);
+        btnEditarMedicos.setEnabled(false);
+    }
+    
+    public void habilitarCamposEdicion(boolean habilitar){
+        cajaSSNMedicos.setEditable(habilitar);
+        cajaNombreMedicos.setEnabled(habilitar);
+        cajaApPaternoMedicos.setEnabled(habilitar);
+        cajaApMaternoMedicos.setEnabled(habilitar);
+        cbEspecialidadMedicos.setEnabled(habilitar);
+        cajaExperienciaMedicos.setEnabled(habilitar);
+        btnEditarMedicos.setEnabled(habilitar);
+    }
     
     private void cajaNombreMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cajaNombreMedicosActionPerformed
         // TODO add your handling code here:
@@ -266,18 +322,37 @@ public class VentanaMedicos extends javax.swing.JPanel {
         timerBusqueda.restart();
     }//GEN-LAST:event_cajaBusquedaKeyReleased
 
+    private void btnEliminarMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMedicosActionPerformed
+        
+        if (medicoDAO.eliminarMedico(cajaSSNMedicos.getText())){
+
+                medicoDAO.actualizarTabla(tablaRegMedicos);
+                JOptionPane.showMessageDialog(this, "Registro eliminado correctamente");
+                
+                limpiarCampos();
+            }else {
+                JOptionPane.showMessageDialog(this, "ERROR al eliminar el registro",
+                "No existe ese SSN", JOptionPane.ERROR_MESSAGE);
+            }
+    }//GEN-LAST:event_btnEliminarMedicosActionPerformed
+
+    private void btnLimpiarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCamposActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarCamposActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarMedicos;
     private javax.swing.JButton btnEditarMedicos;
     private javax.swing.JButton btnEliminarMedicos;
+    private javax.swing.JButton btnLimpiarCampos;
     private javax.swing.JTextField cajaApMaternoMedicos;
     private javax.swing.JTextField cajaApPaternoMedicos;
     private javax.swing.JTextField cajaBusqueda;
-    private javax.swing.JTextField cajaEspecialidadMedicos;
     private javax.swing.JTextField cajaExperienciaMedicos;
     private javax.swing.JTextField cajaNombreMedicos;
     private javax.swing.JTextField cajaSSNMedicos;
+    private javax.swing.JComboBox<String> cbEspecialidadMedicos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
