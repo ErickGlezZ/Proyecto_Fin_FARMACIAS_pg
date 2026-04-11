@@ -73,7 +73,9 @@
                               <Component id="btnEditarMedicos" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="82" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnConfirmar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -97,13 +99,15 @@
                   <Component id="jLabel6" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="cajaApMaternoMedicos" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="jLabel5" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="jLabel7" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="cajaExperienciaMedicos" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="cbEspecialidadMedicos" alignment="1" pref="41" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="cajaApMaternoMedicos" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="jLabel5" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="jLabel7" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="cajaExperienciaMedicos" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
@@ -113,6 +117,7 @@
                           <Component id="btnEliminarMedicos" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="btnEditarMedicos" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="btnLimpiarCampos" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="btnConfirmar" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -176,9 +181,6 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cajaNombreMedicosActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="cajaApPaternoMedicos">
       <Properties>
@@ -272,6 +274,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="EDITAR"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarMedicosActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <Properties>
@@ -388,6 +393,17 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimpiarCamposActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnConfirmar">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="28" green="28" red="28" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="GUARDAR"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConfirmarActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
