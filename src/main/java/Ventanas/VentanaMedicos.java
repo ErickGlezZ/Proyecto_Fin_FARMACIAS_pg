@@ -25,10 +25,14 @@ public class VentanaMedicos extends javax.swing.JPanel {
      * Creates new form VentanaMedicos
      */
     private Timer timerBusqueda;
-    private MedicoController controller = new MedicoController();
+    //private MedicoController controller = new MedicoController();
+    private MedicoController controller;
+    
     public VentanaMedicos() {
         initComponents();
         
+        
+        controller = new MedicoController(MedicoDAO.getInstancia());
         cajaSSNMedicos.setEnabled(false);
         cajaNombreMedicos.setEnabled(false);
         cajaApPaternoMedicos.setEnabled(false);
@@ -350,8 +354,8 @@ timerBusqueda.setRepeats(false);
         cbEspecialidadMedicos.setSelectedIndex(0);
         cajaExperienciaMedicos.setText("");
         cajaBusqueda.setText("");
-        
-        
+    
+
         
         if (timerBusqueda != null) {
             timerBusqueda.restart();

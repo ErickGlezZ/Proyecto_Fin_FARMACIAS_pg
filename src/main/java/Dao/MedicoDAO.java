@@ -5,6 +5,7 @@
 package Dao;
 
 import ConexionBD.ConexionBD;
+import Interfaces.IMedicoDAO;
 import Modelo.Medico;
 import Modelo.ResultSetTableModel;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ import javax.swing.SwingUtilities;
  *
  * @author erick
  */
-public class MedicoDAO {
+public class MedicoDAO implements IMedicoDAO{
     private static MedicoDAO instancia;
     
     // Instancia única de conexión
@@ -38,14 +39,19 @@ public class MedicoDAO {
     
     
     // ================= CONSULTA GENERAL =================
-    public ResultSetTableModel obtenerTodos() throws SQLException, ClassNotFoundException {
+    @Override
+    public ResultSetTableModel obtenerTodos() {
         String consulta = "SELECT * FROM medicos ORDER BY SSN DESC";
 
-        return new ResultSetTableModel(
+        try {
+            return new ResultSetTableModel(
                 conexionBD.getDriver(),
                 conexionBD.getURL(),
                 consulta
-        );
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener médicos", e);
+        }
     }
 
     // ================= CONSULTA FILTRADA =================
@@ -105,6 +111,31 @@ public class MedicoDAO {
                 medico.getEspecialidad(),
                 medico.getAños(),
                 medico.getSsn());
+    }
+
+    @Override
+    public boolean agregar(Medico m) {
+        return agregarMedico(m); 
+    }
+
+    @Override
+    public boolean eliminar(String ssn) {
+        return eliminarMedico(ssn);
+    }
+
+    @Override
+    public boolean editar(Medico m) {
+        return editarMedico(m); 
+    }
+
+    @Override
+    public ResultSetTableModel filtrar(String texto) {
+        try {
+            return obtenerFiltrados(texto);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al filtrar médicos", e);
+        }
+
     }
 }
     

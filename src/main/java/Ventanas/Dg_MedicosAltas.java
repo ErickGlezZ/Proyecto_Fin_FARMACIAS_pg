@@ -5,6 +5,7 @@
 package Ventanas;
 
 import Controlador.MedicoController;
+import Dao.MedicoDAO;
 import Modelo.Medico;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -21,8 +22,8 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
      * Creates new form Dg_MedicosAltas
      */
     
-    private MedicoController controller = new MedicoController();
-    
+    //private MedicoController controller = new MedicoController();
+    private MedicoController controller;
     public Dg_MedicosAltas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -30,6 +31,8 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
         setSize(350, 450);           
         setLocationRelativeTo(null);  
         setResizable(false); 
+        
+        controller = new MedicoController(MedicoDAO.getInstancia());
     }
 
     

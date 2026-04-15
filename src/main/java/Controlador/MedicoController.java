@@ -1,15 +1,17 @@
 package Controlador;
 
 import Dao.MedicoDAO;
+import Interfaces.IMedicoDAO;
 import Modelo.Medico;
 import Modelo.ResultSetTableModel;
 
 public class MedicoController {
 
-    private MedicoDAO dao;
+    //private MedicoDAO dao;
+    private IMedicoDAO dao;
 
-    public MedicoController() {
-        dao = MedicoDAO.getInstancia();
+    public MedicoController(IMedicoDAO dao) {
+        this.dao = dao;
     }
 
     // ================= CARGAR TABLA =================
@@ -24,7 +26,7 @@ public class MedicoController {
     // ================= FILTRO =================
     public ResultSetTableModel filtrar(String texto) {
         try {
-            return dao.obtenerFiltrados(texto);
+            return dao.filtrar(texto);
         } catch (Exception e) {
             throw new RuntimeException("Error al filtrar médicos", e);
         }
@@ -35,7 +37,7 @@ public class MedicoController {
 
         validar(m);
 
-        return dao.agregarMedico(m);
+        return dao.agregar(m);
     }
 
     // ================= EDITAR =================
@@ -43,7 +45,7 @@ public class MedicoController {
 
         validar(m);
 
-        return dao.editarMedico(m);
+        return dao.editar(m);
     }
 
     // ================= ELIMINAR =================
@@ -53,7 +55,7 @@ public class MedicoController {
             throw new IllegalArgumentException("SSN inválido");
         }
 
-        return dao.eliminarMedico(ssn);
+        return dao.eliminar(ssn);
     }
 
     // ================= VALIDACIONES =================
