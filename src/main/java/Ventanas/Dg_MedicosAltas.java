@@ -4,7 +4,7 @@
  */
 package Ventanas;
 
-import Controlador.MedicoDAO;
+import Controlador.MedicoController;
 import Modelo.Medico;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -20,11 +20,11 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
     /**
      * Creates new form Dg_MedicosAltas
      */
-    MedicoDAO medicoDAO = MedicoDAO.getInstancia();
-    private javax.swing.JTable tablaRegMedicos;
-    public Dg_MedicosAltas(java.awt.Frame parent, boolean modal, javax.swing.JTable tablaRegMedicos) {
+    
+    private MedicoController controller = new MedicoController();
+    
+    public Dg_MedicosAltas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        this.tablaRegMedicos = tablaRegMedicos;
         initComponents();
         setTitle("Agregar Médico");  
         setSize(350, 450);           
@@ -32,6 +32,15 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
         setResizable(false); 
     }
 
+    
+    private void limpiarCampos() {
+        cajaSSNAltas.setText("");
+        cajaNombreAltas.setText("");
+        cajaPaternoAltas.setText("");
+        cajaMaternoAltas.setText("");
+        cbEspecialidadAltas.setSelectedIndex(0);
+        cajaExperienciaAltas.setText("");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -176,12 +185,13 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
                 Byte.parseByte(cajaExperienciaAltas.getText()));
         
         
-        if (medicoDAO.agregarMedico(m)) {
+        if (controller.agregar(m)) {
                 JOptionPane.showMessageDialog(this,"Registro Agregado CORRECTAMENTE");
                 System.out.println("Registro Agregado CORRECTAMENTE");
                 
                 
-                //medicoDAO.actualizarTabla(tablaRegMedicos);
+                limpiarCampos();   
+                dispose(); 
         }else{
                     JOptionPane.showMessageDialog(this,"Error en la insercion");
                     System.out.println("ERROR en la insercion");
@@ -214,7 +224,7 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
             JTable tablaDummy = new JTable();
             @Override
             public void run() {
-                Dg_MedicosAltas dialog = new Dg_MedicosAltas(new javax.swing.JFrame(), true, tablaDummy);
+                Dg_MedicosAltas dialog = new Dg_MedicosAltas(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

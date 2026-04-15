@@ -4,12 +4,14 @@
  */
 package Ventanas;
 
-import Controlador.MedicoDAO;
+import Controlador.MedicoController;
+import Dao.MedicoDAO;
 import Modelo.Medico;
 import Modelo.ResultSetTableModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 /**
@@ -23,10 +25,9 @@ public class VentanaMedicos extends javax.swing.JPanel {
      * Creates new form VentanaMedicos
      */
     private Timer timerBusqueda;
-    MedicoDAO medicoDAO = MedicoDAO.getInstancia();
+    private MedicoController controller = new MedicoController();
     public VentanaMedicos() {
         initComponents();
-        
         
         cajaSSNMedicos.setEnabled(false);
         cajaNombreMedicos.setEnabled(false);
@@ -38,15 +39,32 @@ public class VentanaMedicos extends javax.swing.JPanel {
         btnEditarMedicos.setEnabled(false);
         btnConfirmar.setEnabled(false);
         
-        medicoDAO.actualizarTabla(tablaRegMedicos);
+        cargarTabla();
         
         timerBusqueda = new Timer(300, e -> {
         String texto = cajaBusqueda.getText();
 
-        ResultSetTableModel modelo = medicoDAO.obtenerMedicosFiltrados(texto);
-        tablaRegMedicos.setModel(modelo);
+        SwingWorker<ResultSetTableModel, Void> worker = new SwingWorker<>() {
+
+            @Override
+            protected ResultSetTableModel doInBackground() throws Exception {
+                return controller.filtrar(texto);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    tablaRegMedicos.setModel(get());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error en búsqueda");
+                }
+            }
+        };
+
+        worker.execute();
     });
-    timerBusqueda.setRepeats(false);
+
+timerBusqueda.setRepeats(false);
     
     
     //Selecion de tabla para llenar campos
@@ -67,6 +85,8 @@ public class VentanaMedicos extends javax.swing.JPanel {
             }
         }
     });
+    
+        
     }
 
     /**
@@ -300,6 +320,28 @@ public class VentanaMedicos extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     
+    private void cargarTabla() {
+
+        SwingWorker<ResultSetTableModel, Void> worker = new SwingWorker<>() {
+
+            @Override
+            protected ResultSetTableModel doInBackground() throws Exception {
+                return controller.obtenerTodos();
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    tablaRegMedicos.setModel(get());
+                    
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error al cargar datos");
+                }
+            }
+        };
+
+        worker.execute();
+    }
     public void limpiarCampos(){
         cajaSSNMedicos.setText("");
         cajaNombreMedicos.setText("");
@@ -308,7 +350,13 @@ public class VentanaMedicos extends javax.swing.JPanel {
         cbEspecialidadMedicos.setSelectedIndex(0);
         cajaExperienciaMedicos.setText("");
         cajaBusqueda.setText("");
-        timerBusqueda.restart();
+        
+        
+        
+        if (timerBusqueda != null) {
+            timerBusqueda.restart();
+        }
+
         btnEliminarMedicos.setEnabled(false);
         btnEditarMedicos.setEnabled(false);
         btnConfirmar.setEnabled(false);
@@ -326,13 +374,15 @@ public class VentanaMedicos extends javax.swing.JPanel {
         
     private void btnAgregarMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMedicosActionPerformed
         JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(this);
-        Dg_MedicosAltas dialog = new Dg_MedicosAltas(parent, true, tablaRegMedicos); // modal
+        Dg_MedicosAltas dialog = new Dg_MedicosAltas(parent, true); // modal
         dialog.setVisible(true);
-        medicoDAO.actualizarTabla(tablaRegMedicos);
+        cargarTabla();
     }//GEN-LAST:event_btnAgregarMedicosActionPerformed
 
     private void cajaBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaBusquedaKeyReleased
+        if (timerBusqueda != null) {
         timerBusqueda.restart();
+        }
     }//GEN-LAST:event_cajaBusquedaKeyReleased
 
     private void btnEliminarMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMedicosActionPerformed
@@ -340,9 +390,9 @@ public class VentanaMedicos extends javax.swing.JPanel {
         habilitarCamposEdicion(false);
         btnAgregarMedicos.setEnabled(false);
        
-        if (medicoDAO.eliminarMedico(cajaSSNMedicos.getText())){
+        if (controller.eliminar(cajaSSNMedicos.getText())){
 
-                medicoDAO.actualizarTabla(tablaRegMedicos);
+                cargarTabla();
                 JOptionPane.showMessageDialog(this, "Registro eliminado correctamente");
                 
                 limpiarCampos();
@@ -377,22 +427,26 @@ public class VentanaMedicos extends javax.swing.JPanel {
                 cbEspecialidadMedicos.getSelectedItem().toString(),
                 Byte.parseByte(cajaExperienciaMedicos.getText()));
 
-
-        if (medicoDAO.editarMedico(m)) {
+        try {
+            if (controller.editar(m)) {
             JOptionPane.showMessageDialog(this,
                     "Registro Editado CORRECTAMENTE");
-            medicoDAO.actualizarTabla(tablaRegMedicos);
+            cargarTabla();
             
             limpiarCampos();
             habilitarCamposEdicion(false);
             btnAgregarMedicos.setEnabled(true);
 
-        } else {
+        }
+        } catch (IllegalArgumentException e) {
+    JOptionPane.showMessageDialog(this, e.getMessage());
+}
+         /*else {
             JOptionPane.showMessageDialog(this,
                     "No existe ese SSN.",
                     "Error al editar",
                     JOptionPane.ERROR_MESSAGE);
-        }
+        }*/
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
 

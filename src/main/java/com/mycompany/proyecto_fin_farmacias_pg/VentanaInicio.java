@@ -31,7 +31,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         initComponents();
         
         setLocationRelativeTo(null);
-        setSize(1100, 700);
+        setSize(1150, 700);
         setVisible(true);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         // 1. Configura el JFrame para BorderLayout

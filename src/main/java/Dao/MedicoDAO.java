@@ -1,0 +1,112 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Dao;
+
+import ConexionBD.ConexionBD;
+import Modelo.Medico;
+import Modelo.ResultSetTableModel;
+import java.sql.SQLException;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+
+/**
+ *
+ * @author erick
+ */
+public class MedicoDAO {
+    private static MedicoDAO instancia;
+    
+    // Instancia única de conexión
+    private ConexionBD conexionBD;
+
+    // Constructor privado
+    private MedicoDAO() {
+        conexionBD = ConexionBD.getInstancia();
+    }
+    
+    // Método público para obtener la instancia única
+    public static MedicoDAO getInstancia() {
+        if (instancia == null) {
+            instancia = new MedicoDAO();
+        }
+        return instancia;
+    }
+    
+    
+    // ================= CONSULTA GENERAL =================
+    public ResultSetTableModel obtenerTodos() throws SQLException, ClassNotFoundException {
+        String consulta = "SELECT * FROM medicos ORDER BY SSN DESC";
+
+        return new ResultSetTableModel(
+                conexionBD.getDriver(),
+                conexionBD.getURL(),
+                consulta
+        );
+    }
+
+    // ================= CONSULTA FILTRADA =================
+    public ResultSetTableModel obtenerFiltrados(String texto) throws SQLException, ClassNotFoundException {
+
+        String consulta =
+                "SELECT * FROM medicos WHERE " +
+                "LOWER(nombre) LIKE ? OR " +
+                "LOWER(ape_paterno) LIKE ? OR " +
+                "LOWER(ape_materno) LIKE ? OR " +
+                "LOWER(especialidad) LIKE ? OR " +
+                "CAST(años_experiencia AS TEXT) LIKE ? OR " +
+                "CAST(ssn AS TEXT) LIKE ?";
+
+        String valor = "%" + texto.toLowerCase() + "%";
+
+        return new ResultSetTableModel(
+                conexionBD.getDriver(),
+                conexionBD.getURL(),
+                consulta,
+                valor, valor, valor, valor, valor, valor
+        );
+    }
+
+    // ================= ALTAS =================
+    public boolean agregarMedico(Medico medico) {
+
+        String sql = "INSERT INTO Medicos (SSN, Nombre, Ape_Paterno, Ape_Materno, Especialidad, Años_Experiencia) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+
+        return conexionBD.ejecutarInstruccionLMD(sql,
+                medico.getSsn(),
+                medico.getNombre(),
+                medico.getApePaterno(),
+                medico.getApeMaterno(),
+                medico.getEspecialidad(),
+                medico.getAños());
+    }
+
+    // ================= BAJAS =================
+    public boolean eliminarMedico(String ssn) {
+
+        String sql = "DELETE FROM Medicos WHERE SSN = ?";
+
+        return conexionBD.ejecutarInstruccionLMD(sql, ssn);
+    }
+
+    // ================= CAMBIOS =================
+    public boolean editarMedico(Medico medico) {
+
+        String sql = "UPDATE Medicos SET Nombre = ?, Ape_Paterno = ?, Ape_Materno = ?, Especialidad = ?, Años_Experiencia = ? WHERE SSN = ?";
+
+        return conexionBD.ejecutarInstruccionLMD(sql,
+                medico.getNombre(),
+                medico.getApePaterno(),
+                medico.getApeMaterno(),
+                medico.getEspecialidad(),
+                medico.getAños(),
+                medico.getSsn());
+    }
+}
+    
+    
+
