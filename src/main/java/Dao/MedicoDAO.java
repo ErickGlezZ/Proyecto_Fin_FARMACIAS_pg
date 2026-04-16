@@ -9,10 +9,6 @@ import Interfaces.IMedicoDAO;
 import Modelo.Medico;
 import Modelo.ResultSetTableModel;
 import java.sql.SQLException;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 
 /**
  *
