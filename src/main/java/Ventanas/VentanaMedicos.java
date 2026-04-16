@@ -189,7 +189,7 @@ timerBusqueda.setRepeats(false);
         });
 
         jScrollPane1.setBackground(new java.awt.Color(241, 245, 249));
-        jScrollPane1.setForeground(new java.awt.Color(71, 85, 105));
+        jScrollPane1.setForeground(new java.awt.Color(40, 40, 40));
 
         tablaRegMedicos.setBackground(new java.awt.Color(71, 85, 105));
         tablaRegMedicos.setModel(new javax.swing.table.DefaultTableModel(
