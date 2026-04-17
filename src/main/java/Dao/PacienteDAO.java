@@ -5,6 +5,7 @@
 package Dao;
 
 import ConexionBD.ConexionBD;
+import Interfaces.IPacienteDAO;
 import Modelo.Paciente;
 import Modelo.ResultSetTableModel;
 import java.sql.ResultSet;
@@ -14,7 +15,7 @@ import java.sql.SQLException;
  *
  * @author erick
  */
-public class PacienteDAO {
+public class PacienteDAO implements IPacienteDAO{
     
     private static PacienteDAO instancia;
     
@@ -143,7 +144,7 @@ public class PacienteDAO {
         String sql = "SELECT SSN FROM Pacientes WHERE SSN = ?";
         ResultSet rs = conexionBD.ejecutarConsultaSQL(sql, SSN.trim());
         try {
-            return rs != null && rs.next(); // Ya existe
+            return rs != null && rs.next(); 
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -155,6 +156,30 @@ public class PacienteDAO {
     String sql = "SELECT SSN, Nombre FROM Medicos ORDER BY Nombre";
 
     return conexionBD.ejecutarConsultaSQL(sql);
+    }
+
+    @Override
+    public boolean agregar(Paciente p) {
+        return agregarPaciente(p);
+    }
+
+    @Override
+    public boolean eliminar(String ssn) {
+        return eliminarPaciente(ssn);
+    }
+
+    @Override
+    public boolean editar(Paciente p) {
+        return editarPaciente(p);
+    }
+
+    @Override
+    public ResultSetTableModel filtrar(String texto) {
+        try {
+            return obtenerFiltrados(texto);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al filtrar pacientes", e);
+        }
     }
     
 }

@@ -1,6 +1,5 @@
 package Controlador;
 
-import Dao.MedicoDAO;
 import Interfaces.IMedicoDAO;
 import Modelo.Medico;
 import Modelo.ResultSetTableModel;
