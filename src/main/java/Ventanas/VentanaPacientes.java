@@ -4,6 +4,9 @@
  */
 package Ventanas;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author erick
@@ -138,6 +141,11 @@ public class VentanaPacientes extends javax.swing.JPanel {
 
         btnAgregarPacientes.setBackground(new java.awt.Color(40, 40, 40));
         btnAgregarPacientes.setText("NUEVO");
+        btnAgregarPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPacientesActionPerformed(evt);
+            }
+        });
 
         btnEliminarPacientes.setBackground(new java.awt.Color(40, 40, 40));
         btnEliminarPacientes.setText("ELIMINAR");
@@ -297,6 +305,13 @@ public class VentanaPacientes extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgregarPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPacientesActionPerformed
+        JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(this);
+        Dg_PacientesAltas dialog = new Dg_PacientesAltas(parent, true); // modal
+        dialog.setVisible(true);
+        //cargarTabla();
+    }//GEN-LAST:event_btnAgregarPacientesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
