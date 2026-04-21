@@ -38,42 +38,27 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel3" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                               <Component id="cajaCalleAltas" min="-2" pref="140" max="-2" attributes="0"/>
                               <Component id="cajaNumeroAltas" alignment="1" min="-2" pref="140" max="-2" attributes="0"/>
                               <Component id="cajaColoniaAltas" alignment="1" min="-2" pref="140" max="-2" attributes="0"/>
                               <Component id="cajaCodPostalAltas" alignment="1" min="-2" pref="140" max="-2" attributes="0"/>
                               <Component id="btnAgregarPacientes" alignment="1" min="-2" pref="140" max="-2" attributes="0"/>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="jLabel1" max="32767" attributes="0"/>
-                                              <Group type="102" attributes="0">
-                                                  <Component id="jLabel4" pref="124" max="32767" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" attributes="0">
-                                                  <Component id="jLabel2" max="32767" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel6" max="32767" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                              </Group>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jLabel1" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel4" pref="124" max="32767" attributes="0"/>
+                                              <Component id="jLabel2" max="32767" attributes="0"/>
+                                              <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="15" pref="15" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="lblNombreMedico" pref="124" max="32767" attributes="0"/>
-                                              <Component id="jLabel5" max="32767" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                                          <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <EmptySpace min="15" pref="15" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="cbSSNAltas" alignment="0" pref="140" max="32767" attributes="0"/>
+                                      <Component id="cbSSNMedicoCabAltas" alignment="0" pref="140" max="32767" attributes="0"/>
                                       <Component id="cajaApMaternoAltas" alignment="0" max="32767" attributes="0"/>
                                       <Component id="cajaApPaternoAltas" alignment="0" max="32767" attributes="0"/>
                                       <Component id="cajaNombreAltas" alignment="0" max="32767" attributes="0"/>
@@ -81,6 +66,11 @@
                                       <Component id="spEdadAltas" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jLabel5" pref="264" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="lblNombreMedico" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -122,7 +112,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel6" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="cbSSNAltas" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="cbSSNMedicoCabAltas" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -238,9 +228,6 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cajaSSNAltasActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="cajaNombreAltas">
       <Properties>
@@ -265,7 +252,7 @@
     </Component>
     <Component class="javax.swing.JSpinner" name="spEdadAltas">
     </Component>
-    <Component class="javax.swing.JComboBox" name="cbSSNAltas">
+    <Component class="javax.swing.JComboBox" name="cbSSNMedicoCabAltas">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="69" green="55" red="47" type="rgb"/>
@@ -274,12 +261,18 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbSSNMedicoCabAltasActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lblNombreMedico">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="0"/>
+        </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="f9" green="f5" red="f1" type="rgb"/>
         </Property>

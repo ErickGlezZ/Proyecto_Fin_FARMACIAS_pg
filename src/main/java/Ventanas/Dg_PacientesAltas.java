@@ -4,7 +4,13 @@
  */
 package Ventanas;
 
+import Controlador.PacienteController;
+import Dao.PacienteDAO;
+import Modelo.Paciente;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -18,6 +24,7 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
     /**
      * Creates new form Dg_PacientesAltas
      */
+    private PacienteController controller;
     public Dg_PacientesAltas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -25,7 +32,51 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
         setSize(320, 680);           
         setLocationRelativeTo(null);  
         setResizable(false); 
+        controller = new PacienteController(PacienteDAO.getInstancia());
+        cargarMedicosEnCombo();
     }
+    
+    private void limpiarCampos(){
+        cajaSSNAltas.setText("");
+        cajaNombreAltas.setText("");
+        cajaApPaternoAltas.setText("");
+        cajaApMaternoAltas.setText("");
+        spEdadAltas.setValue(0);
+        lblNombreMedico.setText("");
+        cbSSNMedicoCabAltas.setSelectedIndex(0);
+        cajaCalleAltas.setText("");
+        cajaNumeroAltas.setText("");
+        cajaColoniaAltas.setText("");
+        cajaCodPostalAltas.setText("");
+    }
+    
+    private void cargarMedicosEnCombo(){
+        cbSSNMedicoCabAltas.removeAllItems();
+        
+        ResultSet rs = controller.obtenerMedicos();
+        try {
+            while (rs.next()) {
+                String ssn = rs.getString("SSN");
+
+                cbSSNMedicoCabAltas.addItem(ssn);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar médicos");
+        }
+        
+    }
+    
+    private void actualizarLabelMedico(){
+        
+        if (cbSSNMedicoCabAltas.getSelectedItem() == null) return;
+        String ssn = cbSSNMedicoCabAltas.getSelectedItem().toString();
+        String nombre = controller.obtenerNombreCompleto(ssn);
+        lblNombreMedico.setText("Médico asig. " + nombre);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,7 +102,7 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
         cajaApPaternoAltas = new javax.swing.JTextField();
         cajaApMaternoAltas = new javax.swing.JTextField();
         spEdadAltas = new javax.swing.JSpinner();
-        cbSSNAltas = new javax.swing.JComboBox<>();
+        cbSSNMedicoCabAltas = new javax.swing.JComboBox<>();
         lblNombreMedico = new javax.swing.JLabel();
         cajaCalleAltas = new javax.swing.JTextField();
         cajaNumeroAltas = new javax.swing.JTextField();
@@ -92,11 +143,6 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
         jLabel10.setText("Código Postal:");
 
         cajaSSNAltas.setBackground(new java.awt.Color(71, 85, 105));
-        cajaSSNAltas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cajaSSNAltasActionPerformed(evt);
-            }
-        });
 
         cajaNombreAltas.setBackground(new java.awt.Color(71, 85, 105));
 
@@ -104,8 +150,14 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
 
         cajaApMaternoAltas.setBackground(new java.awt.Color(71, 85, 105));
 
-        cbSSNAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cbSSNMedicoCabAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cbSSNMedicoCabAltas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSSNMedicoCabAltasActionPerformed(evt);
+            }
+        });
 
+        lblNombreMedico.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblNombreMedico.setForeground(new java.awt.Color(241, 245, 249));
         lblNombreMedico.setText("jLabel11");
 
@@ -143,39 +195,33 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(cajaCalleAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(cajaNumeroAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(cajaColoniaAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(cajaCodPostalAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnAgregarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                                                    .addGap(12, 12, 12))
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addGap(12, 12, 12))
-                                                .addGroup(layout.createSequentialGroup()
-                                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addGap(12, 12, 12)))
-                                            .addGap(15, 15, 15))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(lblNombreMedico, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGap(27, 27, 27)))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(cbSSNAltas, 0, 140, Short.MAX_VALUE)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addGap(12, 12, 12)))
+                                    .addGap(15, 15, 15)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(cbSSNMedicoCabAltas, 0, 140, Short.MAX_VALUE)
                                         .addComponent(cajaApMaternoAltas)
                                         .addComponent(cajaApPaternoAltas)
                                         .addComponent(cajaNombreAltas)
                                         .addComponent(cajaSSNAltas)
-                                        .addComponent(spEdadAltas)))))
+                                        .addComponent(spEdadAltas)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                                    .addGap(27, 27, 27))
+                                .addComponent(lblNombreMedico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -206,7 +252,7 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbSSNAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbSSNMedicoCabAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cajaCalleAltas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -231,13 +277,35 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cajaSSNAltasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cajaSSNAltasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cajaSSNAltasActionPerformed
-
     private void btnAgregarPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPacientesActionPerformed
         
+        Paciente p = new Paciente(cajaSSNAltas.getText(),
+                cajaNombreAltas.getText(),
+                cajaApPaternoAltas.getText(),
+                cajaApMaternoAltas.getText(),
+                Byte.parseByte(spEdadAltas.getValue().toString()),
+                cbSSNMedicoCabAltas.getSelectedItem().toString(),
+                cajaCalleAltas.getText(),
+                Integer.parseInt(cajaNumeroAltas.getText()),
+                cajaColoniaAltas.getText(),
+                Integer.parseInt(cajaCodPostalAltas.getText()));
+        
+        if (controller.agregar(p)) {
+                JOptionPane.showMessageDialog(this,"Registro Agregado CORRECTAMENTE");
+                System.out.println("Registro Agregado CORRECTAMENTE");
+                
+                
+                limpiarCampos();   
+                dispose(); 
+        }else{
+                    JOptionPane.showMessageDialog(this,"Error en la insercion");
+                    System.out.println("ERROR en la insercion");
+             }
     }//GEN-LAST:event_btnAgregarPacientesActionPerformed
+
+    private void cbSSNMedicoCabAltasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSSNMedicoCabAltasActionPerformed
+        actualizarLabelMedico();
+    }//GEN-LAST:event_cbSSNMedicoCabAltasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,7 +354,7 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
     private javax.swing.JTextField cajaNombreAltas;
     private javax.swing.JTextField cajaNumeroAltas;
     private javax.swing.JTextField cajaSSNAltas;
-    private javax.swing.JComboBox<String> cbSSNAltas;
+    private javax.swing.JComboBox<String> cbSSNMedicoCabAltas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

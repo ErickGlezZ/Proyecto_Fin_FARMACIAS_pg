@@ -6,6 +6,7 @@ package Interfaces;
 
 import Modelo.Paciente;
 import Modelo.ResultSetTableModel;
+import java.sql.ResultSet;
 
 /**
  *
@@ -18,4 +19,6 @@ public interface IPacienteDAO {
     
     ResultSetTableModel obtenerTodos();
     ResultSetTableModel filtrar(String texto);
+    ResultSet obtenerTodosLosMedicos();
+    String obtenerNombreCompleto(String ssn);
 }

@@ -29,21 +29,43 @@
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jLabel8" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="cajaCallePacientes" min="-2" pref="145" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jLabel9" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel8" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="cajaCallePacientes" min="-2" pref="145" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="jLabel9" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="cajaApMaternoPacientes" min="-2" pref="145" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="jLabel7" min="-2" pref="92" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="cajaApMaterno" min="-2" pref="145" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jLabel7" min="-2" pref="92" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="cajaBusquedaPacientes" min="-2" pref="145" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="label1" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="cbSSNMedicoCab" min="-2" pref="140" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -72,16 +94,18 @@
                               <EmptySpace pref="12" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="spEdadPacientes" max="32767" attributes="0"/>
+                                  <Component id="cajaNombrePacientes" pref="145" max="32767" attributes="0"/>
+                              </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="cajaNombrePacientes" min="-2" pref="145" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jLabel5" min="-2" pref="92" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="cajaApPaternoPacientes" min="-2" pref="145" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="cajaEdadPacientes" min="-2" pref="145" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                       <Component id="jLabel12" min="-2" pref="92" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -98,19 +122,9 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel2" min="-2" pref="92" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                              <Component id="CajaSSNPacientes" min="-2" pref="145" max="-2" attributes="0"/>
+                              <Component id="cajaSSNPacientes" min="-2" pref="145" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Component id="jLabel4" min="-2" pref="92" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="cajaSSNMedCabeceraPacientes" min="-2" pref="145" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="cajaBusquedaPacientes" min="-2" pref="145" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -127,7 +141,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="CajaSSNPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="cajaSSNPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="jLabel4" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="cajaNombrePacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="jLabel5" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
@@ -136,11 +150,11 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="cajaApMaterno" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="cajaApMaternoPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="jLabel7" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="cajaEdadPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="jLabel12" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="cajaCodPostalPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="spEdadPacientes" alignment="0" pref="41" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -155,24 +169,32 @@
                       <Component id="cajaNumeroPacientes" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel6" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="cajaSSNMedCabeceraPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="btnLimpiarPacientes" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
-                  <Component id="btnAgregarPacientes" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
-                  <Component id="btnEliminarPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="btnEditarPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="btnConfirmarPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="btnLimpiarPacientes" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
+                      <Component id="btnAgregarPacientes" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                      <Component id="btnEliminarPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="btnEditarPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="btnConfirmarPacientes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="label1" min="-2" pref="29" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="cbSSNMedicoCab" max="32767" attributes="0"/>
+                          <Component id="jLabel6" pref="40" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel13" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                   <Component id="cajaBusquedaPacientes" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="495" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="299" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -217,7 +239,7 @@
         <Property name="text" type="java.lang.String" value="Ap. Materno:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="CajaSSNPacientes">
+    <Component class="javax.swing.JTextField" name="cajaSSNPacientes">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="69" green="55" red="47" type="rgb"/>
@@ -266,21 +288,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="cajaApMaterno">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="69" green="55" red="47" type="rgb"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="cajaEdadPacientes">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="69" green="55" red="47" type="rgb"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="cajaSSNMedCabeceraPacientes">
+    <Component class="javax.swing.JTextField" name="cajaApMaternoPacientes">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="69" green="55" red="47" type="rgb"/>
@@ -406,6 +414,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="LIMPIAR"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimpiarPacientesActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAgregarPacientes">
       <Properties>
@@ -425,6 +436,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="ELIMINAR"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarPacientesActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnEditarPacientes">
       <Properties>
@@ -433,6 +447,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="EDITAR"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarPacientesActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnConfirmarPacientes">
       <Properties>
@@ -441,6 +458,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="GUARDAR"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConfirmarPacientesActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel13">
       <Properties>
@@ -462,12 +482,15 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaBusquedaPacientesKeyReleased"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="tablaRegPacientes">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="69" green="55" red="47" type="rgb"/>
@@ -547,5 +570,22 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JComboBox" name="cbSSNMedicoCab">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="java.awt.Label" name="label1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="label1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="spEdadPacientes">
+    </Component>
   </SubComponents>
 </Form>

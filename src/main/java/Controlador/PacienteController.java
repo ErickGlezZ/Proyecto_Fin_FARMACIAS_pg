@@ -3,6 +3,7 @@ package Controlador;
 import Interfaces.IPacienteDAO;
 import Modelo.Paciente;
 import Modelo.ResultSetTableModel;
+import java.sql.ResultSet;
 
 public class PacienteController {
 
@@ -28,6 +29,24 @@ public class PacienteController {
             return dao.filtrar(texto);
         } catch (Exception e) {
             throw new RuntimeException("Error al filtrar pacientes", e);
+        }
+    }
+    
+    //==================OBTENER MEDICOS=================
+    public ResultSet obtenerMedicos() {
+        try {
+            return dao.obtenerTodosLosMedicos();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener médicos", e);
+        }
+    }
+    
+    //=================OBTENER NOMBRE COMPLETO MEDICO===========
+    public String obtenerNombreCompleto(String ssn){
+        try {
+            return dao.obtenerNombreCompleto(ssn);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al filtrar nombre completo medicos", e);
         }
     }
 

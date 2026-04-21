@@ -451,7 +451,7 @@ timerBusqueda.setRepeats(false);
         }
         } catch (IllegalArgumentException e) {
     JOptionPane.showMessageDialog(this, e.getMessage());
-}
+    }
          /*else {
             JOptionPane.showMessageDialog(this,
                     "No existe ese SSN.",

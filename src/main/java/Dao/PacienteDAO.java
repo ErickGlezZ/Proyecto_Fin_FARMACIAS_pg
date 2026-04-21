@@ -36,7 +36,7 @@ public class PacienteDAO implements IPacienteDAO{
     }
     
     // ================= CONSULTA GENERAL =================
-    //@Override
+    @Override
     public ResultSetTableModel obtenerTodos() {
         String consulta = "SELECT * FROM pacientes ORDER BY SSN DESC";
 
@@ -49,6 +49,13 @@ public class PacienteDAO implements IPacienteDAO{
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener pacientes", e);
         }
+    }
+    
+    //====================CONSULTA GENERAL MEDICOS=============
+    @Override
+    public ResultSet obtenerTodosLosMedicos() {
+        String sql = "SELECT SSN, Nombre FROM Medicos ORDER BY Nombre";
+        return conexionBD.ejecutarConsultaSQL(sql);
     }
 
     // ================= CONSULTA FILTRADA =================
@@ -122,9 +129,9 @@ public class PacienteDAO implements IPacienteDAO{
     }
     
     //=======================CONSULTAS===================
-    
+    @Override
     public String obtenerNombreCompleto(String ssn) {
-    String sql = "SELECT Nombre, Ape_Paterno, Ape_Materno FROM Pacientes WHERE SSN = ?";
+    String sql = "SELECT Nombre, Ape_Paterno, Ape_Materno FROM Medicos WHERE SSN = ?";
     ResultSet rs = conexionBD.ejecutarConsultaSQL(sql, ssn);
 
     try {
@@ -152,11 +159,6 @@ public class PacienteDAO implements IPacienteDAO{
     }
     
     
-    public ResultSet obtenerTodosLosMedicos() {
-    String sql = "SELECT SSN, Nombre FROM Medicos ORDER BY Nombre";
-
-    return conexionBD.ejecutarConsultaSQL(sql);
-    }
 
     @Override
     public boolean agregar(Paciente p) {
