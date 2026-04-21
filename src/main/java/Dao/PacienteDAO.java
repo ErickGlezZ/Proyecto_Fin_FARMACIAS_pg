@@ -55,17 +55,17 @@ public class PacienteDAO implements IPacienteDAO{
     public ResultSetTableModel obtenerFiltrados(String texto) throws SQLException, ClassNotFoundException {
 
         String consulta =
-                "SELECT * FROM pacientes WHERE " +
-                "LOWER(nombre) LIKE ? OR " +
-                "LOWER(ape_paterno) LIKE ? OR " +
-                "LOWER(ape_materno) LIKE ? OR " +
-                "CAST(edad AS TEXT) LIKE ? " +
-                "LOWER(ssn_medico_cabecera) LIKE ? OR " +
-                "LOWER(calle) LIKE ? OR " +
-                "LOWER(numero) LIKE ?" +
-                "LOWER(colonia) LIKE ?" +
-                "LOWER(codigo_postal) LIKE ?" +
-                "CAST(ssn AS TEXT) LIKE ?";
+            "SELECT * FROM pacientes WHERE " +
+            "LOWER(nombre) LIKE ? OR " +
+            "LOWER(ape_paterno) LIKE ? OR " +
+            "LOWER(ape_materno) LIKE ? OR " +
+            "CAST(edad AS TEXT) LIKE ? OR " +
+            "LOWER(ssn_medico_cabecera) LIKE ? OR " +
+            "LOWER(calle) LIKE ? OR " +
+            "LOWER(numero) LIKE ? OR " +
+            "LOWER(colonia) LIKE ? OR " +
+            "LOWER(codigo_postal) LIKE ? OR " +
+            "CAST(ssn AS TEXT) LIKE ?";
 
         String valor = "%" + texto.toLowerCase() + "%";
 
