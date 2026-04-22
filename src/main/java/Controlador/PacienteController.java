@@ -93,7 +93,7 @@ public class PacienteController {
             throw new IllegalArgumentException("La calle está vacía");
         }
 
-        if (p.getNumero() <= 0) {
+        if (p.getNumero() == null) {
             throw new IllegalArgumentException("Número invalido");
         }
 

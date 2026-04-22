@@ -286,7 +286,7 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
                 Byte.parseByte(spEdadAltas.getValue().toString()),
                 cbSSNMedicoCabAltas.getSelectedItem().toString(),
                 cajaCalleAltas.getText(),
-                Integer.parseInt(cajaNumeroAltas.getText()),
+                cajaNumeroAltas.getText(),
                 cajaColoniaAltas.getText(),
                 Integer.parseInt(cajaCodPostalAltas.getText()));
         

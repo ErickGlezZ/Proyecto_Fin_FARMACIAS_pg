@@ -371,6 +371,7 @@ timerBusqueda.setRepeats(false);
         btnEliminarMedicos.setEnabled(false);
         btnEditarMedicos.setEnabled(false);
         btnConfirmar.setEnabled(false);
+        habilitarCamposEdicion(false);
     }
     
     public void habilitarCamposEdicion(boolean habilitar){

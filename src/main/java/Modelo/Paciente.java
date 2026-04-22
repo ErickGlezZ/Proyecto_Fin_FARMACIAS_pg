@@ -16,11 +16,11 @@ public class Paciente {
     private Byte edad;
     private String ssnMedicoCabecera;
     private String calle;
-    private int numero;
+    private String numero;
     private String colonia;
     private int codigoPostal;
 
-    public Paciente(String ssn, String nombre, String apePaterno, String apeMaterno, Byte edad, String ssnMedicoCabecera, String calle, int numero, String colonia, int codigoPostal) {
+    public Paciente(String ssn, String nombre, String apePaterno, String apeMaterno, Byte edad, String ssnMedicoCabecera, String calle, String numero, String colonia, int codigoPostal) {
         this.ssn = ssn;
         this.nombre = nombre;
         this.apePaterno = apePaterno;
@@ -61,7 +61,7 @@ public class Paciente {
         return calle;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
