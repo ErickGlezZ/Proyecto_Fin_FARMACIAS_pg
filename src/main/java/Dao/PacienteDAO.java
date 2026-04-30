@@ -52,6 +52,7 @@ public class PacienteDAO implements IPacienteDAO{
     }
     
     //====================CONSULTA GENERAL MEDICOS=============
+    
     @Override
     public ResultSet obtenerTodosLosMedicos() {
         String sql = "SELECT SSN, Nombre FROM Medicos ORDER BY Nombre";
