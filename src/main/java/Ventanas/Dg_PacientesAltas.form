@@ -62,8 +62,8 @@
                                       <Component id="cajaApMaternoAltas" alignment="0" max="32767" attributes="0"/>
                                       <Component id="cajaApPaternoAltas" alignment="0" max="32767" attributes="0"/>
                                       <Component id="cajaNombreAltas" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="cajaSSNAltas" alignment="0" max="32767" attributes="0"/>
                                       <Component id="spEdadAltas" max="32767" attributes="0"/>
+                                      <Component id="cajaSSNAltas" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">

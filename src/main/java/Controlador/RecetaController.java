@@ -7,6 +7,7 @@ package Controlador;
 import Interfaces.IRecetaDAO;
 import Modelo.Receta;
 import Modelo.ResultSetTableModel;
+import java.sql.ResultSet;
 
 /**
  *
@@ -35,6 +36,24 @@ public class RecetaController {
             return dao.filtrar(texto);
         } catch (Exception e) {
             throw new RuntimeException("Error al filtrar recetas", e);
+        }
+    }
+    
+    //==================OBTENER MEDICOS=================
+    public ResultSet obtenerMedicos() {
+        try {
+            return dao.obtenerTodosLosMedicos();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener médicos", e);
+        }
+    }
+    
+    //==================OBTENER PACIENTES=================
+    public ResultSet obtenerPacientes() {
+        try {
+            return dao.obtenerTodosLosPacientes();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener pacientes", e);
         }
     }
     
