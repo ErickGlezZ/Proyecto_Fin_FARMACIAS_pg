@@ -34,10 +34,10 @@
                           <Component id="jLabel7" min="-2" pref="127" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cajaFechaAltas" alignment="0" min="-2" pref="139" max="-2" attributes="0"/>
-                          <Component id="cajaCantidadAltas" min="-2" pref="139" max="-2" attributes="0"/>
-                          <Component id="cajaUnidadAltas" alignment="0" min="-2" pref="139" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="cajaCantidadAltas" pref="139" max="32767" attributes="0"/>
+                          <Component id="cajaUnidadAltas" alignment="0" pref="139" max="32767" attributes="0"/>
+                          <Component id="cajaFechaAltas" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -97,11 +97,11 @@
                   <Component id="cajaMedicamentoAltas" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel5" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="cajaFechaAltas" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jLabel5" pref="40" max="32767" attributes="0"/>
+                  <Component id="cajaFechaAltas" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="cajaCantidadAltas" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="jLabel6" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
@@ -117,7 +117,7 @@
               <Component id="cajaIndicacionesAltas" min="-2" pref="40" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btnAgregarRecetas" min="-2" pref="35" max="-2" attributes="0"/>
-              <EmptySpace pref="122" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -246,13 +246,6 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="cajaFechaAltas">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="69" green="55" red="47" type="rgb"/>
-        </Property>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JTextField" name="cajaCantidadAltas">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -287,6 +280,13 @@
           <Color blue="f9" green="f5" red="f1" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="jLabel11"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="cajaFechaAltas">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="69" green="55" red="47" type="rgb"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>

@@ -38,7 +38,7 @@ public class RecetaDAO implements IRecetaDAO{
     // ================= CONSULTA GENERAL =================
     @Override
     public ResultSetTableModel obtenerRecetas() {
-        String consulta = "SELECT * FROM recetas ORDER BY  DESC";
+        String consulta = "SELECT * FROM recetas ORDER BY id_receta DESC";
 
         try {
             return new ResultSetTableModel(
@@ -91,11 +91,10 @@ public class RecetaDAO implements IRecetaDAO{
     //============================ALTAS=====================
     
     public boolean agregarReceta(Receta receta){
-    String sql = "INSERT INTO recetas (Id_receta, Ssn_medico, Ssn_paciente, Medicamento, Fecha, Cantidad, Unidad, Indicaciones) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO recetas (Ssn_medico, Ssn_paciente, Medicamento, Fecha, Cantidad, Unidad, Indicaciones) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?)";
     
-    return conexionBD.ejecutarInstruccionLMD(sql, 
-            receta.getId_receta(),
+    return conexionBD.ejecutarInstruccionLMD(sql,        
             receta.getSsn_medico(),
             receta.getSsn_paciente(),
             receta.getMedicamento(),
@@ -118,7 +117,6 @@ public class RecetaDAO implements IRecetaDAO{
 
         
         return conexionBD.ejecutarInstruccionLMD(sql, 
-                receta.getId_receta(),
                 receta.getSsn_medico(),
                 receta.getSsn_paciente(),
                 receta.getMedicamento(),

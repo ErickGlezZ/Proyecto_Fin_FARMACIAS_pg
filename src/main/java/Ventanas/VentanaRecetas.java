@@ -4,8 +4,13 @@
  */
 package Ventanas;
 
+import Controlador.RecetaController;
+import Dao.RecetaDAO;
+import Modelo.ResultSetTableModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -16,8 +21,47 @@ public class VentanaRecetas extends javax.swing.JPanel {
     /**
      * Creates new form VentanaRecetas
      */
+    
+    private RecetaController controller;
     public VentanaRecetas() {
         initComponents();
+        controller = new RecetaController(RecetaDAO.getInstancia());
+        
+        
+        
+        
+        
+        cargarTabla();
+    }
+    
+    
+    
+    
+    
+    
+    
+    private void cargarTabla() {
+
+        SwingWorker<ResultSetTableModel, Void> worker = new SwingWorker<>() {
+
+            @Override
+            protected ResultSetTableModel doInBackground() throws Exception {
+                return controller.obtenerRecetas();
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    tablaRegRecetas.setModel(get());
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al cargar datos");
+                }
+            }
+        };
+
+        worker.execute();
     }
 
     /**
@@ -54,7 +98,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
         cajaBusquedaRecetas = new javax.swing.JTextField();
         btnConfirmarReceta = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaRegRecetas = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
 
@@ -124,8 +168,8 @@ public class VentanaRecetas extends javax.swing.JPanel {
 
         btnConfirmarReceta.setText("GUARDAR");
 
-        jTable1.setBackground(new java.awt.Color(71, 85, 105));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaRegRecetas.setBackground(new java.awt.Color(71, 85, 105));
+        tablaRegRecetas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -136,7 +180,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
                 "No. Receta", "SSN Medico", "SSN Paciente", "Medicamento", "Fecha", "Cantidad", "Indicaciones"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaRegRecetas);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Unidad:");
@@ -292,8 +336,8 @@ public class VentanaRecetas extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblMedico;
     private javax.swing.JLabel lblPaciente;
+    private javax.swing.JTable tablaRegRecetas;
     // End of variables declaration//GEN-END:variables
 }

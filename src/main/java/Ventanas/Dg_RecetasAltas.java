@@ -6,9 +6,16 @@ package Ventanas;
 
 import Controlador.RecetaController;
 import Dao.RecetaDAO;
+import Modelo.Receta;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.DefaultFormatterFactory;
 
 /**
  *
@@ -32,6 +39,20 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         controller = new RecetaController(RecetaDAO.getInstancia());
         cargarMedicosEnCombo();
         cargarPacientesEnCombo();
+        
+        
+        try {
+        MaskFormatter formatoFecha = new MaskFormatter("##/##/####");
+        formatoFecha.setPlaceholderCharacter('_');
+
+        cajaFechaAltas.setFormatterFactory(
+            new DefaultFormatterFactory(formatoFecha)
+        );
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    
     }
     
     private void limpiarCampos(){
@@ -96,6 +117,9 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         String nombre = controller.obtenerNombreCompletoPaciente(ssn);
         lblPaciente.setText("Paciente asig. " + nombre);
     }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -118,11 +142,11 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         cbSSNMedicoAltas = new javax.swing.JComboBox<>();
         cbSSNPacienteAltas = new javax.swing.JComboBox<>();
         cajaMedicamentoAltas = new javax.swing.JTextField();
-        cajaFechaAltas = new javax.swing.JTextField();
         cajaCantidadAltas = new javax.swing.JTextField();
         cajaUnidadAltas = new javax.swing.JTextField();
         lblMedico = new javax.swing.JLabel();
         lblPaciente = new javax.swing.JLabel();
+        cajaFechaAltas = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -175,8 +199,6 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
 
         cajaMedicamentoAltas.setBackground(new java.awt.Color(71, 85, 105));
 
-        cajaFechaAltas.setBackground(new java.awt.Color(71, 85, 105));
-
         cajaCantidadAltas.setBackground(new java.awt.Color(71, 85, 105));
 
         cajaUnidadAltas.setBackground(new java.awt.Color(71, 85, 105));
@@ -188,6 +210,8 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         lblPaciente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblPaciente.setForeground(new java.awt.Color(241, 245, 249));
         lblPaciente.setText("jLabel11");
+
+        cajaFechaAltas.setBackground(new java.awt.Color(71, 85, 105));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -203,10 +227,10 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cajaFechaAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cajaCantidadAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cajaUnidadAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cajaCantidadAltas, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                            .addComponent(cajaUnidadAltas, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                            .addComponent(cajaFechaAltas))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -250,10 +274,10 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cajaMedicamentoAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaFechaAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(cajaFechaAltas))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cajaCantidadAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -267,14 +291,58 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
                 .addComponent(cajaIndicacionesAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAgregarRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addGap(122, 122, 122))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarRecetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarRecetasActionPerformed
-       
+       String fechaTexto = cajaFechaAltas.getText();
+
+        if (fechaTexto.contains("_")) {
+            JOptionPane.showMessageDialog(null, "Completa la fecha");
+            return;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false);
+
+        try {
+            Date fecha = sdf.parse(fechaTexto);
+            LocalDate fechaLocal = fecha.toInstant()
+            .atZone(java.time.ZoneId.systemDefault())
+            .toLocalDate();
+            //java.sql.Date fechaBD = new java.sql.Date(fecha.getTime());
+
+            System.out.println("Fecha lista para BD: " + fechaLocal);
+            
+            
+            Receta r = new Receta(cbSSNMedicoAltas.getSelectedItem().toString(), 
+                    cbSSNPacienteAltas.getSelectedItem().toString(), 
+                    cajaMedicamentoAltas.getText(), 
+                    fechaLocal, 
+                    Integer.parseInt(cajaCantidadAltas.getText()), 
+                    cajaUnidadAltas.getText(), 
+                    cajaIndicacionesAltas.getText());
+            
+            if (controller.agregar(r)) {
+                JOptionPane.showMessageDialog(this,"Registro Agregado CORRECTAMENTE");
+                System.out.println("Registro Agregado CORRECTAMENTE");
+                
+                
+                limpiarCampos();   
+                dispose(); 
+            }else{
+                    JOptionPane.showMessageDialog(this,"Error en la insercion");
+                    System.out.println("ERROR en la insercion");
+                 }
+            
+            
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Fecha inválida");
+        }
     }//GEN-LAST:event_btnAgregarRecetasActionPerformed
 
     private void cbSSNMedicoAltasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSSNMedicoAltasActionPerformed
@@ -325,7 +393,7 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarRecetas;
     private javax.swing.JTextField cajaCantidadAltas;
-    private javax.swing.JTextField cajaFechaAltas;
+    private javax.swing.JFormattedTextField cajaFechaAltas;
     private javax.swing.JTextField cajaIndicacionesAltas;
     private javax.swing.JTextField cajaMedicamentoAltas;
     private javax.swing.JTextField cajaUnidadAltas;

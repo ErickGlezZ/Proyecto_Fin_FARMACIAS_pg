@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * @author erick
  */
 public class Receta {
-    private int id_receta;
+    //private int id_receta;
     private String ssn_medico;
     private String ssn_paciente;
     private String medicamento;
@@ -20,8 +20,8 @@ public class Receta {
     private String unidad;
     private String indicaciones;
 
-    public Receta(int id_receta, String ssn_medico, String ssn_paciente, String medicamento, LocalDate fecha, int cantidad, String unidad, String indicaciones) {
-        this.id_receta = id_receta;
+    public Receta(String ssn_medico, String ssn_paciente, String medicamento, LocalDate fecha, int cantidad, String unidad, String indicaciones) {
+        //this.id_receta = id_receta;
         this.ssn_medico = ssn_medico;
         this.ssn_paciente = ssn_paciente;
         this.medicamento = medicamento;
@@ -31,10 +31,11 @@ public class Receta {
         this.indicaciones = indicaciones;
     }
 
+    /*
     public int getId_receta() {
         return id_receta;
     }
-
+*/
     public String getSsn_medico() {
         return ssn_medico;
     }
@@ -62,10 +63,11 @@ public class Receta {
     public String getIndicaciones() {
         return indicaciones;
     }
-
+/*
     @Override
     public String toString() {
         return "Receta{" + "id_receta=" + id_receta + ", ssn_medico=" + ssn_medico + ", ssn_paciente=" + ssn_paciente + ", medicamento=" + medicamento + ", fecha=" + fecha + ", cantidad=" + cantidad + ", unidad=" + unidad + ", indicaciones=" + indicaciones + '}';
     }
+*/
     
 }

@@ -96,11 +96,11 @@ public class RecetaController {
     
     // ================= VALIDACIONES =================
     private void validar(Receta r) {
-        
+        /*
         if (r.getId_receta() <= 0) {
             throw new IllegalArgumentException("ID inválido");
         }
-
+*/
         if (r.getSsn_medico() == null || r.getSsn_medico().isEmpty()) {
             throw new IllegalArgumentException("El SSN del médico está vacío");
         }
