@@ -90,6 +90,16 @@ timerBusqueda.setRepeats(false);
         }
     });
     
+    
+    tablaRegMedicos.getInputMap(javax.swing.JComponent.WHEN_FOCUSED)
+        .put(javax.swing.KeyStroke.getKeyStroke("DELETE"), "eliminar");
+
+    tablaRegMedicos.getActionMap().put("eliminar", new javax.swing.AbstractAction() {
+    @Override
+    public void actionPerformed(java.awt.event.ActionEvent e) {
+        eliminarDesdeTabla();
+    }
+    });
         
     }
 
@@ -352,6 +362,39 @@ timerBusqueda.setRepeats(false);
         };
 
         worker.execute();
+    }
+    
+    
+    private void eliminarDesdeTabla() {
+
+        int fila = tablaRegMedicos.getSelectedRow();
+
+        if (fila == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selecciona un registro");
+            return;
+        }
+
+        String ssn = tablaRegMedicos.getValueAt(fila, 0).toString();
+
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(
+                this,
+                "¿Seguro que quieres eliminar este médico?",
+                "Confirmar eliminación",
+                javax.swing.JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+
+            if (controller.eliminar(ssn)) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Registro eliminado correctamente");
+                cargarTabla();
+                limpiarCampos();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al eliminar",
+                        "No existe ese registro",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
     public void limpiarCampos(){
         cajaSSNMedicos.setText("");
