@@ -7,10 +7,13 @@ package Ventanas;
 import Controlador.RecetaController;
 import Dao.RecetaDAO;
 import Modelo.ResultSetTableModel;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.Timer;
 
 /**
  *
@@ -21,17 +24,175 @@ public class VentanaRecetas extends javax.swing.JPanel {
     /**
      * Creates new form VentanaRecetas
      */
-    
+    private Timer timerBusqueda;
     private RecetaController controller;
+    private boolean limpiando = false;
     public VentanaRecetas() {
         initComponents();
         controller = new RecetaController(RecetaDAO.getInstancia());
         
-        
-        
-        
+        cajaNoReceta.setEnabled(false);
+        cbMedicosCab.setEnabled(false);
+        cbPacientes.setEnabled(false);
+        cajaMedicamento.setEnabled(false);
+        cajaFecha.setEnabled(false);
+        cajaCantidad.setEnabled(false);
+        cbUnidad.setEnabled(false);
+        cajaIndicaciones.setEnabled(false);
+        btnEliminarReceta.setEnabled(false);
+        btnEditarReceta.setEnabled(false);
+        btnConfirmarReceta.setEnabled(false);
         
         cargarTabla();
+        
+        
+        timerBusqueda = new Timer(300, e -> {
+        String texto = cajaBusquedaRecetas.getText();
+
+        SwingWorker<ResultSetTableModel, Void> worker = new SwingWorker<>() {
+
+            @Override
+            protected ResultSetTableModel doInBackground() throws Exception {
+                return controller.filtrar(texto);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    tablaRegRecetas.setModel(get());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error en búsqueda");
+                }
+            }
+        };
+
+        worker.execute();
+    });
+
+        timerBusqueda.setRepeats(false);
+        
+        
+        //Selecion de tabla para llenar campos
+        tablaRegRecetas.getSelectionModel().addListSelectionListener(e -> {
+        if (!e.getValueIsAdjusting()) {
+            int fila = tablaRegRecetas.getSelectedRow();
+            
+            limpiando = true;
+            cargarMedicosEnCombo();
+            cargarPacientesEnCombo();
+            if (fila != -1) {
+                cajaNoReceta.setText(tablaRegRecetas.getValueAt(fila, 0).toString());
+                cbMedicosCab.setSelectedItem(tablaRegRecetas.getValueAt(fila, 1).toString());
+                cbPacientes.setSelectedItem(tablaRegRecetas.getValueAt(fila, 2).toString());
+                cajaMedicamento.setText(tablaRegRecetas.getValueAt(fila, 3).toString());
+                cajaFecha.setText(tablaRegRecetas.getValueAt(fila, 4).toString());
+                cajaCantidad.setText(tablaRegRecetas.getValueAt(fila, 5).toString());
+                cbUnidad.setSelectedItem(tablaRegRecetas.getValueAt(fila, 6).toString());
+                cajaIndicaciones.setText(tablaRegRecetas.getValueAt(fila, 7).toString());
+                
+                limpiando = false;
+                actualizarLabelMedico();
+                actualizarLabelPaciente();
+
+                btnEliminarReceta.setEnabled(true);
+                btnEditarReceta.setEnabled(true);
+                }
+            }
+        });
+    }
+    
+    public void limpiarCampos(){
+        limpiando = true;
+        
+        cajaNoReceta.setText("");
+        cbMedicosCab.setSelectedIndex(0);
+        cbPacientes.setSelectedIndex(0);
+        cajaMedicamento.setText("");
+        cajaFecha.setText("");
+        cajaCantidad.setText("");
+        cbUnidad.setSelectedIndex(0);
+        cajaIndicaciones.setText("");
+        cajaBusquedaRecetas.setText("");
+        lblMedico.setText("");
+        lblPaciente.setText("");
+    
+        limpiando = false;
+        
+        if (timerBusqueda != null) {
+            timerBusqueda.restart();
+        }
+
+        btnEliminarReceta.setEnabled(false);
+        btnEditarReceta.setEnabled(false);
+        btnConfirmarReceta.setEnabled(false);
+        habilitarCamposEdicion(false);
+    }
+    
+    public void habilitarCamposEdicion(boolean habilitar){
+        
+        cbMedicosCab.setEnabled(habilitar);
+        cbPacientes.setEnabled(habilitar);
+        cajaMedicamento.setEnabled(habilitar);
+        cajaFecha.setEnabled(habilitar);
+        cajaCantidad.setEnabled(habilitar);
+        cbUnidad.setEnabled(habilitar);
+        cajaIndicaciones.setEnabled(habilitar);
+        btnEditarReceta.setEnabled(habilitar);
+    }
+    
+    private void cargarMedicosEnCombo(){
+        cbMedicosCab.removeAllItems();
+        
+        cbMedicosCab.addItem("Elije Médico...");
+        ResultSet rs = controller.obtenerMedicos();
+        try {
+            while (rs.next()) {
+                String ssn = rs.getString("SSN");
+
+                cbMedicosCab.addItem(ssn);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar médicos");
+        }
+        
+    }
+    
+    private void actualizarLabelMedico(){
+        
+        if (cbMedicosCab.getSelectedIndex() == 0) return; 
+        String ssn = cbMedicosCab.getSelectedItem().toString();
+        String nombre = controller.obtenerNombreCompletoMedico(ssn);
+        lblMedico.setText("Médico asig. " + nombre);
+    }
+    
+    
+    private void cargarPacientesEnCombo(){
+        cbPacientes.removeAllItems();
+        
+        cbPacientes.addItem("Elije Paciente...");
+        ResultSet rs = controller.obtenerPacientes();
+        try {
+            while (rs.next()) {
+                String ssn = rs.getString("SSN");
+
+                cbPacientes.addItem(ssn);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar médicos");
+        }
+        
+    }
+    
+    private void actualizarLabelPaciente(){
+        
+        if (cbPacientes.getSelectedItem() == null) return;
+        String ssn = cbPacientes.getSelectedItem().toString();
+        String nombre = controller.obtenerNombreCompletoPaciente(ssn);
+        lblPaciente.setText("Paciente asig. " + nombre);
     }
     
     
@@ -100,7 +261,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaRegRecetas = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbUnidad = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(46, 61, 84));
 
@@ -139,6 +300,18 @@ public class VentanaRecetas extends javax.swing.JPanel {
         jLabel7.setForeground(new java.awt.Color(241, 245, 249));
         jLabel7.setText("Cantidad:");
 
+        cbMedicosCab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMedicosCabActionPerformed(evt);
+            }
+        });
+
+        cbPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbPacientesActionPerformed(evt);
+            }
+        });
+
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(241, 245, 249));
         jLabel8.setText("Indicaciones:");
@@ -147,11 +320,20 @@ public class VentanaRecetas extends javax.swing.JPanel {
 
         cajaIndicaciones.setBackground(new java.awt.Color(71, 85, 105));
 
+        lblMedico.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblMedico.setForeground(new java.awt.Color(241, 245, 249));
         lblMedico.setText("jLabel9");
 
+        lblPaciente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblPaciente.setForeground(new java.awt.Color(241, 245, 249));
         lblPaciente.setText("jLabel9");
 
         btnLimpiarRecetas.setText("LIMPIAR");
+        btnLimpiarRecetas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarRecetasActionPerformed(evt);
+            }
+        });
 
         btnNuevoReceta.setText("NUEVO");
         btnNuevoReceta.addActionListener(new java.awt.event.ActionListener() {
@@ -161,23 +343,39 @@ public class VentanaRecetas extends javax.swing.JPanel {
         });
 
         btnEliminarReceta.setText("ELIMINAR");
+        btnEliminarReceta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarRecetaActionPerformed(evt);
+            }
+        });
 
         btnEditarReceta.setText("EDITAR");
+        btnEditarReceta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarRecetaActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Buscar");
+
+        cajaBusquedaRecetas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cajaBusquedaRecetasKeyReleased(evt);
+            }
+        });
 
         btnConfirmarReceta.setText("GUARDAR");
 
         tablaRegRecetas.setBackground(new java.awt.Color(71, 85, 105));
         tablaRegRecetas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "No. Receta", "SSN Medico", "SSN Paciente", "Medicamento", "Fecha", "Cantidad", "Indicaciones"
+                "No. Receta", "SSN Medico", "SSN Paciente", "Medicamento", "Fecha", "Cantidad", "Unidad", "Indicaciones"
             }
         ));
         jScrollPane1.setViewportView(tablaRegRecetas);
@@ -185,7 +383,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Unidad:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elije...", "mg", "g", "mcg", "ml", "tabletas", "cápsulas", "gotas", "ampolletas" }));
+        cbUnidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elije...", "mg", "g", "mcg", "ml", "tabletas", "cápsulas", "gotas", "ampolletas" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -223,7 +421,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel9)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(cbUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -263,7 +461,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                    .addComponent(cbUnidad, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cajaNoReceta, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -306,8 +504,40 @@ public class VentanaRecetas extends javax.swing.JPanel {
         JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(this);
         Dg_RecetasAltas dialog = new Dg_RecetasAltas(parent, true); // modal
         dialog.setVisible(true);
-        //cargarTabla();
+        cargarTabla();
     }//GEN-LAST:event_btnNuevoRecetaActionPerformed
+
+    private void cbMedicosCabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMedicosCabActionPerformed
+        if (limpiando) return; 
+        actualizarLabelMedico();
+    }//GEN-LAST:event_cbMedicosCabActionPerformed
+
+    private void cbPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPacientesActionPerformed
+        if (limpiando) return; 
+        actualizarLabelPaciente();
+    }//GEN-LAST:event_cbPacientesActionPerformed
+
+    private void cajaBusquedaRecetasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaBusquedaRecetasKeyReleased
+         if (timerBusqueda != null) {
+            timerBusqueda.restart();
+            }
+    }//GEN-LAST:event_cajaBusquedaRecetasKeyReleased
+
+    private void btnEliminarRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarRecetaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarRecetaActionPerformed
+
+    private void btnLimpiarRecetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarRecetasActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarRecetasActionPerformed
+
+    private void btnEditarRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarRecetaActionPerformed
+        habilitarCamposEdicion(true);
+        btnEditarReceta.setEnabled(false);
+        btnEliminarReceta.setEnabled(false);
+        btnNuevoReceta.setEnabled(false);
+        btnConfirmarReceta.setEnabled(true);
+    }//GEN-LAST:event_btnEditarRecetaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -324,7 +554,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
     private javax.swing.JTextField cajaNoReceta;
     private javax.swing.JComboBox<String> cbMedicosCab;
     private javax.swing.JComboBox<String> cbPacientes;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbUnidad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;

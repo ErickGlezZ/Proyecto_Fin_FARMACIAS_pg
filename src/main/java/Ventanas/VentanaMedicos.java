@@ -396,6 +396,7 @@ timerBusqueda.setRepeats(false);
             }
         }
     }
+    
     public void limpiarCampos(){
         cajaSSNMedicos.setText("");
         cajaNombreMedicos.setText("");
