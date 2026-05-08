@@ -60,6 +60,17 @@ public class VentanaRecetas extends javax.swing.JPanel {
             protected void done() {
                 try {
                     tablaRegRecetas.setModel(get());
+                    javax.swing.table.TableColumn columnaEliminar =
+                        new javax.swing.table.TableColumn(0);
+
+                columnaEliminar.setHeaderValue("");
+                columnaEliminar.setMaxWidth(40);
+                columnaEliminar.setMinWidth(40);
+                columnaEliminar.setCellRenderer(new ButtonRenderer());
+
+                tablaRegRecetas.addColumn(columnaEliminar);
+                    
+                    
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Error en búsqueda");
                 }
@@ -76,6 +87,12 @@ public class VentanaRecetas extends javax.swing.JPanel {
         tablaRegRecetas.getSelectionModel().addListSelectionListener(e -> {
         if (!e.getValueIsAdjusting()) {
             int fila = tablaRegRecetas.getSelectedRow();
+            int columna = tablaRegRecetas.getSelectedColumn();
+            
+            // Si es columna eliminar no llenar campos
+            if (columna == tablaRegRecetas.getColumnCount() - 1) {
+                return;
+            }
             
             limpiando = true;
             cargarMedicosEnCombo();
@@ -99,6 +116,77 @@ public class VentanaRecetas extends javax.swing.JPanel {
                 }
             }
         });
+        
+        
+        
+        
+        //==========Clic eliminar===============
+        tablaRegRecetas.addMouseListener(new java.awt.event.MouseAdapter() {
+
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+
+            int fila = tablaRegRecetas.rowAtPoint(e.getPoint());
+            int columna = tablaRegRecetas.columnAtPoint(e.getPoint());
+
+            // columna del icono
+            if (columna == tablaRegRecetas.getColumnCount() - 1) {
+
+                int idReceta = Integer.parseInt(tablaRegRecetas.getValueAt(fila, 0).toString());
+
+                int confirm = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Seguro que deseas eliminar esta receta?",
+                        "Confirmar eliminación",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirm == JOptionPane.YES_OPTION) {
+
+                    if (controller.eliminar(idReceta)) {
+
+                        JOptionPane.showMessageDialog(null,
+                                "Registro eliminado correctamente");
+
+                        cargarTabla();
+                        limpiarCampos();
+
+                    } else {
+
+                        JOptionPane.showMessageDialog(null,
+                                "Error al eliminar");
+                    }
+                }else {
+
+                    tablaRegRecetas.clearSelection();
+                }
+            }
+        }
+    });
+        
+        
+        tablaRegRecetas.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+
+        @Override
+        public void mouseMoved(java.awt.event.MouseEvent e) {
+
+            int columna = tablaRegRecetas.columnAtPoint(e.getPoint());
+
+            // columna del icono
+            if (columna == tablaRegRecetas.getColumnCount() - 1) {
+
+                tablaRegRecetas.setCursor(
+                        new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR)
+                );
+
+            } else {
+
+                tablaRegRecetas.setCursor(
+                        new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR)
+                );
+            }
+        }
+    });
     }
     
     public void limpiarCampos(){
@@ -215,6 +303,16 @@ public class VentanaRecetas extends javax.swing.JPanel {
                 try {
                     tablaRegRecetas.setModel(get());
                     
+                    javax.swing.table.TableColumn columnaEliminar =
+                        new javax.swing.table.TableColumn(0);
+
+                columnaEliminar.setHeaderValue("");
+                columnaEliminar.setMaxWidth(40);
+                columnaEliminar.setMinWidth(40);
+                columnaEliminar.setCellRenderer(new ButtonRenderer());
+
+                tablaRegRecetas.addColumn(columnaEliminar);
+                    
                 } catch (Exception e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error al cargar datos");
@@ -300,12 +398,14 @@ public class VentanaRecetas extends javax.swing.JPanel {
         jLabel7.setForeground(new java.awt.Color(241, 245, 249));
         jLabel7.setText("Cantidad:");
 
+        cbMedicosCab.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elije Médico..." }));
         cbMedicosCab.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbMedicosCabActionPerformed(evt);
             }
         });
 
+        cbPacientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elije Paciente..." }));
         cbPacientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbPacientesActionPerformed(evt);
@@ -524,7 +624,20 @@ public class VentanaRecetas extends javax.swing.JPanel {
     }//GEN-LAST:event_cajaBusquedaRecetasKeyReleased
 
     private void btnEliminarRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarRecetaActionPerformed
-        // TODO add your handling code here:
+        habilitarCamposEdicion(false);
+        btnNuevoReceta.setEnabled(false);
+        
+        if (controller.eliminar(Integer.parseInt(cajaNoReceta.getText()))){
+
+                cargarTabla();
+                JOptionPane.showMessageDialog(this, "Registro eliminado correctamente");
+                
+                limpiarCampos();
+                btnNuevoReceta.setEnabled(true);
+            }else {
+                JOptionPane.showMessageDialog(this, "ERROR al eliminar el registro",
+                "No existe ese registro", JOptionPane.ERROR_MESSAGE);
+            }
     }//GEN-LAST:event_btnEliminarRecetaActionPerformed
 
     private void btnLimpiarRecetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarRecetasActionPerformed
@@ -539,6 +652,32 @@ public class VentanaRecetas extends javax.swing.JPanel {
         btnConfirmarReceta.setEnabled(true);
     }//GEN-LAST:event_btnEditarRecetaActionPerformed
 
+    class ButtonRenderer extends javax.swing.JButton
+        implements javax.swing.table.TableCellRenderer {
+
+    public ButtonRenderer() {
+
+        setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/img/borrar.png")
+        ));
+
+        setBorderPainted(false);
+        setContentAreaFilled(false);
+        setFocusPainted(false);
+    }
+
+    @Override
+    public java.awt.Component getTableCellRendererComponent(
+            javax.swing.JTable table,
+            Object value,
+            boolean isSelected,
+            boolean hasFocus,
+            int row,
+            int column) {
+
+        return this;
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmarReceta;

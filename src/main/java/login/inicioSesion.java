@@ -59,7 +59,7 @@ public class inicioSesion extends javax.swing.JFrame {
         panelLogo.setBackground(new java.awt.Color(30, 41, 59));
         panelLogo.setPreferredSize(new java.awt.Dimension(340, 600));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\erick\\OneDrive\\Documentos\\NetBeansProjects\\Proyecto_Fin_FARMACIAS_pg\\src\\main\\java\\img\\farmalogooo.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/farmalogooo.png"))); // NOI18N
 
         javax.swing.GroupLayout panelLogoLayout = new javax.swing.GroupLayout(panelLogo);
         panelLogo.setLayout(panelLogoLayout);

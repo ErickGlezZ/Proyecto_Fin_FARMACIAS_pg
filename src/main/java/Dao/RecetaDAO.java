@@ -38,8 +38,20 @@ public class RecetaDAO implements IRecetaDAO{
     // ================= CONSULTA GENERAL =================
     @Override
     public ResultSetTableModel obtenerRecetas() {
-        String consulta = "SELECT * FROM recetas ORDER BY id_receta DESC";
-
+        //String consulta = "SELECT * FROM recetas ORDER BY id_receta DESC";
+        String consulta = """
+    SELECT id_receta,
+           ssn_medico,
+           ssn_paciente,
+           medicamento,
+           fecha,
+           cantidad,
+           unidad,
+           indicaciones,
+           'X' AS eliminar
+    FROM recetas
+    ORDER BY id_receta DESC
+    """;
         try {
             return new ResultSetTableModel(
                 conexionBD.getDriver(),

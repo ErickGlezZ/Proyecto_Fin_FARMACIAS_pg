@@ -91,6 +91,7 @@ timerBusqueda.setRepeats(false);
     });
     
     
+    //Se llama el metodo para eliminar con suprimir
     tablaRegMedicos.getInputMap(javax.swing.JComponent.WHEN_FOCUSED)
         .put(javax.swing.KeyStroke.getKeyStroke("DELETE"), "eliminar");
 
@@ -364,7 +365,7 @@ timerBusqueda.setRepeats(false);
         worker.execute();
     }
     
-    
+    //Metodo para borrar con suprimir
     private void eliminarDesdeTabla() {
 
         int fila = tablaRegMedicos.getSelectedRow();

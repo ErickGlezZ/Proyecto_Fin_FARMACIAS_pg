@@ -282,7 +282,7 @@ public class VentanaInicio extends javax.swing.JFrame {
 
         panelMenu.setBackground(new java.awt.Color(30, 41, 59));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\erick\\OneDrive\\Documentos\\NetBeansProjects\\Proyecto_Fin_FARMACIAS_pg\\src\\main\\java\\img\\logito.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logito.png"))); // NOI18N
 
         panelInicio.setBackground(new java.awt.Color(30, 41, 59));
 
