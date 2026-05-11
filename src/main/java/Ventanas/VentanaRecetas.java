@@ -60,15 +60,30 @@ public class VentanaRecetas extends javax.swing.JPanel {
             protected void done() {
                 try {
                     tablaRegRecetas.setModel(get());
+                    
+                    javax.swing.table.TableColumn columnaEditar =
+                        new javax.swing.table.TableColumn(0);
+
+                columnaEditar.setHeaderValue("");
+                columnaEditar.setMaxWidth(40);
+                columnaEditar.setMinWidth(40);
+                columnaEditar.setCellRenderer(new EditarRenderer());
+
+                tablaRegRecetas.addColumn(columnaEditar);
+                
+                
                     javax.swing.table.TableColumn columnaEliminar =
                         new javax.swing.table.TableColumn(0);
 
                 columnaEliminar.setHeaderValue("");
                 columnaEliminar.setMaxWidth(40);
                 columnaEliminar.setMinWidth(40);
-                columnaEliminar.setCellRenderer(new ButtonRenderer());
+                columnaEliminar.setCellRenderer(new EliminarRenderer());
 
                 tablaRegRecetas.addColumn(columnaEliminar);
+                
+                
+                
                     
                     
                 } catch (Exception ex) {
@@ -128,9 +143,13 @@ public class VentanaRecetas extends javax.swing.JPanel {
 
             int fila = tablaRegRecetas.rowAtPoint(e.getPoint());
             int columna = tablaRegRecetas.columnAtPoint(e.getPoint());
+            
+            int colEliminar = tablaRegRecetas.getColumnCount() - 1;
+            int colEditar = tablaRegRecetas.getColumnCount() - 2;
+            
 
             // columna del icono
-            if (columna == tablaRegRecetas.getColumnCount() - 1) {
+            if (columna == colEliminar) {
 
                 int idReceta = Integer.parseInt(tablaRegRecetas.getValueAt(fila, 0).toString());
 
@@ -160,6 +179,14 @@ public class VentanaRecetas extends javax.swing.JPanel {
 
                     tablaRegRecetas.clearSelection();
                 }
+            }else if(columna == colEditar){
+                int idReceta = Integer.parseInt(
+                    tablaRegRecetas.getValueAt(fila, 0).toString()
+                );
+                JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(VentanaRecetas.this);
+                Dg_RecetasCambios dialog = new Dg_RecetasCambios(parent, true, idReceta); // modal
+                dialog.setVisible(true);
+                cargarTabla();
             }
         }
     });
@@ -171,9 +198,11 @@ public class VentanaRecetas extends javax.swing.JPanel {
         public void mouseMoved(java.awt.event.MouseEvent e) {
 
             int columna = tablaRegRecetas.columnAtPoint(e.getPoint());
-
+            
+            int colEliminar = tablaRegRecetas.getColumnCount() - 1;
+            int colEditar = tablaRegRecetas.getColumnCount() - 2;
             // columna del icono
-            if (columna == tablaRegRecetas.getColumnCount() - 1) {
+            if (columna == colEliminar || columna == colEditar) {
 
                 tablaRegRecetas.setCursor(
                         new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR)
@@ -303,15 +332,29 @@ public class VentanaRecetas extends javax.swing.JPanel {
                 try {
                     tablaRegRecetas.setModel(get());
                     
+                    javax.swing.table.TableColumn columnaEditar =
+                        new javax.swing.table.TableColumn(0);
+
+                columnaEditar.setHeaderValue("");
+                columnaEditar.setMaxWidth(40);
+                columnaEditar.setMinWidth(40);
+                columnaEditar.setCellRenderer(new EditarRenderer());
+                
+
+                tablaRegRecetas.addColumn(columnaEditar);
+                
                     javax.swing.table.TableColumn columnaEliminar =
                         new javax.swing.table.TableColumn(0);
 
                 columnaEliminar.setHeaderValue("");
                 columnaEliminar.setMaxWidth(40);
                 columnaEliminar.setMinWidth(40);
-                columnaEliminar.setCellRenderer(new ButtonRenderer());
+                columnaEliminar.setCellRenderer(new EliminarRenderer());
 
                 tablaRegRecetas.addColumn(columnaEliminar);
+                
+                
+                
                     
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -652,13 +695,39 @@ public class VentanaRecetas extends javax.swing.JPanel {
         btnConfirmarReceta.setEnabled(true);
     }//GEN-LAST:event_btnEditarRecetaActionPerformed
 
-    class ButtonRenderer extends javax.swing.JButton
-        implements javax.swing.table.TableCellRenderer {
+    class EliminarRenderer extends javax.swing.JButton implements javax.swing.table.TableCellRenderer {
 
-    public ButtonRenderer() {
+    public EliminarRenderer() {
 
         setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/img/borrar.png")
+        ));
+
+        setBorderPainted(false);
+        setContentAreaFilled(false);
+        setFocusPainted(false);
+    }
+
+    @Override
+    public java.awt.Component getTableCellRendererComponent(
+            javax.swing.JTable table,
+            Object value,
+            boolean isSelected,
+            boolean hasFocus,
+            int row,
+            int column) {
+
+        return this;
+    }
+}
+    
+    
+    class EditarRenderer extends javax.swing.JButton implements javax.swing.table.TableCellRenderer {
+
+    public EditarRenderer() {
+
+        setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/img/boton-editar.png")
         ));
 
         setBorderPainted(false);

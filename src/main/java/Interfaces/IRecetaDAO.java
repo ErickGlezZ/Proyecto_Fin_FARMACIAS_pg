@@ -18,6 +18,7 @@ public interface IRecetaDAO {
     boolean eliminar(int id_receta);
     boolean editar(Receta r);
     
+    ResultSet obtenerRecetaPorId(int idReceta);
     ResultSetTableModel obtenerRecetas();
     ResultSetTableModel filtrar(String texto);
     ResultSet obtenerTodosLosMedicos();

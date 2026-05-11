@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * @author erick
  */
 public class Receta {
-    //private int id_receta;
+    private int id_receta;
     private String ssn_medico;
     private String ssn_paciente;
     private String medicamento;
@@ -31,11 +31,15 @@ public class Receta {
         this.indicaciones = indicaciones;
     }
 
-    /*
+    
     public int getId_receta() {
         return id_receta;
     }
-*/
+    
+    public void setId_receta(int id_receta){
+        this.id_receta = id_receta;
+    }
+
     public String getSsn_medico() {
         return ssn_medico;
     }

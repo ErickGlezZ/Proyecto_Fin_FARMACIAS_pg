@@ -39,6 +39,16 @@ public class RecetaController {
         }
     }
     
+    //================OBTENER ID DE RECETA==============
+    public ResultSet obtenerRecetaPorId(int idReceta) {
+    
+        try {
+            return dao.obtenerRecetaPorId(idReceta);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtenre id recetas", e);
+        }
+}
+    
     //==================OBTENER MEDICOS=================
     public ResultSet obtenerMedicos() {
         try {

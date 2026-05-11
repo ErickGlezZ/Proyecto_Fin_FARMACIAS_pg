@@ -8,6 +8,7 @@ import ConexionBD.ConexionBD;
 import Interfaces.IRecetaDAO;
 import Modelo.Receta;
 import Modelo.ResultSetTableModel;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -40,18 +41,19 @@ public class RecetaDAO implements IRecetaDAO{
     public ResultSetTableModel obtenerRecetas() {
         //String consulta = "SELECT * FROM recetas ORDER BY id_receta DESC";
         String consulta = """
-    SELECT id_receta,
-           ssn_medico,
-           ssn_paciente,
-           medicamento,
-           fecha,
-           cantidad,
-           unidad,
-           indicaciones,
-           'X' AS eliminar
-    FROM recetas
-    ORDER BY id_receta DESC
-    """;
+            SELECT id_receta,
+                   ssn_medico,
+                   ssn_paciente,
+                   medicamento,
+                   fecha,
+                   cantidad,
+                   unidad,
+                   indicaciones,
+                   'Y' AS editar,
+                   'X' AS eliminar
+            FROM recetas
+            ORDER BY id_receta DESC
+            """;
         try {
             return new ResultSetTableModel(
                 conexionBD.getDriver(),
@@ -60,6 +62,32 @@ public class RecetaDAO implements IRecetaDAO{
             );
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener recetas", e);
+        }
+    }
+    
+    //====================Consulta por Id para Receta======================
+    @Override
+    public ResultSet obtenerRecetaPorId(int idReceta) {
+
+        String sql = """
+            SELECT *
+            FROM recetas
+            WHERE id_receta = ?
+            """;
+
+        try {
+
+            PreparedStatement ps =
+                    conexionBD.getConexion().prepareStatement(sql);
+
+            ps.setInt(1, idReceta);
+
+            return ps.executeQuery();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+            return null;
         }
     }
     
@@ -128,14 +156,15 @@ public class RecetaDAO implements IRecetaDAO{
         String sql = "UPDATE recetas SET Ssn_medico = ?, Ssn_paciente = ?, Medicamento = ?, Fecha = ?, Cantidad = ?, Unidad = ?, Indicaciones = ? WHERE Id_receta = ?";
 
         
-        return conexionBD.ejecutarInstruccionLMD(sql, 
+        return conexionBD.ejecutarInstruccionLMD(sql,
                 receta.getSsn_medico(),
                 receta.getSsn_paciente(),
                 receta.getMedicamento(),
                 receta.getFecha(),
                 receta.getCantidad(),
                 receta.getUnidad(),
-                receta.getIndicaciones());
+                receta.getIndicaciones(),
+                receta.getId_receta());
     }
     
     //=======================CONSULTAS===================
