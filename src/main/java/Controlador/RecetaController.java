@@ -31,9 +31,9 @@ public class RecetaController {
     }
 
     // ================= FILTRAR =================
-    public ResultSetTableModel filtrar(String texto) {
+    public ResultSetTableModel filtrar(String campo, String texto) {
         try {
-            return dao.filtrar(texto);
+            return dao.filtrar(campo, texto);
         } catch (Exception e) {
             throw new RuntimeException("Error al filtrar recetas", e);
         }

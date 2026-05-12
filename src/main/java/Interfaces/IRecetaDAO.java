@@ -20,7 +20,7 @@ public interface IRecetaDAO {
     
     ResultSet obtenerRecetaPorId(int idReceta);
     ResultSetTableModel obtenerRecetas();
-    ResultSetTableModel filtrar(String texto);
+    ResultSetTableModel filtrar(String campo, String texto);
     ResultSet obtenerTodosLosMedicos();
     ResultSet obtenerTodosLosPacientes();
     String obtenerNombreCompletoMedico(String ssn);

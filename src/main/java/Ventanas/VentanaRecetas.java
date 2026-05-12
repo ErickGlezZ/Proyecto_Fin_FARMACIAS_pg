@@ -35,13 +35,19 @@ public class VentanaRecetas extends javax.swing.JPanel {
         
         
         timerBusqueda = new Timer(300, e -> {
-        String texto = cajaBusquedaRecetas.getText();
+            
+            if (cbFiltro.getSelectedIndex() == 0) {
+                return;
+            }
+            
+            String campo = cbFiltro.getSelectedItem().toString();
+            String texto = cajaBusquedaRecetas.getText();
 
-        SwingWorker<ResultSetTableModel, Void> worker = new SwingWorker<>() {
+            SwingWorker<ResultSetTableModel, Void> worker = new SwingWorker<>() {
 
             @Override
             protected ResultSetTableModel doInBackground() throws Exception {
-                return controller.filtrar(texto);
+                return controller.filtrar(campo, texto);
             }
 
             @Override
@@ -182,6 +188,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
     
     public void limpiarCampos(){
         cajaBusquedaRecetas.setText("");
+        cbFiltro.setSelectedIndex(0);
         tablaRegRecetas.clearSelection();
 
         cargarTabla();
@@ -265,6 +272,8 @@ public class VentanaRecetas extends javax.swing.JPanel {
         cajaBusquedaRecetas = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaRegRecetas = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        cbFiltro = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(46, 61, 84));
 
@@ -308,6 +317,15 @@ public class VentanaRecetas extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tablaRegRecetas);
 
+        jLabel2.setText("Filtro");
+
+        cbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elije Filtro...", "No. Receta", "SSN Médico", "SSN Paciente", "Medicamento", "Fecha", "Cantidad", "Unidad", "Indicaciones" }));
+        cbFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbFiltroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -315,22 +333,25 @@ public class VentanaRecetas extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 963, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(546, 546, 546)
-                                    .addComponent(btnLimpiarRecetas)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnNuevoReceta))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(540, 540, 540)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cajaBusquedaRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 175, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cbFiltro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cajaBusquedaRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnLimpiarRecetas)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnNuevoReceta)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -338,15 +359,17 @@ public class VentanaRecetas extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addGap(72, 72, 72)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLimpiarRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNuevoReceta, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnNuevoReceta, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaBusquedaRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(cajaBusquedaRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(58, 58, 58)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -368,6 +391,12 @@ public class VentanaRecetas extends javax.swing.JPanel {
     private void btnLimpiarRecetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarRecetasActionPerformed
         limpiarCampos();
     }//GEN-LAST:event_btnLimpiarRecetasActionPerformed
+
+    private void cbFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFiltroActionPerformed
+        cajaBusquedaRecetas.setText("");
+        tablaRegRecetas.clearSelection();
+        cargarTabla();
+    }//GEN-LAST:event_cbFiltroActionPerformed
 
     class EliminarRenderer extends javax.swing.JButton implements javax.swing.table.TableCellRenderer {
 
@@ -426,8 +455,10 @@ public class VentanaRecetas extends javax.swing.JPanel {
     private javax.swing.JButton btnLimpiarRecetas;
     private javax.swing.JButton btnNuevoReceta;
     private javax.swing.JTextField cajaBusquedaRecetas;
+    private javax.swing.JComboBox<String> cbFiltro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaRegRecetas;
     // End of variables declaration//GEN-END:variables

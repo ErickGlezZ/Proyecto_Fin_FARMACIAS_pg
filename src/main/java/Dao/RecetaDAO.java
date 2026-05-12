@@ -105,6 +105,47 @@ public class RecetaDAO implements IRecetaDAO{
     }
     
     // ================= CONSULTA FILTRADA =================
+    public ResultSetTableModel obtenerFiltrados(String campo, String texto)
+        throws SQLException, ClassNotFoundException {
+
+        String columna = switch (campo) {
+            case "No. Receta" -> "id_receta";
+            case "SSN Médico" -> "ssn_medico";
+            case "SSN Paciente" -> "ssn_paciente";
+            case "Medicamento" -> "medicamento";
+            case "Fecha" -> "fecha";
+            case "Cantidad" -> "cantidad";
+            case "Unidad" -> "unidad";
+            case "Indicaciones" -> "indicaciones";
+            default -> "id_receta";
+        };
+
+        String consulta = """
+            SELECT id_receta,
+                   ssn_medico,
+                   ssn_paciente,
+                   medicamento,
+                   fecha,
+                   cantidad,
+                   unidad,
+                   indicaciones,
+                   'Y' AS editar,
+                   'X' AS eliminar
+            FROM recetas
+            WHERE CAST(%s AS TEXT) ILIKE ?
+            ORDER BY id_receta DESC
+            """.formatted(columna);
+
+        String valor = "%" + texto + "%";
+
+        return new ResultSetTableModel(
+                conexionBD.getDriver(),
+                conexionBD.getURL(),
+                consulta,
+                valor
+        );
+    }
+    /*
     public ResultSetTableModel obtenerFiltrados(String texto) throws SQLException, ClassNotFoundException {
 
         String consulta =
@@ -140,6 +181,7 @@ public class RecetaDAO implements IRecetaDAO{
                 valor, valor, valor, valor, valor, valor, valor, valor
         );
     }
+*/
     
     //============================ALTAS=====================
     
@@ -246,9 +288,9 @@ public class RecetaDAO implements IRecetaDAO{
     
 
     @Override
-    public ResultSetTableModel filtrar(String texto) {
+    public ResultSetTableModel filtrar(String campo, String texto) {
        try {
-            return obtenerFiltrados(texto);
+            return obtenerFiltrados(campo, texto);
         } catch (Exception e) {
             throw new RuntimeException("Error al filtrar recetas", e);
         }
