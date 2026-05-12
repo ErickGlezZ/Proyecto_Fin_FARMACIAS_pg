@@ -391,7 +391,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
                 
             if (controller.editar(r)) {
                 JOptionPane.showMessageDialog(this,"Registro Editado CORRECTAMENTE");
-                System.out.println("Registro Agregado CORRECTAMENTE");
+                System.out.println("Registro Editado CORRECTAMENTE");
 
                 limpiarCampos();
                 dispose();

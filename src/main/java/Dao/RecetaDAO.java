@@ -108,15 +108,28 @@ public class RecetaDAO implements IRecetaDAO{
     public ResultSetTableModel obtenerFiltrados(String texto) throws SQLException, ClassNotFoundException {
 
         String consulta =
-            "SELECT * FROM recetas WHERE " +
-            "CAST(id_receta AS TEXT) LIKE ? OR " +
-            "LOWER(ssn_medico) LIKE ? OR " +
-            "LOWER(ssn_paciente) LIKE ? OR " +
-            "LOWER(medicamento) LIKE ? OR " +
-            "CAST(fecha AS TEXT) LIKE ? OR " +
-            "CAST(cantidad AS TEXT) LIKE ? OR " +
-            "LOWER(unidad) LIKE ? OR " +
-            "LOWER(indicaciones) LIKE ?";
+           """
+        SELECT id_receta,
+               ssn_medico,
+               ssn_paciente,
+               medicamento,
+               fecha,
+               cantidad,
+               unidad,
+               indicaciones,
+               'Y' AS editar,
+               'X' AS eliminar
+        FROM recetas
+        WHERE CAST(id_receta AS TEXT) LIKE ? OR
+              LOWER(ssn_medico) LIKE ? OR
+              LOWER(ssn_paciente) LIKE ? OR
+              LOWER(medicamento) LIKE ? OR
+              CAST(fecha AS TEXT) LIKE ? OR
+              CAST(cantidad AS TEXT) LIKE ? OR
+              LOWER(unidad) LIKE ? OR
+              LOWER(indicaciones) LIKE ?
+        ORDER BY id_receta DESC
+        """;
 
         String valor = "%" + texto.toLowerCase() + "%";
 
