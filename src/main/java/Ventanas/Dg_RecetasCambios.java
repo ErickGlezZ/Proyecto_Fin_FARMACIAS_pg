@@ -139,14 +139,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
 
                 cajaMedicamentoCambios.setText(rs.getString("medicamento"));
 
-                cajaFechaCambios.setText(
-                        rs.getDate("fecha")
-                          .toLocalDate()
-                          .format(
-                              java.time.format.DateTimeFormatter
-                                      .ofPattern("dd/MM/yyyy")
-                          )
-                );
+                cajaFechaCambios.setText(rs.getDate("fecha").toLocalDate().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
                 cajaCantidadCambios.setText(rs.getString("cantidad"));
 

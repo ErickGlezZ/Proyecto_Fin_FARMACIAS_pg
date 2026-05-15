@@ -148,9 +148,9 @@ public class VentanaRecetas extends javax.swing.JPanel {
                     tablaRegRecetas.clearSelection();
                 }
             }else if(columna == colEditar){
-                int idReceta = Integer.parseInt(
-                    tablaRegRecetas.getValueAt(fila, 0).toString()
-                );
+                
+                int idReceta = Integer.parseInt(tablaRegRecetas.getValueAt(fila, 0).toString());
+                
                 JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(VentanaRecetas.this);
                 Dg_RecetasCambios dialog = new Dg_RecetasCambios(parent, true, idReceta); // modal
                 dialog.setVisible(true);
@@ -319,7 +319,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
 
         jLabel2.setText("Filtro");
 
-        cbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elije Filtro...", "No. Receta", "SSN Médico", "SSN Paciente", "Medicamento", "Fecha", "Cantidad", "Unidad", "Indicaciones" }));
+        cbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No. Receta", "SSN Médico", "SSN Paciente", "Medicamento", "Fecha", "Cantidad", "Unidad", "Indicaciones" }));
         cbFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbFiltroActionPerformed(evt);

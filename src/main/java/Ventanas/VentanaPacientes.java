@@ -6,10 +6,7 @@ package Ventanas;
 
 import Controlador.PacienteController;
 import Dao.PacienteDAO;
-import Modelo.Paciente;
 import Modelo.ResultSetTableModel;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -31,38 +28,60 @@ public class VentanaPacientes extends javax.swing.JPanel {
     public VentanaPacientes() {
         initComponents();
         controller = new PacienteController(PacienteDAO.getInstancia());
-        cajaSSNPacientes.setEnabled(false);
-        cajaNombrePacientes.setEnabled(false);
-        cajaApPaternoPacientes.setEnabled(false);
-        cajaApMaternoPacientes.setEnabled(false);
-        spEdadPacientes.setEnabled(false);
-        cbSSNMedicoCab.setEnabled(false);
-        cajaCallePacientes.setEnabled(false);
-        cajaNumeroPacientes.setEnabled(false);
-        cajaColoniaPacientes.setEnabled(false);
-        cajaCodPostalPacientes.setEnabled(false);
-        btnEliminarPacientes.setEnabled(false);
-        btnEditarPacientes.setEnabled(false);
-        btnConfirmarPacientes.setEnabled(false);
         
         
         cargarTabla();
         
         
         timerBusqueda = new Timer(300, e -> {
-        String texto = cajaBusquedaPacientes.getText();
+            if (cbFiltro.getSelectedIndex() == 0) {
+                return;
+            }
+            
+            String campo = cbFiltro.getSelectedItem().toString();
+            String texto = cajaBusquedaPacientes.getText();
 
         SwingWorker<ResultSetTableModel, Void> worker = new SwingWorker<>() {
 
             @Override
             protected ResultSetTableModel doInBackground() throws Exception {
-                return controller.filtrar(texto);
+                return controller.filtrar(campo, texto);
             }
 
             @Override
             protected void done() {
                 try {
                     tablaRegPacientes.setModel(get());
+                    
+                    if (tablaRegPacientes.getColumnCount() >= 12) {
+                        // Columna EDITAR
+                        tablaRegPacientes.getColumnModel().getColumn(10)
+                                .setCellRenderer(new EditarRenderer());
+
+                        tablaRegPacientes.getColumnModel().getColumn(10)
+                                .setMaxWidth(40);
+
+                        tablaRegPacientes.getColumnModel().getColumn(10)
+                                .setMinWidth(40);
+
+                        tablaRegPacientes.getColumnModel().getColumn(10)
+                                .setHeaderValue("");
+
+
+
+                        // Columna ELIMINAR
+                        tablaRegPacientes.getColumnModel().getColumn(11)
+                                .setCellRenderer(new EliminarRenderer());
+
+                        tablaRegPacientes.getColumnModel().getColumn(11)
+                                .setMaxWidth(40);
+
+                        tablaRegPacientes.getColumnModel().getColumn(11)
+                                .setMinWidth(40);
+
+                        tablaRegPacientes.getColumnModel().getColumn(11)
+                                .setHeaderValue("");
+                    }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Error en búsqueda");
                 }
@@ -75,33 +94,61 @@ public class VentanaPacientes extends javax.swing.JPanel {
         timerBusqueda.setRepeats(false);
         
         
-        //Selecion de tabla para llenar campos
-        tablaRegPacientes.getSelectionModel().addListSelectionListener(e -> {
-        if (!e.getValueIsAdjusting()) {
-            int fila = tablaRegPacientes.getSelectedRow();
-            
-            limpiando = true;
-            cargarMedicosEnCombo();
-            if (fila != -1) {
-                cajaSSNPacientes.setText(tablaRegPacientes.getValueAt(fila, 0).toString());
-                cajaNombrePacientes.setText(tablaRegPacientes.getValueAt(fila, 1).toString());
-                cajaApPaternoPacientes.setText(tablaRegPacientes.getValueAt(fila, 2).toString());
-                cajaApMaternoPacientes.setText(tablaRegPacientes.getValueAt(fila, 3).toString());
-                spEdadPacientes.setValue(Integer.parseInt(tablaRegPacientes.getValueAt(fila, 4).toString()));
-                cbSSNMedicoCab.setSelectedItem(tablaRegPacientes.getValueAt(fila, 5).toString());
-                cajaCallePacientes.setText(tablaRegPacientes.getValueAt(fila, 6).toString());
-                cajaNumeroPacientes.setText(tablaRegPacientes.getValueAt(fila, 7).toString());
-                cajaColoniaPacientes.setText(tablaRegPacientes.getValueAt(fila, 8).toString());
-                cajaCodPostalPacientes.setText(tablaRegPacientes.getValueAt(fila, 9).toString());
-                
-                limpiando = false;
-                actualizarLabelMedico();
+        //==========Clic eliminar===============
+        tablaRegPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
 
-                btnEliminarPacientes.setEnabled(true);
-                btnEditarPacientes.setEnabled(true);
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+
+            int fila = tablaRegPacientes.rowAtPoint(e.getPoint());
+            int columna = tablaRegPacientes.columnAtPoint(e.getPoint());
+            
+            int colEliminar = tablaRegPacientes.getColumnCount() - 1;
+            int colEditar = tablaRegPacientes.getColumnCount() - 2;
+            
+
+            // columna del icono
+            if (columna == colEliminar) {
+
+                String ssnPaciente = tablaRegPacientes.getValueAt(fila, 0).toString();
+
+                int confirm = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Seguro que deseas eliminar esta receta?",
+                        "Confirmar eliminación",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirm == JOptionPane.YES_OPTION) {
+
+                    if (controller.eliminar(ssnPaciente)) {
+
+                        JOptionPane.showMessageDialog(null,
+                                "Registro eliminado correctamente");
+
+                        cargarTabla();
+                        limpiarCampos();
+
+                    } else {
+
+                        JOptionPane.showMessageDialog(null,
+                                "Error al eliminar");
+                    }
+                }else {
+
+                    tablaRegPacientes.clearSelection();
                 }
+            }else if(columna == colEditar){
+                
+                String ssnPaciente = tablaRegPacientes.getValueAt(fila, 0).toString();
+                
+                JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(VentanaPacientes.this);
+                Dg_PacientesCambios dialog = new Dg_PacientesCambios(parent, true, ssnPaciente); // modal
+                dialog.setVisible(true);
+                cargarTabla();
             }
-        });
+        }
+    });
     }
 
     /**
@@ -114,108 +161,21 @@ public class VentanaPacientes extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        cajaSSNPacientes = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        cajaNombrePacientes = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        cajaApPaternoPacientes = new javax.swing.JTextField();
-        cajaApMaternoPacientes = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        cajaCallePacientes = new javax.swing.JTextField();
-        cajaNumeroPacientes = new javax.swing.JTextField();
-        cajaColoniaPacientes = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        cajaCodPostalPacientes = new javax.swing.JTextField();
         btnLimpiarPacientes = new javax.swing.JButton();
         btnAgregarPacientes = new javax.swing.JButton();
-        btnEliminarPacientes = new javax.swing.JButton();
-        btnEditarPacientes = new javax.swing.JButton();
-        btnConfirmarPacientes = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         cajaBusquedaPacientes = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaRegPacientes = new javax.swing.JTable();
-        cbSSNMedicoCab = new javax.swing.JComboBox<>();
         lblMedicoAsig = new java.awt.Label();
-        spEdadPacientes = new javax.swing.JSpinner();
+        jLabel11 = new javax.swing.JLabel();
+        cbFiltro = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(46, 61, 84));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(241, 245, 249));
         jLabel1.setText("PACIENTES");
-
-        jLabel2.setBackground(new java.awt.Color(241, 245, 249));
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel2.setText("SSN");
-
-        jLabel3.setBackground(new java.awt.Color(241, 245, 249));
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel3.setText("Ap. Materno:");
-
-        cajaSSNPacientes.setBackground(new java.awt.Color(71, 85, 105));
-
-        jLabel4.setBackground(new java.awt.Color(241, 245, 249));
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel4.setText("Nombre:");
-
-        cajaNombrePacientes.setBackground(new java.awt.Color(71, 85, 105));
-
-        jLabel5.setBackground(new java.awt.Color(241, 245, 249));
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel5.setText("Ap. Paterno:");
-
-        cajaApPaternoPacientes.setBackground(new java.awt.Color(71, 85, 105));
-
-        cajaApMaternoPacientes.setBackground(new java.awt.Color(71, 85, 105));
-
-        jLabel6.setBackground(new java.awt.Color(241, 245, 249));
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel6.setText("SSN Medico Cabecera:");
-
-        jLabel7.setBackground(new java.awt.Color(241, 245, 249));
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel7.setText("Edad:");
-
-        jLabel8.setBackground(new java.awt.Color(241, 245, 249));
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel8.setText("Calle:");
-
-        jLabel9.setBackground(new java.awt.Color(241, 245, 249));
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel9.setText("Número:");
-
-        jLabel10.setBackground(new java.awt.Color(241, 245, 249));
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel10.setText("Colonia:");
-
-        cajaCallePacientes.setBackground(new java.awt.Color(71, 85, 105));
-
-        cajaNumeroPacientes.setBackground(new java.awt.Color(71, 85, 105));
-
-        cajaColoniaPacientes.setBackground(new java.awt.Color(71, 85, 105));
-
-        jLabel12.setBackground(new java.awt.Color(241, 245, 249));
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel12.setText("Cod. Postal:");
-
-        cajaCodPostalPacientes.setBackground(new java.awt.Color(71, 85, 105));
 
         btnLimpiarPacientes.setBackground(new java.awt.Color(40, 40, 40));
         btnLimpiarPacientes.setText("LIMPIAR");
@@ -230,30 +190,6 @@ public class VentanaPacientes extends javax.swing.JPanel {
         btnAgregarPacientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarPacientesActionPerformed(evt);
-            }
-        });
-
-        btnEliminarPacientes.setBackground(new java.awt.Color(40, 40, 40));
-        btnEliminarPacientes.setText("ELIMINAR");
-        btnEliminarPacientes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarPacientesActionPerformed(evt);
-            }
-        });
-
-        btnEditarPacientes.setBackground(new java.awt.Color(40, 40, 40));
-        btnEditarPacientes.setText("EDITAR");
-        btnEditarPacientes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarPacientesActionPerformed(evt);
-            }
-        });
-
-        btnConfirmarPacientes.setBackground(new java.awt.Color(40, 40, 40));
-        btnConfirmarPacientes.setText("GUARDAR");
-        btnConfirmarPacientes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConfirmarPacientesActionPerformed(evt);
             }
         });
 
@@ -283,14 +219,18 @@ public class VentanaPacientes extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tablaRegPacientes);
 
-        cbSSNMedicoCab.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
-        cbSSNMedicoCab.addActionListener(new java.awt.event.ActionListener() {
+        lblMedicoAsig.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        jLabel11.setBackground(new java.awt.Color(241, 245, 249));
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setText("Filtro");
+
+        cbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SSN Paciente", "Nombre", "Apellido Paterno", "Apellido Materno", "Edad", "SSN Médico", "Calle", "Número", "Colonia", "Código Postal" }));
+        cbFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbSSNMedicoCabActionPerformed(evt);
+                cbFiltroActionPerformed(evt);
             }
         });
-
-        lblMedicoAsig.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -300,127 +240,51 @@ public class VentanaPacientes extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cajaBusquedaPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cajaApMaternoPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cajaCallePacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lblMedicoAsig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(cbSSNMedicoCab, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnLimpiarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnAgregarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnEliminarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnEditarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnConfirmarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(253, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cajaNumeroPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cajaColoniaPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(spEdadPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cajaCodPostalPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cajaNombrePacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cajaApPaternoPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(lblMedicoAsig, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 551, Short.MAX_VALUE)
+                        .addComponent(btnLimpiarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAgregarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(8, 8, 8)
-                                        .addComponent(cajaSSNPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                                .addComponent(jLabel1)
+                                .addGap(0, 1081, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbFiltro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cajaBusquedaPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaSSNPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaNombrePacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaApPaternoPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spEdadPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cajaApMaternoPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cajaCodPostalPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaCallePacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaNumeroPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaColoniaPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cajaBusquedaPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnLimpiarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAgregarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnEliminarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnEditarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnConfirmarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblMedicoAsig, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbSSNMedicoCab)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaBusquedaPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAgregarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblMedicoAsig, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -441,6 +305,36 @@ public class VentanaPacientes extends javax.swing.JPanel {
                 try {
                     tablaRegPacientes.setModel(get());
                     
+                    if (tablaRegPacientes.getColumnCount() >= 12) {
+                        // Columna EDITAR
+                        tablaRegPacientes.getColumnModel().getColumn(10)
+                                .setCellRenderer(new EditarRenderer());
+
+                        tablaRegPacientes.getColumnModel().getColumn(10)
+                                .setMaxWidth(40);
+
+                        tablaRegPacientes.getColumnModel().getColumn(10)
+                                .setMinWidth(40);
+
+                        tablaRegPacientes.getColumnModel().getColumn(10)
+                                .setHeaderValue("");
+
+
+
+                        // Columna ELIMINAR
+                        tablaRegPacientes.getColumnModel().getColumn(11)
+                                .setCellRenderer(new EliminarRenderer());
+
+                        tablaRegPacientes.getColumnModel().getColumn(11)
+                                .setMaxWidth(40);
+
+                        tablaRegPacientes.getColumnModel().getColumn(11)
+                                .setMinWidth(40);
+
+                        tablaRegPacientes.getColumnModel().getColumn(11)
+                                .setHeaderValue("");
+                    }
+                    
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Error al cargar datos");
                 }
@@ -450,73 +344,18 @@ public class VentanaPacientes extends javax.swing.JPanel {
         worker.execute();
     }
     public void limpiarCampos(){
-        limpiando = true;
         
-        cajaSSNPacientes.setText("");
-        cajaNombrePacientes.setText("");
-        cajaApPaternoPacientes.setText("");
-        cajaApMaternoPacientes.setText("");
-        spEdadPacientes.setValue(0);
-        cbSSNMedicoCab.setSelectedIndex(0);
-        cajaCallePacientes.setText("");
-        cajaNumeroPacientes.setText("");
-        cajaColoniaPacientes.setText("");
-        cajaCodPostalPacientes.setText("");
         cajaBusquedaPacientes.setText("");
-        lblMedicoAsig.setText("");
-    
-        limpiando = false;
-        
-        if (timerBusqueda != null) {
-            timerBusqueda.restart();
-        }
+        cbFiltro.setSelectedIndex(0);
+        tablaRegPacientes.clearSelection();
 
-        btnEliminarPacientes.setEnabled(false);
-        btnEditarPacientes.setEnabled(false);
-        btnConfirmarPacientes.setEnabled(false);
-        habilitarCamposEdicion(false);
+        cargarTabla();
+       
     }
     
-    public void habilitarCamposEdicion(boolean habilitar){
-        
-        cajaNombrePacientes.setEnabled(habilitar);
-        cajaApPaternoPacientes.setEnabled(habilitar);
-        cajaApMaternoPacientes.setEnabled(habilitar);
-        spEdadPacientes.setEnabled(habilitar);
-        cbSSNMedicoCab.setEnabled(habilitar);
-        cajaCallePacientes.setEnabled(habilitar);
-        cajaNumeroPacientes.setEnabled(habilitar);
-        cajaColoniaPacientes.setEnabled(habilitar);
-        cajaCodPostalPacientes.setEnabled(habilitar);
-        btnEditarPacientes.setEnabled(habilitar);
-    }
     
-    private void cargarMedicosEnCombo(){
-        cbSSNMedicoCab.removeAllItems();
-        
-        cbSSNMedicoCab.addItem("Elije Médico...");
-        ResultSet rs = controller.obtenerMedicos();
-        try {
-            while (rs.next()) {
-                String ssn = rs.getString("SSN");
-
-                cbSSNMedicoCab.addItem(ssn);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al cargar médicos");
-        }
-        
-    }
     
-    private void actualizarLabelMedico(){
-        
-        if (cbSSNMedicoCab.getSelectedIndex() == 0) return; 
-        String ssn = cbSSNMedicoCab.getSelectedItem().toString();
-        String nombre = controller.obtenerNombreCompleto(ssn);
-        lblMedicoAsig.setText("Médico asig. " + nombre);
-    }
+    
     
     
     
@@ -529,111 +368,84 @@ public class VentanaPacientes extends javax.swing.JPanel {
 
     private void cajaBusquedaPacientesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaBusquedaPacientesKeyReleased
         if (timerBusqueda != null) {
-        timerBusqueda.restart();
+            timerBusqueda.restart();
         }
     }//GEN-LAST:event_cajaBusquedaPacientesKeyReleased
-
-    private void btnEliminarPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPacientesActionPerformed
-        
-        habilitarCamposEdicion(false);
-        btnAgregarPacientes.setEnabled(false);
-       
-        if (controller.eliminar(cajaSSNPacientes.getText())){
-
-                cargarTabla();
-                JOptionPane.showMessageDialog(this, "Registro eliminado correctamente");
-                
-                limpiarCampos();
-                btnAgregarPacientes.setEnabled(true);
-            }else {
-                JOptionPane.showMessageDialog(this, "ERROR al eliminar el registro",
-                "No existe ese registro", JOptionPane.ERROR_MESSAGE);
-            }
-    }//GEN-LAST:event_btnEliminarPacientesActionPerformed
 
     private void btnLimpiarPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarPacientesActionPerformed
         limpiarCampos();
     }//GEN-LAST:event_btnLimpiarPacientesActionPerformed
 
-    private void btnEditarPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPacientesActionPerformed
-        
-        habilitarCamposEdicion(true);
-        btnEditarPacientes.setEnabled(false);
-        btnEliminarPacientes.setEnabled(false);
-        btnAgregarPacientes.setEnabled(false);
-        btnConfirmarPacientes.setEnabled(true);
-    }//GEN-LAST:event_btnEditarPacientesActionPerformed
+    private void cbFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFiltroActionPerformed
+        cajaBusquedaPacientes.setText("");
+        tablaRegPacientes.clearSelection();
+        cargarTabla();
+    }//GEN-LAST:event_cbFiltroActionPerformed
 
-    private void btnConfirmarPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarPacientesActionPerformed
-        
-        if (cbSSNMedicoCab.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Debes seleccionar un médico");
-            return;
+    
+    class EliminarRenderer extends javax.swing.JButton implements javax.swing.table.TableCellRenderer {
+
+        public EliminarRenderer() {
+
+            setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/img/borrar.png")
+            ));
+
+            setBorderPainted(false);
+            setContentAreaFilled(false);
+            setFocusPainted(false);
         }
-        Paciente p = new Paciente(cajaSSNPacientes.getText(),
-                cajaNombrePacientes.getText(),
-                cajaApPaternoPacientes.getText(),
-                cajaApMaternoPacientes.getText(),
-                Byte.parseByte(spEdadPacientes.getValue().toString()),
-                cbSSNMedicoCab.getSelectedItem().toString(),
-                cajaCallePacientes.getText(),
-                cajaNumeroPacientes.getText(),
-                cajaColoniaPacientes.getText(),
-                Integer.parseInt(cajaCodPostalPacientes.getText()));
-        
-        try {
-            if (controller.editar(p)) {
-            JOptionPane.showMessageDialog(this,
-                    "Registro Editado CORRECTAMENTE");
-            cargarTabla();
-            
-            limpiarCampos();
-            habilitarCamposEdicion(false);
-            btnAgregarPacientes.setEnabled(true);
 
+        @Override
+        public java.awt.Component getTableCellRendererComponent(
+                javax.swing.JTable table,
+                Object value,
+                boolean isSelected,
+                boolean hasFocus,
+                int row,
+                int column) {
+
+            return this;
         }
-        } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+    
+    
+    class EditarRenderer extends javax.swing.JButton implements javax.swing.table.TableCellRenderer {
+
+        public EditarRenderer() {
+
+            setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/img/boton-editar.png")
+            ));
+
+            setBorderPainted(false);
+            setContentAreaFilled(false);
+            setFocusPainted(false);
         }
-    }//GEN-LAST:event_btnConfirmarPacientesActionPerformed
 
-    private void cbSSNMedicoCabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSSNMedicoCabActionPerformed
-        if (limpiando) return; 
-        actualizarLabelMedico();
-    }//GEN-LAST:event_cbSSNMedicoCabActionPerformed
+        @Override
+        public java.awt.Component getTableCellRendererComponent(
+                javax.swing.JTable table,
+                Object value,
+                boolean isSelected,
+                boolean hasFocus,
+                int row,
+                int column) {
 
+            return this;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarPacientes;
-    private javax.swing.JButton btnConfirmarPacientes;
-    private javax.swing.JButton btnEditarPacientes;
-    private javax.swing.JButton btnEliminarPacientes;
     private javax.swing.JButton btnLimpiarPacientes;
-    private javax.swing.JTextField cajaApMaternoPacientes;
-    private javax.swing.JTextField cajaApPaternoPacientes;
     private javax.swing.JTextField cajaBusquedaPacientes;
-    private javax.swing.JTextField cajaCallePacientes;
-    private javax.swing.JTextField cajaCodPostalPacientes;
-    private javax.swing.JTextField cajaColoniaPacientes;
-    private javax.swing.JTextField cajaNombrePacientes;
-    private javax.swing.JTextField cajaNumeroPacientes;
-    private javax.swing.JTextField cajaSSNPacientes;
-    private javax.swing.JComboBox<String> cbSSNMedicoCab;
+    private javax.swing.JComboBox<String> cbFiltro;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private java.awt.Label lblMedicoAsig;
-    private javax.swing.JSpinner spEdadPacientes;
     private javax.swing.JTable tablaRegPacientes;
     // End of variables declaration//GEN-END:variables
 }

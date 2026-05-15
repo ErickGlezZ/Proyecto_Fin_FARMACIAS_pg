@@ -24,11 +24,19 @@ public class PacienteController {
     }
 
     // ================= FILTRAR =================
-    public ResultSetTableModel filtrar(String texto) {
+    public ResultSetTableModel filtrar(String campo, String texto) {
         try {
-            return dao.filtrar(texto);
+            return dao.filtrar(campo, texto);
         } catch (Exception e) {
             throw new RuntimeException("Error al filtrar pacientes", e);
+        }
+    }
+    
+    public ResultSet obtenerPacientePorSSN(String ssn){
+        try {
+            return dao.obtenerPacientePorSSN(ssn);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener SSN de Pacientes", e);
         }
     }
     

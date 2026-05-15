@@ -17,8 +17,9 @@ public interface IPacienteDAO {
     boolean eliminar(String ssn);
     boolean editar(Paciente p);
     
+    ResultSet obtenerPacientePorSSN(String ssn);
     ResultSetTableModel obtenerTodos();
-    ResultSetTableModel filtrar(String texto);
+    ResultSetTableModel filtrar(String campo, String texto);
     ResultSet obtenerTodosLosMedicos();
     String obtenerNombreCompleto(String ssn);
 }

@@ -8,6 +8,7 @@ import ConexionBD.ConexionBD;
 import Interfaces.IPacienteDAO;
 import Modelo.Paciente;
 import Modelo.ResultSetTableModel;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -38,8 +39,24 @@ public class PacienteDAO implements IPacienteDAO{
     // ================= CONSULTA GENERAL =================
     @Override
     public ResultSetTableModel obtenerTodos() {
-        String consulta = "SELECT * FROM pacientes ORDER BY SSN DESC";
-
+        //String consulta = "SELECT * FROM pacientes ORDER BY SSN DESC";
+        
+        String consulta = """
+        SELECT ssn,
+               nombre,
+               ape_paterno,
+               ape_materno,
+               edad,
+               ssn_medico_cabecera,
+               calle,
+               numero,
+               colonia,
+               codigo_postal,
+               'Y' AS editar,
+               'X' AS eliminar
+        FROM pacientes
+        """;
+        
         try {
             return new ResultSetTableModel(
                 conexionBD.getDriver(),
@@ -51,6 +68,32 @@ public class PacienteDAO implements IPacienteDAO{
         }
     }
     
+    //=============CONSULTA PARA OBTENER SSN===============
+    @Override
+    public ResultSet obtenerPacientePorSSN(String ssn) {
+
+    String sql = """
+        SELECT *
+        FROM pacientes
+        WHERE ssn = ?
+        """;
+
+    try {
+
+        PreparedStatement ps =
+                conexionBD.getConexion().prepareStatement(sql);
+
+        ps.setString(1, ssn);
+
+        return ps.executeQuery();
+
+    } catch (SQLException e) {
+
+        e.printStackTrace();
+        return null;
+    }
+}
+    
     //====================CONSULTA GENERAL MEDICOS=============
     
     @Override
@@ -60,6 +103,51 @@ public class PacienteDAO implements IPacienteDAO{
     }
 
     // ================= CONSULTA FILTRADA =================
+    public ResultSetTableModel obtenerFiltrados(String campo, String texto)
+        throws SQLException, ClassNotFoundException {
+
+        String columna = switch (campo) {
+            case "SSN" -> "ssn";
+            case "Nombre" -> "nombre";
+            case "Apellido Paterno" -> "ape_paterno";
+            case "Apellido Materno" -> "ape_materno";
+            case "Edad" -> "edad";
+            case "SSN Médico" -> "ssn_medico_cabecera";
+            case "Calle" -> "calle";
+            case "Número" -> "numero";
+            case "Colonia" -> "colonia";
+            case "Código Postal" -> "codigo_postal";
+            default -> "ssn";
+        };
+
+        String consulta = """
+            SELECT ssn,
+                   nombre,
+                   ape_paterno,
+                   ape_materno,
+                   edad,
+                   ssn_medico_cabecera,
+                   calle,
+                   numero,
+                   colonia,
+                   codigo_postal,
+                   'Y' AS editar,
+                   'X' AS eliminar
+            FROM pacientes
+            WHERE CAST(%s AS TEXT) ILIKE ?
+            ORDER BY nombre ASC
+            """.formatted(columna);
+
+        String valor = "%" + texto + "%";
+
+        return new ResultSetTableModel(
+                conexionBD.getDriver(),
+                conexionBD.getURL(),
+                consulta,
+                valor
+        );
+    }
+    /*
     public ResultSetTableModel obtenerFiltrados(String texto) throws SQLException, ClassNotFoundException {
 
         String consulta =
@@ -84,7 +172,7 @@ public class PacienteDAO implements IPacienteDAO{
                 valor, valor, valor, valor, valor, valor, valor, valor, valor, valor
         );
     }
-    
+    */
     //============================ALTAS=====================
     
     public boolean agregarPaciente(Paciente paciente){
@@ -177,9 +265,9 @@ public class PacienteDAO implements IPacienteDAO{
     }
 
     @Override
-    public ResultSetTableModel filtrar(String texto) {
+    public ResultSetTableModel filtrar(String campo, String texto) {
         try {
-            return obtenerFiltrados(texto);
+            return obtenerFiltrados(campo, texto);
         } catch (Exception e) {
             throw new RuntimeException("Error al filtrar pacientes", e);
         }
