@@ -8,6 +8,8 @@ import ConexionBD.ConexionBD;
 import Interfaces.IMedicoDAO;
 import Modelo.Medico;
 import Modelo.ResultSetTableModel;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -37,8 +39,20 @@ public class MedicoDAO implements IMedicoDAO{
     // ================= CONSULTA GENERAL =================
     @Override
     public ResultSetTableModel obtenerTodos() {
-        String consulta = "SELECT * FROM medicos ORDER BY SSN DESC";
-
+        //String consulta = "SELECT * FROM medicos ORDER BY SSN DESC";
+        String consulta = """
+        SELECT ssn,
+               nombre,
+               ape_paterno,
+               ape_materno,
+               especialidad,
+               años_experiencia,
+               'Y' AS editar,
+               'X' AS eliminar
+        FROM medicos
+        ORDER BY SSN DESC
+        """;
+        
         try {
             return new ResultSetTableModel(
                 conexionBD.getDriver(),
@@ -49,8 +63,70 @@ public class MedicoDAO implements IMedicoDAO{
             throw new RuntimeException("Error al obtener médicos", e);
         }
     }
+    
+    //================== CONSULTA PARA OBTENER SSN MEDICO=======
+    @Override
+    public ResultSet obtenerMedicoPorSSN(String ssn) {
+
+        String sql = """
+            SELECT *
+            FROM medicos
+            WHERE ssn = ?
+            """;
+
+        try {
+
+            PreparedStatement ps = conexionBD.getConexion().prepareStatement(sql);
+
+            ps.setString(1, ssn);
+
+            return ps.executeQuery();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     // ================= CONSULTA FILTRADA =================
+    public ResultSetTableModel obtenerFiltrados(String campo, String texto)
+        throws SQLException, ClassNotFoundException {
+
+        String columna = switch (campo) {
+            case "SSN" -> "ssn";
+            case "Nombre" -> "nombre";
+            case "Apellido Paterno" -> "ape_paterno";
+            case "Apellido Materno" -> "ape_materno";
+            case "Especialidad" -> "especialidad";
+            case "Años Experiencia" -> "años_experiencia";
+            default -> "ssn";
+        };
+
+        String consulta = """
+            SELECT ssn,
+                   nombre,
+                   ape_paterno,
+                   ape_materno,
+                   especialidad,
+                   años_experiencia,
+                   'Y' AS editar,
+                   'X' AS eliminar
+            FROM medicos
+            WHERE CAST(%s AS TEXT) ILIKE ?
+            ORDER BY nombre ASC
+            """.formatted(columna);
+
+        String valor = "%" + texto + "%";
+
+        return new ResultSetTableModel(
+                conexionBD.getDriver(),
+                conexionBD.getURL(),
+                consulta,
+                valor
+        );
+    }
+    /*
     public ResultSetTableModel obtenerFiltrados(String texto) throws SQLException, ClassNotFoundException {
 
         String consulta =
@@ -71,6 +147,7 @@ public class MedicoDAO implements IMedicoDAO{
                 valor, valor, valor, valor, valor, valor
         );
     }
+*/
 
     // ================= ALTAS =================
     public boolean agregarMedico(Medico medico) {
@@ -125,9 +202,9 @@ public class MedicoDAO implements IMedicoDAO{
     }
 
     @Override
-    public ResultSetTableModel filtrar(String texto) {
+    public ResultSetTableModel filtrar(String campo, String texto) {
         try {
-            return obtenerFiltrados(texto);
+            return obtenerFiltrados(campo, texto);
         } catch (Exception e) {
             throw new RuntimeException("Error al filtrar médicos", e);
         }

@@ -6,6 +6,7 @@ package Interfaces;
 
 import Modelo.Medico;
 import Modelo.ResultSetTableModel;
+import java.sql.ResultSet;
 
 /**
  *
@@ -16,6 +17,7 @@ public interface IMedicoDAO {
     boolean eliminar(String ssn);
     boolean editar(Medico m);
 
+    ResultSet obtenerMedicoPorSSN(String ssn);
     ResultSetTableModel obtenerTodos();
-    ResultSetTableModel filtrar(String texto);
+    ResultSetTableModel filtrar(String campo, String texto);
 }

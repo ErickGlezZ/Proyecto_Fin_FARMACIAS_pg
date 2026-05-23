@@ -24,7 +24,7 @@ public class VentanaPacientes extends javax.swing.JPanel {
      */
     private Timer timerBusqueda;
     private PacienteController controller;
-    private boolean limpiando = false;
+    
     public VentanaPacientes() {
         initComponents();
         controller = new PacienteController(PacienteDAO.getInstancia());
@@ -34,9 +34,7 @@ public class VentanaPacientes extends javax.swing.JPanel {
         
         
         timerBusqueda = new Timer(300, e -> {
-            if (cbFiltro.getSelectedIndex() == 0) {
-                return;
-            }
+            
             
             String campo = cbFiltro.getSelectedItem().toString();
             String texto = cajaBusquedaPacientes.getText();

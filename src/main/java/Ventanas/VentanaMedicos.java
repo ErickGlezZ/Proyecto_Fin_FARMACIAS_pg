@@ -33,32 +33,57 @@ public class VentanaMedicos extends javax.swing.JPanel {
         
         
         controller = new MedicoController(MedicoDAO.getInstancia());
-        cajaSSNMedicos.setEnabled(false);
-        cajaNombreMedicos.setEnabled(false);
-        cajaApPaternoMedicos.setEnabled(false);
-        cajaApMaternoMedicos.setEnabled(false);
-        cbEspecialidadMedicos.setEnabled(false);
-        cajaExperienciaMedicos.setEnabled(false);
-        btnEliminarMedicos.setEnabled(false);
-        btnEditarMedicos.setEnabled(false);
-        btnConfirmar.setEnabled(false);
+        
         
         cargarTabla();
         
         timerBusqueda = new Timer(300, e -> {
+        
+        String campo = cbFiltro.getSelectedItem().toString();
         String texto = cajaBusqueda.getText();
 
         SwingWorker<ResultSetTableModel, Void> worker = new SwingWorker<>() {
 
             @Override
             protected ResultSetTableModel doInBackground() throws Exception {
-                return controller.filtrar(texto);
+                return controller.filtrar(campo, texto);
             }
 
             @Override
             protected void done() {
                 try {
                     tablaRegMedicos.setModel(get());
+                    
+                    if (tablaRegMedicos.getColumnCount() >= 8) {
+                        // Columna EDITAR
+                        tablaRegMedicos.getColumnModel().getColumn(6)
+                                .setCellRenderer(new EditarRenderer());
+
+                        tablaRegMedicos.getColumnModel().getColumn(6)
+                                .setMaxWidth(40);
+
+                        tablaRegMedicos.getColumnModel().getColumn(6)
+                                .setMinWidth(40);
+
+                        tablaRegMedicos.getColumnModel().getColumn(6)
+                                .setHeaderValue("");
+
+
+
+                        // Columna ELIMINAR
+                        tablaRegMedicos.getColumnModel().getColumn(7)
+                                .setCellRenderer(new EliminarRenderer());
+
+                        tablaRegMedicos.getColumnModel().getColumn(7)
+                                .setMaxWidth(40);
+
+                        tablaRegMedicos.getColumnModel().getColumn(7)
+                                .setMinWidth(40);
+
+                        tablaRegMedicos.getColumnModel().getColumn(7)
+                                .setHeaderValue("");
+                    }
+                    
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Error en búsqueda");
                 }
@@ -68,28 +93,89 @@ public class VentanaMedicos extends javax.swing.JPanel {
         worker.execute();
     });
 
-timerBusqueda.setRepeats(false);
+    timerBusqueda.setRepeats(false);
     
-    
-    //Selecion de tabla para llenar campos
-    tablaRegMedicos.getSelectionModel().addListSelectionListener(e -> {
-    if (!e.getValueIsAdjusting()) {
-        int fila = tablaRegMedicos.getSelectedRow();
+    //==========Clic eliminar===============
+        tablaRegMedicos.addMouseListener(new java.awt.event.MouseAdapter() {
 
-        if (fila != -1) {
-            cajaSSNMedicos.setText(tablaRegMedicos.getValueAt(fila, 0).toString());
-            cajaNombreMedicos.setText(tablaRegMedicos.getValueAt(fila, 1).toString());
-            cajaApPaternoMedicos.setText(tablaRegMedicos.getValueAt(fila, 2).toString());
-            cajaApMaternoMedicos.setText(tablaRegMedicos.getValueAt(fila, 3).toString());
-            cbEspecialidadMedicos.setSelectedItem(tablaRegMedicos.getValueAt(fila, 4).toString());
-            cajaExperienciaMedicos.setText(tablaRegMedicos.getValueAt(fila, 5).toString());
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+
+            int fila = tablaRegMedicos.rowAtPoint(e.getPoint());
+            int columna = tablaRegMedicos.columnAtPoint(e.getPoint());
             
-            btnEliminarMedicos.setEnabled(true);
-            btnEditarMedicos.setEnabled(true);
+            int colEliminar = tablaRegMedicos.getColumnCount() - 1;
+            int colEditar = tablaRegMedicos.getColumnCount() - 2;
+            
+
+            // columna del icono
+            if (columna == colEliminar) {
+
+                String ssnMedico = tablaRegMedicos.getValueAt(fila, 0).toString();
+
+                int confirm = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Seguro que deseas eliminar esta receta?",
+                        "Confirmar eliminación",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirm == JOptionPane.YES_OPTION) {
+
+                    if (controller.eliminar(ssnMedico)) {
+
+                        JOptionPane.showMessageDialog(null,
+                                "Registro eliminado correctamente");
+
+                        cargarTabla();
+                        limpiarCampos();
+
+                    } else {
+
+                        JOptionPane.showMessageDialog(null,
+                                "Error al eliminar");
+                    }
+                }else {
+
+                    tablaRegMedicos.clearSelection();
+                }
+            }else if(columna == colEditar){
+                
+                String ssnMedico = tablaRegMedicos.getValueAt(fila, 0).toString();
+                
+                JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(VentanaMedicos.this);
+                Dg_MedicosCambios dialog = new Dg_MedicosCambios(parent, true, ssnMedico); // modal
+                dialog.setVisible(true);
+                cargarTabla();
             }
         }
     });
-    
+        
+        
+        tablaRegMedicos.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+
+        @Override
+        public void mouseMoved(java.awt.event.MouseEvent e) {
+
+            int columna = tablaRegMedicos.columnAtPoint(e.getPoint());
+            
+            int colEliminar = tablaRegMedicos.getColumnCount() - 1;
+            int colEditar = tablaRegMedicos.getColumnCount() - 2;
+            // columna del icono
+            if (columna == colEliminar || columna == colEditar) {
+
+                tablaRegMedicos.setCursor(
+                        new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR)
+                );
+
+            } else {
+
+                tablaRegMedicos.setCursor(
+                        new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR)
+                );
+            }
+        }
+    });
     
     //Se llama el metodo para eliminar con suprimir
     tablaRegMedicos.getInputMap(javax.swing.JComponent.WHEN_FOCUSED)
@@ -113,64 +199,17 @@ timerBusqueda.setRepeats(false);
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        cajaSSNMedicos = new javax.swing.JTextField();
-        cajaNombreMedicos = new javax.swing.JTextField();
-        cajaApPaternoMedicos = new javax.swing.JTextField();
-        cajaApMaternoMedicos = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        cajaExperienciaMedicos = new javax.swing.JTextField();
         btnAgregarMedicos = new javax.swing.JButton();
-        btnEliminarMedicos = new javax.swing.JButton();
-        btnEditarMedicos = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaRegMedicos = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         cajaBusqueda = new javax.swing.JTextField();
-        cbEspecialidadMedicos = new javax.swing.JComboBox<>();
         btnLimpiarCampos = new javax.swing.JButton();
-        btnConfirmar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        cbFiltro = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(46, 61, 84));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel1.setText("SSN:");
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel2.setText("Ap. Materno:");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel4.setText("Ap. Paterno:");
-
-        cajaSSNMedicos.setBackground(new java.awt.Color(71, 85, 105));
-
-        cajaNombreMedicos.setBackground(new java.awt.Color(71, 85, 105));
-
-        cajaApPaternoMedicos.setBackground(new java.awt.Color(71, 85, 105));
-
-        cajaApMaternoMedicos.setBackground(new java.awt.Color(71, 85, 105));
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel5.setText("Especialidad:");
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel6.setText("Nombre:");
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(241, 245, 249));
-        jLabel7.setText("Años Experiencia:");
-
-        cajaExperienciaMedicos.setBackground(new java.awt.Color(71, 85, 105));
 
         btnAgregarMedicos.setBackground(new java.awt.Color(40, 40, 40));
         btnAgregarMedicos.setForeground(new java.awt.Color(241, 245, 249));
@@ -178,24 +217,6 @@ timerBusqueda.setRepeats(false);
         btnAgregarMedicos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarMedicosActionPerformed(evt);
-            }
-        });
-
-        btnEliminarMedicos.setBackground(new java.awt.Color(40, 40, 40));
-        btnEliminarMedicos.setForeground(new java.awt.Color(241, 245, 249));
-        btnEliminarMedicos.setText("ELIMINAR");
-        btnEliminarMedicos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarMedicosActionPerformed(evt);
-            }
-        });
-
-        btnEditarMedicos.setBackground(new java.awt.Color(40, 40, 40));
-        btnEditarMedicos.setForeground(new java.awt.Color(241, 245, 249));
-        btnEditarMedicos.setText("EDITAR");
-        btnEditarMedicos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarMedicosActionPerformed(evt);
             }
         });
 
@@ -222,9 +243,6 @@ timerBusqueda.setRepeats(false);
             }
         });
 
-        cbEspecialidadMedicos.setBackground(new java.awt.Color(71, 85, 105));
-        cbEspecialidadMedicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elige Especialidad...", "Cardiología", "Pediatría", "Ginecología", "Medicina General", "Dermatología", "Neurología", "Oncología", "Oftalmología" }));
-
         btnLimpiarCampos.setBackground(new java.awt.Color(40, 40, 40));
         btnLimpiarCampos.setText("LIMPIAR");
         btnLimpiarCampos.addActionListener(new java.awt.event.ActionListener() {
@@ -233,17 +251,18 @@ timerBusqueda.setRepeats(false);
             }
         });
 
-        btnConfirmar.setBackground(new java.awt.Color(40, 40, 40));
-        btnConfirmar.setText("GUARDAR");
-        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConfirmarActionPerformed(evt);
-            }
-        });
-
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(241, 245, 249));
         jLabel8.setText("MEDICOS");
+
+        jLabel1.setText("Filtro");
+
+        cbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SSN", "Nombre", "Apellido Paterno", "Apellido Materno", "Especialidad", "Años Experiencia" }));
+        cbFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbFiltroActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -251,94 +270,49 @@ timerBusqueda.setRepeats(false);
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEliminarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEditarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cajaApMaternoMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(12, 12, 12)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cbEspecialidadMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel7))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cajaSSNMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(12, 12, 12)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cajaNombreMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel4)))
-                                .addGap(12, 12, 12)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cajaApPaternoMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cajaExperienciaMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnConfirmar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(15, 15, 15)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(471, 471, 471)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaSSNMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaNombreMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaApPaternoMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbEspecialidadMedicos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addGap(83, 83, 83)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cajaApMaternoMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cajaExperienciaMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEliminarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEditarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))))
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
+                        .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     
@@ -355,6 +329,36 @@ timerBusqueda.setRepeats(false);
             protected void done() {
                 try {
                     tablaRegMedicos.setModel(get());
+                    
+                    if (tablaRegMedicos.getColumnCount() >= 8) {
+                        // Columna EDITAR
+                        tablaRegMedicos.getColumnModel().getColumn(6)
+                                .setCellRenderer(new EditarRenderer());
+
+                        tablaRegMedicos.getColumnModel().getColumn(6)
+                                .setMaxWidth(40);
+
+                        tablaRegMedicos.getColumnModel().getColumn(6)
+                                .setMinWidth(40);
+
+                        tablaRegMedicos.getColumnModel().getColumn(6)
+                                .setHeaderValue("");
+
+
+
+                        // Columna ELIMINAR
+                        tablaRegMedicos.getColumnModel().getColumn(7)
+                                .setCellRenderer(new EliminarRenderer());
+
+                        tablaRegMedicos.getColumnModel().getColumn(7)
+                                .setMaxWidth(40);
+
+                        tablaRegMedicos.getColumnModel().getColumn(7)
+                                .setMinWidth(40);
+
+                        tablaRegMedicos.getColumnModel().getColumn(7)
+                                .setHeaderValue("");
+                    }
                     
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Error al cargar datos");
@@ -398,36 +402,17 @@ timerBusqueda.setRepeats(false);
         }
     }
     
-    public void limpiarCampos(){
-        cajaSSNMedicos.setText("");
-        cajaNombreMedicos.setText("");
-        cajaApPaternoMedicos.setText("");
-        cajaApMaternoMedicos.setText("");
-        cbEspecialidadMedicos.setSelectedIndex(0);
-        cajaExperienciaMedicos.setText("");
+   public void limpiarCampos(){
+        
         cajaBusqueda.setText("");
-    
+        cbFiltro.setSelectedIndex(0);
+        tablaRegMedicos.clearSelection();
 
-        
-        if (timerBusqueda != null) {
-            timerBusqueda.restart();
-        }
-
-        btnEliminarMedicos.setEnabled(false);
-        btnEditarMedicos.setEnabled(false);
-        btnConfirmar.setEnabled(false);
-        habilitarCamposEdicion(false);
+        cargarTabla();
+       
     }
     
-    public void habilitarCamposEdicion(boolean habilitar){
-        
-        cajaNombreMedicos.setEnabled(habilitar);
-        cajaApPaternoMedicos.setEnabled(habilitar);
-        cajaApMaternoMedicos.setEnabled(habilitar);
-        cbEspecialidadMedicos.setEnabled(habilitar);
-        cajaExperienciaMedicos.setEnabled(habilitar);
-        btnEditarMedicos.setEnabled(habilitar);
-    }
+    
         
     private void btnAgregarMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMedicosActionPerformed
         JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -442,91 +427,80 @@ timerBusqueda.setRepeats(false);
         }
     }//GEN-LAST:event_cajaBusquedaKeyReleased
 
-    private void btnEliminarMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMedicosActionPerformed
-        
-        habilitarCamposEdicion(false);
-        btnAgregarMedicos.setEnabled(false);
-       
-        if (controller.eliminar(cajaSSNMedicos.getText())){
-
-                cargarTabla();
-                JOptionPane.showMessageDialog(this, "Registro eliminado correctamente");
-                
-                limpiarCampos();
-                btnAgregarMedicos.setEnabled(true);
-            }else {
-                JOptionPane.showMessageDialog(this, "ERROR al eliminar el registro",
-                "No existe ese registro", JOptionPane.ERROR_MESSAGE);
-            }
-    }//GEN-LAST:event_btnEliminarMedicosActionPerformed
-
     private void btnLimpiarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCamposActionPerformed
         limpiarCampos();
     }//GEN-LAST:event_btnLimpiarCamposActionPerformed
 
-    private void btnEditarMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarMedicosActionPerformed
-        
-        habilitarCamposEdicion(true);
-        btnEditarMedicos.setEnabled(false);
-        btnEliminarMedicos.setEnabled(false);
-        btnAgregarMedicos.setEnabled(false);
-        btnConfirmar.setEnabled(true);
-        
-    }//GEN-LAST:event_btnEditarMedicosActionPerformed
+    private void cbFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFiltroActionPerformed
+        cajaBusqueda.setText("");
+        tablaRegMedicos.clearSelection();
+        cargarTabla();
+    }//GEN-LAST:event_cbFiltroActionPerformed
 
-    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        
-        Medico m = new Medico(
-                cajaSSNMedicos.getText(),
-                cajaNombreMedicos.getText(),
-                cajaApPaternoMedicos.getText(),
-                cajaApMaternoMedicos.getText(),
-                cbEspecialidadMedicos.getSelectedItem().toString(),
-                Byte.parseByte(cajaExperienciaMedicos.getText()));
+    
+    class EliminarRenderer extends javax.swing.JButton implements javax.swing.table.TableCellRenderer {
 
-        try {
-            if (controller.editar(m)) {
-            JOptionPane.showMessageDialog(this,
-                    "Registro Editado CORRECTAMENTE");
-            cargarTabla();
-            
-            limpiarCampos();
-            habilitarCamposEdicion(false);
-            btnAgregarMedicos.setEnabled(true);
+    public EliminarRenderer() {
 
-        }
-        } catch (IllegalArgumentException e) {
-    JOptionPane.showMessageDialog(this, e.getMessage());
+        setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/img/borrar.png")
+        ));
+
+        setBorderPainted(false);
+        setContentAreaFilled(false);
+        setFocusPainted(false);
     }
-         /*else {
-            JOptionPane.showMessageDialog(this,
-                    "No existe ese SSN.",
-                    "Error al editar",
-                    JOptionPane.ERROR_MESSAGE);
-        }*/
-    }//GEN-LAST:event_btnConfirmarActionPerformed
 
+    @Override
+    public java.awt.Component getTableCellRendererComponent(
+            javax.swing.JTable table,
+            Object value,
+            boolean isSelected,
+            boolean hasFocus,
+            int row,
+            int column) {
 
+        return this;
+    }
+}
+    
+    
+    class EditarRenderer extends javax.swing.JButton implements javax.swing.table.TableCellRenderer {
+
+    public EditarRenderer() {
+
+        setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/img/boton-editar.png")
+        ));
+
+        setBorderPainted(false);
+        setContentAreaFilled(false);
+        setFocusPainted(false);
+    }
+
+    @Override
+    public java.awt.Component getTableCellRendererComponent(
+            javax.swing.JTable table,
+            Object value,
+            boolean isSelected,
+            boolean hasFocus,
+            int row,
+            int column) {
+
+        return this;
+    }
+}
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarMedicos;
-    private javax.swing.JButton btnConfirmar;
-    private javax.swing.JButton btnEditarMedicos;
-    private javax.swing.JButton btnEliminarMedicos;
     private javax.swing.JButton btnLimpiarCampos;
-    private javax.swing.JTextField cajaApMaternoMedicos;
-    private javax.swing.JTextField cajaApPaternoMedicos;
     private javax.swing.JTextField cajaBusqueda;
-    private javax.swing.JTextField cajaExperienciaMedicos;
-    private javax.swing.JTextField cajaNombreMedicos;
-    private javax.swing.JTextField cajaSSNMedicos;
-    private javax.swing.JComboBox<String> cbEspecialidadMedicos;
+    private javax.swing.JComboBox<String> cbFiltro;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaRegMedicos;

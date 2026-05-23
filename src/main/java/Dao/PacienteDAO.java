@@ -55,6 +55,7 @@ public class PacienteDAO implements IPacienteDAO{
                'Y' AS editar,
                'X' AS eliminar
         FROM pacientes
+        ORDER BY SSN DESC
         """;
         
         try {

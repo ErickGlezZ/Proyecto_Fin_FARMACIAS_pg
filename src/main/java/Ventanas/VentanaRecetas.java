@@ -26,7 +26,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
      */
     private Timer timerBusqueda;
     private RecetaController controller;
-    private boolean limpiando = false;
+    
     public VentanaRecetas() {
         initComponents();
         controller = new RecetaController(RecetaDAO.getInstancia());
@@ -35,10 +35,6 @@ public class VentanaRecetas extends javax.swing.JPanel {
         
         
         timerBusqueda = new Timer(300, e -> {
-            
-            if (cbFiltro.getSelectedIndex() == 0) {
-                return;
-            }
             
             String campo = cbFiltro.getSelectedItem().toString();
             String texto = cajaBusquedaRecetas.getText();
@@ -85,10 +81,6 @@ public class VentanaRecetas extends javax.swing.JPanel {
                                 .setHeaderValue("");
                     }
                     
-
-                
-                
-                
                     
                     
                 } catch (Exception ex) {

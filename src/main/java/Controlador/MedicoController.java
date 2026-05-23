@@ -3,6 +3,7 @@ package Controlador;
 import Interfaces.IMedicoDAO;
 import Modelo.Medico;
 import Modelo.ResultSetTableModel;
+import java.sql.ResultSet;
 
 public class MedicoController {
 
@@ -23,11 +24,19 @@ public class MedicoController {
     }
 
     // ================= FILTRO =================
-    public ResultSetTableModel filtrar(String texto) {
+    public ResultSetTableModel filtrar(String campo, String texto) {
         try {
-            return dao.filtrar(texto);
+            return dao.filtrar(campo, texto);
         } catch (Exception e) {
             throw new RuntimeException("Error al filtrar médicos", e);
+        }
+    }
+    
+    public ResultSet obtenerMedicoPorSSN(String ssn){
+        try {
+            return dao.obtenerMedicoPorSSN(ssn);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener SSN de Medicos", e);
         }
     }
 
