@@ -62,6 +62,64 @@ public class ConexionBD {
     }
 
     // Método para ejecutar INSERT, UPDATE, DELETE
+    //================IMPLEMENTE EL ROLLBACK==================================
+    public boolean ejecutarInstruccionLMD(String sql, Object... datos) {
+
+    try {
+
+        // Desactivar AUTOCOMMIT
+        conexion.setAutoCommit(false);
+
+        try (PreparedStatement pstmt = conexion.prepareStatement(sql)) {
+
+            // Insertar parámetros
+            for (int i = 0; i < datos.length; i++) {
+                pstmt.setObject(i + 1, datos[i]);
+            }
+
+            int filasAfectadas = pstmt.executeUpdate();
+
+            // Confirmar cambios
+            conexion.commit();
+
+            return filasAfectadas >= 1;
+        }
+
+    } catch (SQLException e) {
+
+        try {
+
+            // Revertir cambios si ocurre error
+            if (conexion != null) {
+                conexion.rollback();
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error al hacer rollback");
+            ex.printStackTrace();
+        }
+
+        System.out.println("Error al ejecutar instrucción LMD en PostgreSQL");
+        e.printStackTrace();
+
+        return false;
+
+    } finally {
+
+        try {
+
+            // Restaurar AUTOCOMMIT
+            if (conexion != null) {
+                conexion.setAutoCommit(true);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al restaurar autocommit");
+            e.printStackTrace();
+        }
+    }
+}
+    /*
     public boolean ejecutarInstruccionLMD(String sql, Object... datos) {
         try (PreparedStatement pstmt = conexion.prepareStatement(sql)) {
 
@@ -77,6 +135,7 @@ public class ConexionBD {
             return false;
         }
     }
+*/
 
     // Método para ejecutar SELECT
     public ResultSet ejecutarConsultaSQL(String sql, Object... datos) {
