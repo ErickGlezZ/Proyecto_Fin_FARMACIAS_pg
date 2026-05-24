@@ -269,6 +269,27 @@ public class RecetaDAO implements IRecetaDAO{
             return false;
         }
     }
+    
+    //=================CONSULTAR VALORES==================
+    @Override
+    public int obtenerTotalRecetas() {
+
+        String sql = "SELECT COUNT(*) FROM recetas";
+
+        try {
+
+            ResultSet rs = conexionBD.ejecutarConsultaSQL(sql);
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
 
     @Override
     public boolean agregar(Receta r) {

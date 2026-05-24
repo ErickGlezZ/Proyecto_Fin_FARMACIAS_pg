@@ -70,7 +70,18 @@ public class MedicoController {
     public int contarPacientes(String ssn) {
         return dao.contarPacientes(ssn);
     }
-
+    /*
+    public int contarRecetas(String ssn) {
+        return dao.contarRecetas(ssn);
+    }
+*/
+    
+    
+    //=================VALORES============
+    public int obtenerTotalMedicos() {
+        return dao.obtenerTotalMedicos();
+    }
+    
     // ================= VALIDACIONES =================
     private void validar(Medico m) {
 

@@ -345,7 +345,26 @@ public class PacienteDAO implements IPacienteDAO{
         }
     }
     
-    
+    //==============CONSULTAR VALORES==============
+    @Override
+    public int obtenerTotalPacientes() {
+
+        String sql = "SELECT COUNT(*) FROM pacientes";
+
+        try {
+
+            ResultSet rs = conexionBD.ejecutarConsultaSQL(sql);
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
 
     @Override
     public boolean agregar(Paciente p) {

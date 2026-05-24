@@ -81,6 +81,11 @@ public class PacienteController {
     public int contarRecetas(String ssn) {
         return dao.contarRecetas(ssn);
     }
+    
+    //==============VALORES==============
+    public int obtenerTotalPacientes() {
+        return dao.obtenerTotalPacientes();
+    }
 
     // ================= VALIDACIONES =================
     private void validar(Paciente p) {

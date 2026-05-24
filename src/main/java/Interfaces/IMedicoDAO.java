@@ -18,6 +18,8 @@ public interface IMedicoDAO {
     boolean editar(Medico m);
     
     int contarPacientes(String ssn);
+    //int contarRecetas(String ssn);
+    int obtenerTotalMedicos();
 
     ResultSet obtenerMedicoPorSSN(String ssn);
     ResultSetTableModel obtenerTodos();

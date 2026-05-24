@@ -18,6 +18,8 @@ public interface IRecetaDAO {
     boolean eliminar(int id_receta);
     boolean editar(Receta r);
     
+    int obtenerTotalRecetas();
+    
     ResultSet obtenerRecetaPorId(int idReceta);
     ResultSetTableModel obtenerRecetas();
     ResultSetTableModel filtrar(String campo, String texto);

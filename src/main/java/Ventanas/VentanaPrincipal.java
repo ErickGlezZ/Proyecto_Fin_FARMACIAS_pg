@@ -4,6 +4,13 @@
  */
 package Ventanas;
 
+import Controlador.MedicoController;
+import Controlador.PacienteController;
+import Controlador.RecetaController;
+import Dao.MedicoDAO;
+import Dao.PacienteDAO;
+import Dao.RecetaDAO;
+
 /**
  *
  * @author erick
@@ -13,8 +20,40 @@ public class VentanaPrincipal extends javax.swing.JPanel {
     /**
      * Creates new form VentanaPrincipal
      */
+    private MedicoController medicoController;
+    private PacienteController pacienteController;
+    private RecetaController recetaController;
     public VentanaPrincipal() {
         initComponents();
+        
+        medicoController = new MedicoController(MedicoDAO.getInstancia());
+
+        pacienteController = new PacienteController(PacienteDAO.getInstancia());
+
+        recetaController = new RecetaController(RecetaDAO.getInstancia());
+        
+        cargarEstadisticas();
+    }
+    
+    public void cargarEstadisticas() {
+
+        lblTotalMedicos.setText(
+                String.valueOf(
+                        medicoController.obtenerTotalMedicos()
+                )
+        );
+
+        lblTotalPacientes.setText(
+                String.valueOf(
+                        pacienteController.obtenerTotalPacientes()
+                )
+        );
+
+        lblTotalRecetas.setText(
+                String.valueOf(
+                        recetaController.obtenerTotalRecetas()
+                )
+        );
     }
 
     /**
@@ -26,34 +65,185 @@ public class VentanaPrincipal extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        cardMedicamentos = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblTotalMedicos = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        cardMedicamentos1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblTotalPacientes = new javax.swing.JLabel();
+        cardMedicamentos2 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        lblTotalRecetas = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(46, 61, 84));
+        setLayout(new java.awt.GridLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Panel INICIO");
+        cardMedicamentos.setBackground(new java.awt.Color(71, 85, 105));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(291, 291, 291)
-                .addComponent(jLabel1)
-                .addContainerGap(302, Short.MAX_VALUE))
+        jLabel2.setText("jLabel2");
+
+        jLabel3.setForeground(new java.awt.Color(241, 245, 249));
+        jLabel3.setText("Médicos Registrados");
+
+        lblTotalMedicos.setForeground(new java.awt.Color(241, 245, 249));
+        lblTotalMedicos.setText("jLabel8");
+
+        javax.swing.GroupLayout cardMedicamentosLayout = new javax.swing.GroupLayout(cardMedicamentos);
+        cardMedicamentos.setLayout(cardMedicamentosLayout);
+        cardMedicamentosLayout.setHorizontalGroup(
+            cardMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardMedicamentosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(cardMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblTotalMedicos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(179, 179, 179)
-                .addComponent(jLabel1)
-                .addContainerGap(439, Short.MAX_VALUE))
+        cardMedicamentosLayout.setVerticalGroup(
+            cardMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardMedicamentosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(cardMedicamentosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTotalMedicos, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                .addContainerGap())
         );
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(241, 245, 249));
+        jLabel1.setText("Visualización y administración de información clínica.");
+
+        cardMedicamentos1.setBackground(new java.awt.Color(71, 85, 105));
+
+        jLabel4.setText("jLabel2");
+
+        jLabel5.setForeground(new java.awt.Color(241, 245, 249));
+        jLabel5.setText("Pacientes Registrados");
+
+        lblTotalPacientes.setForeground(new java.awt.Color(241, 245, 249));
+        lblTotalPacientes.setText("jLabel8");
+
+        javax.swing.GroupLayout cardMedicamentos1Layout = new javax.swing.GroupLayout(cardMedicamentos1);
+        cardMedicamentos1.setLayout(cardMedicamentos1Layout);
+        cardMedicamentos1Layout.setHorizontalGroup(
+            cardMedicamentos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardMedicamentos1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(cardMedicamentos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cardMedicamentos1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(cardMedicamentos1Layout.createSequentialGroup()
+                        .addComponent(lblTotalPacientes)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        cardMedicamentos1Layout.setVerticalGroup(
+            cardMedicamentos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardMedicamentos1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(cardMedicamentos1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTotalPacientes, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        cardMedicamentos2.setBackground(new java.awt.Color(71, 85, 105));
+
+        jLabel6.setText("jLabel2");
+
+        jLabel7.setForeground(new java.awt.Color(241, 245, 249));
+        jLabel7.setText("Recetas emitidas");
+
+        lblTotalRecetas.setForeground(new java.awt.Color(241, 245, 249));
+        lblTotalRecetas.setText("jLabel8");
+
+        javax.swing.GroupLayout cardMedicamentos2Layout = new javax.swing.GroupLayout(cardMedicamentos2);
+        cardMedicamentos2.setLayout(cardMedicamentos2Layout);
+        cardMedicamentos2Layout.setHorizontalGroup(
+            cardMedicamentos2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardMedicamentos2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(cardMedicamentos2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cardMedicamentos2Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(cardMedicamentos2Layout.createSequentialGroup()
+                        .addComponent(lblTotalRecetas)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        cardMedicamentos2Layout.setVerticalGroup(
+            cardMedicamentos2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardMedicamentos2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(cardMedicamentos2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTotalRecetas, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(cardMedicamentos2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cardMedicamentos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cardMedicamentos1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(194, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel1)
+                .addGap(84, 84, 84)
+                .addComponent(cardMedicamentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cardMedicamentos1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cardMedicamentos2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(246, Short.MAX_VALUE))
+        );
+
+        add(jPanel1);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel cardMedicamentos;
+    private javax.swing.JPanel cardMedicamentos1;
+    private javax.swing.JPanel cardMedicamentos2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblTotalMedicos;
+    private javax.swing.JLabel lblTotalPacientes;
+    private javax.swing.JLabel lblTotalRecetas;
     // End of variables declaration//GEN-END:variables
 }

@@ -103,6 +103,11 @@ public class RecetaController {
         return dao.eliminar(id_receta);
     }
     
+    //=================VALORES================
+    public int obtenerTotalRecetas() {
+        return dao.obtenerTotalRecetas();
+    }
+    
     
     // ================= VALIDACIONES =================
     private void validar(Receta r) {

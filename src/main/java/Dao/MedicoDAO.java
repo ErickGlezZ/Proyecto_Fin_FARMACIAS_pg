@@ -228,7 +228,7 @@ public class MedicoDAO implements IMedicoDAO{
         return conexionBD.ejecutarInstruccionLMD(sql, ssn);
     }
     
-    //======METODO PARA DEVOLVER NUMERO DE PACIENTES===========
+    //======METODO PARA DEVOLVER NUMERO DE PACIENTES y RECETAS===========
     
     @Override
     public int contarPacientes(String ssn) {
@@ -253,9 +253,31 @@ public class MedicoDAO implements IMedicoDAO{
 
         return 0;
     }
-    
-    
+    /*
+    @Override
+    public int contarRecetas(String ssn) {
 
+        String sql = """
+            SELECT COUNT(*)
+            FROM recetas
+            WHERE ssn_medico = ?
+            """;
+
+        try {
+
+            ResultSet rs = conexionBD.ejecutarConsultaSQL(sql, ssn);
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+*/
     // ================= CAMBIOS =================
     public boolean editarMedico(Medico medico) {
 
@@ -268,6 +290,27 @@ public class MedicoDAO implements IMedicoDAO{
                 medico.getEspecialidad(),
                 medico.getAños(),
                 medico.getSsn());
+    }
+    
+    //================CONSULTAR VALORES===============
+    @Override
+    public int obtenerTotalMedicos() {
+
+        String sql = "SELECT COUNT(*) FROM medicos";
+
+        try {
+
+            ResultSet rs = conexionBD.ejecutarConsultaSQL(sql);
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
     @Override

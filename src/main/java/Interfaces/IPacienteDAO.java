@@ -18,6 +18,7 @@ public interface IPacienteDAO {
     boolean editar(Paciente p);
     
     int contarRecetas(String ssn);
+    int obtenerTotalPacientes();
     
     ResultSet obtenerPacientePorSSN(String ssn);
     ResultSetTableModel obtenerTodos();

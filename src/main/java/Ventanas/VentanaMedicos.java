@@ -114,7 +114,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
                 String ssnMedico = tablaRegMedicos.getValueAt(fila, 0).toString();
 
                 int totalPacientes = controller.contarPacientes(ssnMedico);
-
+                //int totalRecetas = controller.contarRecetas(ssnMedico);
                 
 
                 String mensaje;
