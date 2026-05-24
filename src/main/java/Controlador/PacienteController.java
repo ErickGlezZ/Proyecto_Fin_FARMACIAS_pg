@@ -77,6 +77,10 @@ public class PacienteController {
         }
         return dao.eliminar(ssn);
     }
+    
+    public int contarRecetas(String ssn) {
+        return dao.contarRecetas(ssn);
+    }
 
     // ================= VALIDACIONES =================
     private void validar(Paciente p) {

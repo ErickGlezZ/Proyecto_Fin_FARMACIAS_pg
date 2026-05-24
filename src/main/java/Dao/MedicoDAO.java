@@ -227,6 +227,34 @@ public class MedicoDAO implements IMedicoDAO{
 
         return conexionBD.ejecutarInstruccionLMD(sql, ssn);
     }
+    
+    //======METODO PARA DEVOLVER NUMERO DE PACIENTES===========
+    
+    @Override
+    public int contarPacientes(String ssn) {
+
+        String sql = """
+            SELECT COUNT(*)
+            FROM pacientes
+            WHERE ssn_medico_cabecera = ?
+            """;
+
+        try {
+
+            ResultSet rs = conexionBD.ejecutarConsultaSQL(sql, ssn);
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+    
+    
 
     // ================= CAMBIOS =================
     public boolean editarMedico(Medico medico) {

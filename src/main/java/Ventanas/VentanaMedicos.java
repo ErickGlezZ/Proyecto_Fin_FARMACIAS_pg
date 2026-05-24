@@ -113,29 +113,64 @@ public class VentanaMedicos extends javax.swing.JPanel {
 
                 String ssnMedico = tablaRegMedicos.getValueAt(fila, 0).toString();
 
+                int totalPacientes = controller.contarPacientes(ssnMedico);
+
+                
+
+                String mensaje;
+
+                // Si NO tiene relaciones
+                if (totalPacientes == 0) {
+
+                    mensaje = """
+                               ¿Seguro que deseas eliminar este médico?
+                               """;
+
+                } else {
+
+                    // Si tiene relaciones
+                    mensaje = "El médico seleccionado tiene "
+                            + totalPacientes + " pacientes asociados "
+
+                            + "Si continúa, toda esta información será eliminada automáticamente.\n\n"
+
+                            + "¿Desea continuar?";
+                }
+
                 int confirm = JOptionPane.showConfirmDialog(
+
                         null,
-                        "¿Seguro que deseas eliminar esta receta?",
+
+                        mensaje,
+
                         "Confirmar eliminación",
-                        JOptionPane.YES_NO_OPTION
+
+                        JOptionPane.YES_NO_OPTION,
+
+                        JOptionPane.WARNING_MESSAGE
                 );
 
                 if (confirm == JOptionPane.YES_OPTION) {
 
                     if (controller.eliminar(ssnMedico)) {
 
-                        JOptionPane.showMessageDialog(null,
-                                "Registro eliminado correctamente");
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Registro eliminado correctamente"
+                        );
 
                         cargarTabla();
                         limpiarCampos();
 
                     } else {
 
-                        JOptionPane.showMessageDialog(null,
-                                "Error al eliminar");
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Error al eliminar"
+                        );
                     }
-                }else {
+
+                } else {
 
                     tablaRegMedicos.clearSelection();
                 }

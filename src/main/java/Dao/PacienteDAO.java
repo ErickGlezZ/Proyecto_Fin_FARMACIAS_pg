@@ -271,6 +271,31 @@ public class PacienteDAO implements IPacienteDAO{
         return conexionBD.ejecutarInstruccionLMD(sql, SSN);
     }
     
+    //===========METODO PARA CONTAR RECETAS==============
+    @Override
+    public int contarRecetas(String ssn) {
+
+        String sql = """
+            SELECT COUNT(*)
+            FROM recetas
+            WHERE ssn_paciente = ?
+            """;
+
+        try {
+
+            ResultSet rs = conexionBD.ejecutarConsultaSQL(sql, ssn);
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+    
     //========================CAMBIOS=======================
     
     public boolean editarPaciente(Paciente paciente){

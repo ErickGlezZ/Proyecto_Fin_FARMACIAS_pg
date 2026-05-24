@@ -65,6 +65,11 @@ public class MedicoController {
 
         return dao.eliminar(ssn);
     }
+    
+    
+    public int contarPacientes(String ssn) {
+        return dao.contarPacientes(ssn);
+    }
 
     // ================= VALIDACIONES =================
     private void validar(Medico m) {

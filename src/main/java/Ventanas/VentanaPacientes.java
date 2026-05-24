@@ -109,12 +109,39 @@ public class VentanaPacientes extends javax.swing.JPanel {
             if (columna == colEliminar) {
 
                 String ssnPaciente = tablaRegPacientes.getValueAt(fila, 0).toString();
+                int totalRecetas = controller.contarRecetas(ssnPaciente);
+
+                String mensaje;
+
+                // Si NO tiene relaciones
+                if (totalRecetas == 0) {
+
+                    mensaje = """
+                               ¿Seguro que deseas eliminar este médico?
+                               """;
+
+                } else {
+
+                    // Si tiene relaciones
+                    mensaje = "El paciente seleccionado tiene "
+                            + totalRecetas + " recetas asociadas "
+
+                            + "Si continúa, toda esta información será eliminada automáticamente.\n\n"
+
+                            + "¿Desea continuar?";
+                }
 
                 int confirm = JOptionPane.showConfirmDialog(
+
                         null,
-                        "¿Seguro que deseas eliminar esta receta?",
+
+                        mensaje,
+
                         "Confirmar eliminación",
-                        JOptionPane.YES_NO_OPTION
+
+                        JOptionPane.YES_NO_OPTION,
+
+                        JOptionPane.WARNING_MESSAGE
                 );
 
                 if (confirm == JOptionPane.YES_OPTION) {
