@@ -61,7 +61,7 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         cbSSNPacienteAltas.setSelectedIndex(0);
         cajaMedicamentoAltas.setText("");
         cajaFechaAltas.setText("");
-        cajaCantidadAltas.setText("");
+        spCantidadAltas.setValue(1);
         cbUnidadAltas.setSelectedIndex(0);
         cajaIndicacionesAltas.setText("");
     }
@@ -144,11 +144,11 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         cbSSNMedicoAltas = new javax.swing.JComboBox<>();
         cbSSNPacienteAltas = new javax.swing.JComboBox<>();
         cajaMedicamentoAltas = new javax.swing.JTextField();
-        cajaCantidadAltas = new javax.swing.JTextField();
         lblMedico = new javax.swing.JLabel();
         lblPaciente = new javax.swing.JLabel();
         cajaFechaAltas = new javax.swing.JFormattedTextField();
         cbUnidadAltas = new javax.swing.JComboBox<>();
+        spCantidadAltas = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -201,8 +201,6 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
 
         cajaMedicamentoAltas.setBackground(new java.awt.Color(71, 85, 105));
 
-        cajaCantidadAltas.setBackground(new java.awt.Color(71, 85, 105));
-
         lblMedico.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblMedico.setForeground(new java.awt.Color(241, 245, 249));
         lblMedico.setText("jLabel9");
@@ -215,6 +213,8 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
 
         cbUnidadAltas.setBackground(new java.awt.Color(71, 85, 105));
         cbUnidadAltas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elije Unidad...", "mg", "g", "mcg", "ml", "tabletas", "cápsulas", "gotas", "ampolletas" }));
+
+        spCantidadAltas.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1000, 1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -231,9 +231,9 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cajaCantidadAltas, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
                             .addComponent(cajaFechaAltas)
-                            .addComponent(cbUnidadAltas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cbUnidadAltas, 0, 139, Short.MAX_VALUE)
+                            .addComponent(spCantidadAltas))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -280,9 +280,9 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(cajaFechaAltas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cajaCantidadAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(spCantidadAltas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
@@ -324,7 +324,7 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
                     cbSSNPacienteAltas.getSelectedItem().toString(), 
                     cajaMedicamentoAltas.getText(), 
                     fechaLocal, 
-                    Integer.parseInt(cajaCantidadAltas.getText()), 
+                    Integer.parseInt(spCantidadAltas.getValue().toString()), 
                     cbUnidadAltas.getSelectedItem().toString(), 
                     cajaIndicacionesAltas.getText());
             
@@ -394,7 +394,6 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarRecetas;
-    private javax.swing.JTextField cajaCantidadAltas;
     private javax.swing.JFormattedTextField cajaFechaAltas;
     private javax.swing.JTextField cajaIndicacionesAltas;
     private javax.swing.JTextField cajaMedicamentoAltas;
@@ -410,5 +409,6 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel lblMedico;
     private javax.swing.JLabel lblPaciente;
+    private javax.swing.JSpinner spCantidadAltas;
     // End of variables declaration//GEN-END:variables
 }

@@ -65,7 +65,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
         cbSSNPacienteCambios.setSelectedIndex(0);
         cajaMedicamentoCambios.setText("");
         cajaFechaCambios.setText("");
-        cajaCantidadCambios.setText("");
+        spCantidadCambios.setValue(1);
         cbUnidadCambios.setSelectedIndex(0);
         cajaIndicacionesCambios.setText("");
     }
@@ -141,7 +141,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
 
                 cajaFechaCambios.setText(rs.getDate("fecha").toLocalDate().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
-                cajaCantidadCambios.setText(rs.getString("cantidad"));
+                spCantidadCambios.setValue(rs.getInt("cantidad"));
 
                 cbUnidadCambios.setSelectedItem(rs.getString("unidad"));
 
@@ -178,7 +178,6 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         cajaMedicamentoCambios = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        cajaCantidadCambios = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         lblMedico = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -188,6 +187,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         cbUnidadCambios = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
+        spCantidadCambios = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -225,8 +225,6 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
         jLabel3.setForeground(new java.awt.Color(241, 245, 249));
         jLabel3.setText("SSN_Paciente:");
 
-        cajaCantidadCambios.setBackground(new java.awt.Color(71, 85, 105));
-
         jLabel4.setForeground(new java.awt.Color(241, 245, 249));
         jLabel4.setText("Medicamento:");
 
@@ -255,6 +253,8 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
         jLabel8.setForeground(new java.awt.Color(241, 245, 249));
         jLabel8.setText("Indicaciones:");
 
+        spCantidadCambios.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1000, 1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -270,9 +270,9 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cajaCantidadCambios, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
                             .addComponent(cajaFechaCambios)
-                            .addComponent(cbUnidadCambios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cbUnidadCambios, 0, 139, Short.MAX_VALUE)
+                            .addComponent(spCantidadCambios))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -319,9 +319,9 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(cajaFechaCambios))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cajaCantidadCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(spCantidadCambios))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
@@ -376,7 +376,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
                 cbSSNPacienteCambios.getSelectedItem().toString(),
                 cajaMedicamentoCambios.getText(),
                 fechaLocal,
-                Integer.parseInt(cajaCantidadCambios.getText()),
+                Integer.parseInt(spCantidadCambios.getValue().toString()),
                 cbUnidadCambios.getSelectedItem().toString(),
                 cajaIndicacionesCambios.getText());
 
@@ -445,7 +445,6 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditarRecetas;
-    private javax.swing.JTextField cajaCantidadCambios;
     private javax.swing.JFormattedTextField cajaFechaCambios;
     private javax.swing.JTextField cajaIndicacionesCambios;
     private javax.swing.JTextField cajaMedicamentoCambios;
@@ -461,5 +460,6 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel lblMedico;
     private javax.swing.JLabel lblPaciente;
+    private javax.swing.JSpinner spCantidadCambios;
     // End of variables declaration//GEN-END:variables
 }

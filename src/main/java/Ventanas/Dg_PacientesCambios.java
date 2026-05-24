@@ -209,6 +209,8 @@ public class Dg_PacientesCambios extends javax.swing.JDialog {
         jLabel4.setForeground(new java.awt.Color(241, 245, 249));
         jLabel4.setText("Apellido Materno:");
 
+        spEdadCambios.setModel(new javax.swing.SpinnerNumberModel(18, 0, 120, 1));
+
         jLabel5.setForeground(new java.awt.Color(241, 245, 249));
         jLabel5.setText("Edad:");
 

@@ -7,8 +7,15 @@ package Ventanas;
 import Controlador.MedicoController;
 import Dao.MedicoDAO;
 import Modelo.Medico;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.text.ParseException;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -34,8 +41,32 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
         
         controller = new MedicoController(MedicoDAO.getInstancia());
         
-    }
+        cajaSSNAltas.addFocusListener(new FocusAdapter() {
+        @Override
+        public void focusGained(FocusEvent e) {
 
+            SwingUtilities.invokeLater(() -> {
+
+                cajaSSNAltas.setCaretPosition(0);
+                cajaSSNAltas.moveCaretPosition(0);
+
+            });
+        }
+    });
+        try {
+            MaskFormatter formatoSSN = new MaskFormatter("###-###-###");
+            formatoSSN.setPlaceholderCharacter('_');
+
+            cajaSSNAltas.setFormatterFactory(
+                new DefaultFormatterFactory(formatoSSN)
+            );
+          
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+    
     
     private void limpiarCampos() {
         cajaSSNAltas.setText("");
@@ -43,7 +74,7 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
         cajaPaternoAltas.setText("");
         cajaMaternoAltas.setText("");
         cbEspecialidadAltas.setSelectedIndex(0);
-        cajaExperienciaAltas.setText("");
+        spAñosExpAltas.setValue(0);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,13 +91,13 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        cajaSSNAltas = new javax.swing.JTextField();
         cajaNombreAltas = new javax.swing.JTextField();
         cajaPaternoAltas = new javax.swing.JTextField();
         cbEspecialidadAltas = new javax.swing.JComboBox<>();
-        cajaExperienciaAltas = new javax.swing.JTextField();
         btnAgregarMedAltas = new javax.swing.JButton();
         cajaMaternoAltas = new javax.swing.JTextField();
+        spAñosExpAltas = new javax.swing.JSpinner();
+        cajaSSNAltas = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(51, 65, 85));
@@ -89,16 +120,12 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
         jLabel7.setForeground(new java.awt.Color(241, 245, 249));
         jLabel7.setText("Años Experiencia:");
 
-        cajaSSNAltas.setBackground(new java.awt.Color(71, 85, 105));
-
         cajaNombreAltas.setBackground(new java.awt.Color(71, 85, 105));
 
         cajaPaternoAltas.setBackground(new java.awt.Color(71, 85, 105));
 
         cbEspecialidadAltas.setBackground(new java.awt.Color(71, 85, 105));
         cbEspecialidadAltas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elige Especialidad...", "Cardiología", "Pediatría", "Ginecología", "Medicina General", "Dermatología", "Neurología", "Oncología", "Oftalmología" }));
-
-        cajaExperienciaAltas.setBackground(new java.awt.Color(71, 85, 105));
 
         btnAgregarMedAltas.setBackground(new java.awt.Color(40, 40, 40));
         btnAgregarMedAltas.setText("Agregar");
@@ -109,6 +136,10 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
         });
 
         cajaMaternoAltas.setBackground(new java.awt.Color(71, 85, 105));
+
+        spAñosExpAltas.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
+
+        cajaSSNAltas.setBackground(new java.awt.Color(71, 85, 105));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,9 +159,9 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
                     .addComponent(btnAgregarMedAltas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cajaNombreAltas)
                     .addComponent(cajaPaternoAltas)
-                    .addComponent(cajaExperienciaAltas)
                     .addComponent(cajaMaternoAltas)
                     .addComponent(cbEspecialidadAltas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(spAñosExpAltas)
                     .addComponent(cajaSSNAltas))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
@@ -138,7 +169,7 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cajaSSNAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -158,9 +189,9 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbEspecialidadAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaExperienciaAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(spAñosExpAltas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAgregarMedAltas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(22, Short.MAX_VALUE))
@@ -171,12 +202,13 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
 
     private void btnAgregarMedAltasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMedAltasActionPerformed
         
-        Medico m = new Medico(cajaSSNAltas.getText().trim(),
+        Medico m = new Medico(cajaSSNAltas.getText(),
                 cajaNombreAltas.getText(),
                 cajaPaternoAltas.getText(),
                 cajaMaternoAltas.getText(),
                 cbEspecialidadAltas.getSelectedItem().toString(),
-                Byte.parseByte(cajaExperienciaAltas.getText()));
+                Byte.parseByte(spAñosExpAltas.getValue().toString())
+        );
         
         
         if (controller.agregar(m)) {
@@ -232,11 +264,10 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarMedAltas;
-    private javax.swing.JTextField cajaExperienciaAltas;
     private javax.swing.JTextField cajaMaternoAltas;
     private javax.swing.JTextField cajaNombreAltas;
     private javax.swing.JTextField cajaPaternoAltas;
-    private javax.swing.JTextField cajaSSNAltas;
+    private javax.swing.JFormattedTextField cajaSSNAltas;
     private javax.swing.JComboBox<String> cbEspecialidadAltas;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -244,5 +275,6 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JSpinner spAñosExpAltas;
     // End of variables declaration//GEN-END:variables
 }

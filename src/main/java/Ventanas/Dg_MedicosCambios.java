@@ -49,7 +49,6 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
         cajaNombreCambios = new javax.swing.JTextField();
         cajaPaternoCambios = new javax.swing.JTextField();
         cbEspecialidadCambios = new javax.swing.JComboBox<>();
-        cajaExperienciaCambios = new javax.swing.JTextField();
         btnEditarMedCambios = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         cajaMaternoCambios = new javax.swing.JTextField();
@@ -57,6 +56,7 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        spAñosExpCambios = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -66,8 +66,6 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
 
         cbEspecialidadCambios.setBackground(new java.awt.Color(71, 85, 105));
         cbEspecialidadCambios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elige Especialidad...", "Cardiología", "Pediatría", "Ginecología", "Medicina General", "Dermatología", "Neurología", "Oncología", "Oftalmología" }));
-
-        cajaExperienciaCambios.setBackground(new java.awt.Color(71, 85, 105));
 
         btnEditarMedCambios.setBackground(new java.awt.Color(40, 40, 40));
         btnEditarMedCambios.setText("Editar");
@@ -94,6 +92,8 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
         jLabel7.setForeground(new java.awt.Color(241, 245, 249));
         jLabel7.setText("Años Experiencia:");
 
+        spAñosExpCambios.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,10 +110,10 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnEditarMedCambios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cajaPaternoCambios)
-                    .addComponent(cajaExperienciaCambios)
                     .addComponent(cajaMaternoCambios)
                     .addComponent(cbEspecialidadCambios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cajaNombreCambios))
+                    .addComponent(cajaNombreCambios)
+                    .addComponent(spAñosExpCambios))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -136,9 +136,9 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbEspecialidadCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaExperienciaCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(spAñosExpCambios))
                 .addGap(18, 18, 18)
                 .addComponent(btnEditarMedCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(38, Short.MAX_VALUE))
@@ -148,13 +148,16 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarMedCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarMedCambiosActionPerformed
-
-        Medico m = new Medico(ssnMedico,
-            cajaNombreCambios.getText(),
-            cajaPaternoCambios.getText(),
-            cajaMaternoCambios.getText(),
-            cbEspecialidadCambios.getSelectedItem().toString(),
-            Byte.parseByte(cajaExperienciaCambios.getText()));
+        
+        Medico m = new Medico(
+        ssnMedico,
+        cajaNombreCambios.getText(),
+        cajaPaternoCambios.getText(),
+        cajaMaternoCambios.getText(),
+        cbEspecialidadCambios.getSelectedItem().toString(),
+        Byte.parseByte(spAñosExpCambios.getValue().toString())
+);
+            
 
         if (controller.editar(m)) {
             JOptionPane.showMessageDialog(this,"Registro Editado CORRECTAMENTE");
@@ -174,7 +177,7 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
         cajaPaternoCambios.setText("");
         cajaMaternoCambios.setText("");
         cbEspecialidadCambios.setSelectedIndex(0);
-        cajaExperienciaCambios.setText("");
+        spAñosExpCambios.setValue(0);
     }
     
     private void cargarDatosMedico(){
@@ -192,7 +195,7 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
 
                 cbEspecialidadCambios.setSelectedItem(rs.getString("especialidad"));
 
-                cajaExperienciaCambios.setText(String.valueOf(rs.getByte("años_experiencia")));
+                spAñosExpCambios.setValue((rs.getByte("años_experiencia")));
                 
                
             }
@@ -246,7 +249,6 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditarMedCambios;
-    private javax.swing.JTextField cajaExperienciaCambios;
     private javax.swing.JTextField cajaMaternoCambios;
     private javax.swing.JTextField cajaNombreCambios;
     private javax.swing.JTextField cajaPaternoCambios;
@@ -256,5 +258,6 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JSpinner spAñosExpCambios;
     // End of variables declaration//GEN-END:variables
 }
