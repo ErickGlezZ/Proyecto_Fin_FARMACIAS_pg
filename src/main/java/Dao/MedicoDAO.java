@@ -8,9 +8,11 @@ import ConexionBD.ConexionBD;
 import Interfaces.IMedicoDAO;
 import Modelo.Medico;
 import Modelo.ResultSetTableModel;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -152,6 +154,60 @@ public class MedicoDAO implements IMedicoDAO{
     // ================= ALTAS =================
     public boolean agregarMedico(Medico medico) {
 
+    String sql = """
+                 CALL registrar_medico(?, ?, ?, ?, ?, ?)
+                 """;
+
+    try (CallableStatement cs =
+                 conexionBD.getConexion().prepareCall(sql)) {
+
+        cs.setString(1, medico.getSsn());
+        cs.setString(2, medico.getNombre());
+        cs.setString(3, medico.getApePaterno());
+        cs.setString(4, medico.getApeMaterno());
+        cs.setString(5, medico.getEspecialidad());
+        cs.setInt(6, medico.getAños());
+
+        cs.execute();
+
+        JOptionPane.showMessageDialog(
+                null,
+                "Médico registrado correctamente mediante PROCEDURE",
+                "Registro exitoso",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+        return true;
+
+    } catch (SQLException e) {
+
+        String mensaje = e.getMessage();
+
+        if (mensaje.contains("ya existe")) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "El SSN ya está registrado",
+                    "Médico duplicado",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error SQL:\n" + mensaje,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+        return false;
+    }
+}
+    /*
+    public boolean agregarMedico(Medico medico) {
+
         String sql = "INSERT INTO Medicos (SSN, Nombre, Ape_Paterno, Ape_Materno, Especialidad, Años_Experiencia) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -163,7 +219,7 @@ public class MedicoDAO implements IMedicoDAO{
                 medico.getEspecialidad(),
                 medico.getAños());
     }
-
+*/
     // ================= BAJAS =================
     public boolean eliminarMedico(String ssn) {
 

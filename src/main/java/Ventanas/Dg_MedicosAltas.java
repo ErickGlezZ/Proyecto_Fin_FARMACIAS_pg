@@ -219,7 +219,7 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
                 limpiarCampos();   
                 dispose(); 
         }else{
-                    JOptionPane.showMessageDialog(this,"Error en la insercion");
+                    //JOptionPane.showMessageDialog(this,"Error en la insercion");
                     System.out.println("ERROR en la insercion");
              }
     }//GEN-LAST:event_btnAgregarMedAltasActionPerformed

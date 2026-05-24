@@ -8,9 +8,11 @@ import ConexionBD.ConexionBD;
 import Interfaces.IPacienteDAO;
 import Modelo.Paciente;
 import Modelo.ResultSetTableModel;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -175,7 +177,77 @@ public class PacienteDAO implements IPacienteDAO{
     }
     */
     //============================ALTAS=====================
-    
+    public boolean agregarPaciente(Paciente paciente) {
+
+        String sql = """
+                     CALL registrar_paciente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                     """;
+
+        try (CallableStatement cs = conexionBD.getConexion().prepareCall(sql)) {
+
+            cs.setString(1, paciente.getSsn());
+            cs.setString(2, paciente.getNombre());
+            cs.setString(3, paciente.getApePaterno());
+            cs.setString(4, paciente.getApeMaterno());
+            cs.setInt(5, paciente.getEdad());
+            cs.setString(6, paciente.getSsnMedicoCabecera());
+            cs.setString(7, paciente.getCalle());
+            cs.setString(8, paciente.getNumero());
+            cs.setString(9, paciente.getColonia());
+            cs.setString(10,String.valueOf(paciente.getCodigoPostal()));
+
+            cs.execute();
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Paciente registrado correctamente mediante PROCEDURE",
+                    "Registro exitoso",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            return true;
+
+        } catch (SQLException e) {
+
+            String mensaje = e.getMessage();
+
+            // Paciente duplicado
+            if (mensaje.contains("ya existe")) {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "El paciente ya está registrado",
+                        "Paciente duplicado",
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+            }
+            // Médico inexistente
+            else if (mensaje.contains("médico de cabecera no existe")) {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "El médico de cabecera no existe",
+                        "Médico inexistente",
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+            }
+            // Otro error SQL
+            else {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Error SQL:\n" + mensaje,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+
+            return false;
+        }
+    }
+  /*  
     public boolean agregarPaciente(Paciente paciente){
     String sql = "INSERT INTO pacientes (SSN, Nombre, Ape_Paterno, Ape_Materno, Edad, SSN_Medico_Cabecera, Calle, Numero, Colonia, Codigo_Postal) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -192,7 +264,7 @@ public class PacienteDAO implements IPacienteDAO{
             paciente.getColonia(),
             paciente.getCodigoPostal());
     }
-    
+    */
     //==========================BAJAS==========================
     public boolean eliminarPaciente(String SSN){
         String sql = "DELETE FROM Pacientes WHERE SSN = ?";
