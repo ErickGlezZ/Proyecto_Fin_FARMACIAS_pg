@@ -54,33 +54,43 @@ public class VentanaMedicos extends javax.swing.JPanel {
                 try {
                     tablaRegMedicos.setModel(get());
                     
-                    if (tablaRegMedicos.getColumnCount() >= 8) {
+                    tablaRegMedicos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+
+                    
+                    tablaRegMedicos.getColumnModel().getColumn(0).setPreferredWidth(150); 
+                    tablaRegMedicos.getColumnModel().getColumn(1).setPreferredWidth(300); 
+                    tablaRegMedicos.getColumnModel().getColumn(2).setPreferredWidth(194);
+                    tablaRegMedicos.getColumnModel().getColumn(3).setPreferredWidth(150);
+                    tablaRegMedicos.getColumnModel().getColumn(4).setPreferredWidth(50); 
+                    tablaRegMedicos.getColumnModel().getColumn(5).setPreferredWidth(50);
+                    
+                    if (tablaRegMedicos.getColumnCount() >= 6) {
                         // Columna EDITAR
-                        tablaRegMedicos.getColumnModel().getColumn(6)
+                        tablaRegMedicos.getColumnModel().getColumn(4)
                                 .setCellRenderer(new EditarRenderer());
 
-                        tablaRegMedicos.getColumnModel().getColumn(6)
+                        tablaRegMedicos.getColumnModel().getColumn(4)
                                 .setMaxWidth(40);
 
-                        tablaRegMedicos.getColumnModel().getColumn(6)
+                        tablaRegMedicos.getColumnModel().getColumn(4)
                                 .setMinWidth(40);
 
-                        tablaRegMedicos.getColumnModel().getColumn(6)
+                        tablaRegMedicos.getColumnModel().getColumn(4)
                                 .setHeaderValue("");
 
 
 
                         // Columna ELIMINAR
-                        tablaRegMedicos.getColumnModel().getColumn(7)
+                        tablaRegMedicos.getColumnModel().getColumn(5)
                                 .setCellRenderer(new EliminarRenderer());
 
-                        tablaRegMedicos.getColumnModel().getColumn(7)
+                        tablaRegMedicos.getColumnModel().getColumn(5)
                                 .setMaxWidth(40);
 
-                        tablaRegMedicos.getColumnModel().getColumn(7)
+                        tablaRegMedicos.getColumnModel().getColumn(5)
                                 .setMinWidth(40);
 
-                        tablaRegMedicos.getColumnModel().getColumn(7)
+                        tablaRegMedicos.getColumnModel().getColumn(5)
                                 .setHeaderValue("");
                     }
                     
@@ -243,6 +253,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         cbFiltro = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(46, 61, 84));
 
@@ -264,7 +275,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
 
             },
             new String [] {
-                "SSN", "Nombre", "Apellido Paterno", "Apellido Materno", "Especialidad", "Años Experiencia"
+                "SSN", "Nombre Completo", "Especialidad", "Años Experiencia"
             }
         ));
         jScrollPane1.setViewportView(tablaRegMedicos);
@@ -299,55 +310,64 @@ public class VentanaMedicos extends javax.swing.JPanel {
             }
         });
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/doccc.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(15, 15, 15)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(471, 471, 471)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 416, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(83, 83, 83)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
     
@@ -365,33 +385,42 @@ public class VentanaMedicos extends javax.swing.JPanel {
                 try {
                     tablaRegMedicos.setModel(get());
                     
-                    if (tablaRegMedicos.getColumnCount() >= 8) {
+                    tablaRegMedicos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+
+                    tablaRegMedicos.getColumnModel().getColumn(0).setPreferredWidth(150);
+                    tablaRegMedicos.getColumnModel().getColumn(1).setPreferredWidth(300);
+                    tablaRegMedicos.getColumnModel().getColumn(2).setPreferredWidth(194);
+                    tablaRegMedicos.getColumnModel().getColumn(3).setPreferredWidth(150);
+                    tablaRegMedicos.getColumnModel().getColumn(4).setPreferredWidth(50);
+                    tablaRegMedicos.getColumnModel().getColumn(5).setPreferredWidth(50);
+                    
+                    if (tablaRegMedicos.getColumnCount() >= 6) {
                         // Columna EDITAR
-                        tablaRegMedicos.getColumnModel().getColumn(6)
+                        tablaRegMedicos.getColumnModel().getColumn(4)
                                 .setCellRenderer(new EditarRenderer());
 
-                        tablaRegMedicos.getColumnModel().getColumn(6)
+                        tablaRegMedicos.getColumnModel().getColumn(4)
                                 .setMaxWidth(40);
 
-                        tablaRegMedicos.getColumnModel().getColumn(6)
+                        tablaRegMedicos.getColumnModel().getColumn(4)
                                 .setMinWidth(40);
 
-                        tablaRegMedicos.getColumnModel().getColumn(6)
+                        tablaRegMedicos.getColumnModel().getColumn(4)
                                 .setHeaderValue("");
 
 
 
                         // Columna ELIMINAR
-                        tablaRegMedicos.getColumnModel().getColumn(7)
+                        tablaRegMedicos.getColumnModel().getColumn(5)
                                 .setCellRenderer(new EliminarRenderer());
 
-                        tablaRegMedicos.getColumnModel().getColumn(7)
+                        tablaRegMedicos.getColumnModel().getColumn(5)
                                 .setMaxWidth(40);
 
-                        tablaRegMedicos.getColumnModel().getColumn(7)
+                        tablaRegMedicos.getColumnModel().getColumn(5)
                                 .setMinWidth(40);
 
-                        tablaRegMedicos.getColumnModel().getColumn(7)
+                        tablaRegMedicos.getColumnModel().getColumn(5)
                                 .setHeaderValue("");
                     }
                     
@@ -535,6 +564,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
     private javax.swing.JTextField cajaBusqueda;
     private javax.swing.JComboBox<String> cbFiltro;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;

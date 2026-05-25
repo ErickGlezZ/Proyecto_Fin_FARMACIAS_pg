@@ -51,33 +51,44 @@ public class VentanaRecetas extends javax.swing.JPanel {
                 try {
                     tablaRegRecetas.setModel(get());
                     
-                    if (tablaRegRecetas.getColumnCount() >= 10) {
+                    tablaRegRecetas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+
+                    tablaRegRecetas.getColumnModel().getColumn(0).setPreferredWidth(80);   // id_receta
+                    tablaRegRecetas.getColumnModel().getColumn(1).setPreferredWidth(100);  // ssn_medico
+                    tablaRegRecetas.getColumnModel().getColumn(2).setPreferredWidth(100);  // ssn_paciente
+                    tablaRegRecetas.getColumnModel().getColumn(3).setPreferredWidth(190);  // medicamento
+                    tablaRegRecetas.getColumnModel().getColumn(4).setPreferredWidth(100);  // fecha
+                    tablaRegRecetas.getColumnModel().getColumn(5).setPreferredWidth(224);  // indicaciones
+                    tablaRegRecetas.getColumnModel().getColumn(6).setPreferredWidth(40);   // editar
+                    tablaRegRecetas.getColumnModel().getColumn(7).setPreferredWidth(40);   // eliminar
+                    
+                    if (tablaRegRecetas.getColumnCount() >= 8) {
                         // Columna EDITAR
-                        tablaRegRecetas.getColumnModel().getColumn(8)
+                        tablaRegRecetas.getColumnModel().getColumn(6)
                                 .setCellRenderer(new EditarRenderer());
 
-                        tablaRegRecetas.getColumnModel().getColumn(8)
+                        tablaRegRecetas.getColumnModel().getColumn(6)
                                 .setMaxWidth(40);
 
-                        tablaRegRecetas.getColumnModel().getColumn(8)
+                        tablaRegRecetas.getColumnModel().getColumn(6)
                                 .setMinWidth(40);
 
-                        tablaRegRecetas.getColumnModel().getColumn(8)
+                        tablaRegRecetas.getColumnModel().getColumn(6)
                                 .setHeaderValue("");
 
 
 
                         // Columna ELIMINAR
-                        tablaRegRecetas.getColumnModel().getColumn(9)
+                        tablaRegRecetas.getColumnModel().getColumn(7)
                                 .setCellRenderer(new EliminarRenderer());
 
-                        tablaRegRecetas.getColumnModel().getColumn(9)
+                        tablaRegRecetas.getColumnModel().getColumn(7)
                                 .setMaxWidth(40);
 
-                        tablaRegRecetas.getColumnModel().getColumn(9)
+                        tablaRegRecetas.getColumnModel().getColumn(7)
                                 .setMinWidth(40);
 
-                        tablaRegRecetas.getColumnModel().getColumn(9)
+                        tablaRegRecetas.getColumnModel().getColumn(7)
                                 .setHeaderValue("");
                     }
                     
@@ -201,34 +212,44 @@ public class VentanaRecetas extends javax.swing.JPanel {
             protected void done() {
                 try {
                     tablaRegRecetas.setModel(get());
+                    tablaRegRecetas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+
+                    tablaRegRecetas.getColumnModel().getColumn(0).setPreferredWidth(80);   // id_receta
+                    tablaRegRecetas.getColumnModel().getColumn(1).setPreferredWidth(100);  // ssn_medico
+                    tablaRegRecetas.getColumnModel().getColumn(2).setPreferredWidth(100);  // ssn_paciente
+                    tablaRegRecetas.getColumnModel().getColumn(3).setPreferredWidth(190);  // medicamento
+                    tablaRegRecetas.getColumnModel().getColumn(4).setPreferredWidth(100);  // fecha
+                    tablaRegRecetas.getColumnModel().getColumn(5).setPreferredWidth(224);  // indicaciones
+                    tablaRegRecetas.getColumnModel().getColumn(6).setPreferredWidth(40);   // editar
+                    tablaRegRecetas.getColumnModel().getColumn(7).setPreferredWidth(40);   // eliminar
                     
-                    if (tablaRegRecetas.getColumnCount() >= 10) {
+                    if (tablaRegRecetas.getColumnCount() >= 8) {
                         // Columna EDITAR
-                        tablaRegRecetas.getColumnModel().getColumn(8)
+                        tablaRegRecetas.getColumnModel().getColumn(6)
                                 .setCellRenderer(new EditarRenderer());
 
-                        tablaRegRecetas.getColumnModel().getColumn(8)
+                        tablaRegRecetas.getColumnModel().getColumn(6)
                                 .setMaxWidth(40);
 
-                        tablaRegRecetas.getColumnModel().getColumn(8)
+                        tablaRegRecetas.getColumnModel().getColumn(6)
                                 .setMinWidth(40);
 
-                        tablaRegRecetas.getColumnModel().getColumn(8)
+                        tablaRegRecetas.getColumnModel().getColumn(6)
                                 .setHeaderValue("");
 
 
 
                         // Columna ELIMINAR
-                        tablaRegRecetas.getColumnModel().getColumn(9)
+                        tablaRegRecetas.getColumnModel().getColumn(7)
                                 .setCellRenderer(new EliminarRenderer());
 
-                        tablaRegRecetas.getColumnModel().getColumn(9)
+                        tablaRegRecetas.getColumnModel().getColumn(7)
                                 .setMaxWidth(40);
 
-                        tablaRegRecetas.getColumnModel().getColumn(9)
+                        tablaRegRecetas.getColumnModel().getColumn(7)
                                 .setMinWidth(40);
 
-                        tablaRegRecetas.getColumnModel().getColumn(9)
+                        tablaRegRecetas.getColumnModel().getColumn(7)
                                 .setHeaderValue("");
                     }
                     
@@ -266,6 +287,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
         tablaRegRecetas = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         cbFiltro = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(46, 61, 84));
 
@@ -318,6 +340,8 @@ public class VentanaRecetas extends javax.swing.JPanel {
             }
         });
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/recccc.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -328,41 +352,46 @@ public class VentanaRecetas extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 963, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(cbFiltro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(cajaBusquedaRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addComponent(btnLimpiarRecetas)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnNuevoReceta)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addComponent(cajaBusquedaRecetas))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnNuevoReceta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnLimpiarRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jLabel1)
-                .addGap(72, 72, 72)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLimpiarRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNuevoReceta, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaBusquedaRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(58, 58, 58)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnLimpiarRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cajaBusquedaRecetas, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnNuevoReceta, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -451,6 +480,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaRegRecetas;
     // End of variables declaration//GEN-END:variables

@@ -42,7 +42,18 @@ public class PacienteDAO implements IPacienteDAO{
     @Override
     public ResultSetTableModel obtenerTodos() {
         //String consulta = "SELECT * FROM pacientes ORDER BY SSN DESC";
-        
+        String consulta = """
+            SELECT ssn,
+                   nombre || ' ' || ape_paterno || ' ' || ape_materno AS nombre_completo,
+                   edad,
+                   ssn_medico_cabecera,
+                   calle || ' ' || '#' || numero || ', ' || colonia || ', CP ' || codigo_postal AS direccion,
+                   'Y' AS editar,
+                   'X' AS eliminar
+            FROM pacientes
+            ORDER BY SSN DESC
+            """;
+        /*
         String consulta = """
         SELECT ssn,
                nombre,
@@ -59,7 +70,7 @@ public class PacienteDAO implements IPacienteDAO{
         FROM pacientes
         ORDER BY SSN DESC
         """;
-        
+        */
         try {
             return new ResultSetTableModel(
                 conexionBD.getDriver(),
@@ -122,7 +133,19 @@ public class PacienteDAO implements IPacienteDAO{
             case "Código Postal" -> "codigo_postal";
             default -> "ssn";
         };
-
+        String consulta = """
+            SELECT ssn,
+                   nombre || ' ' || ape_paterno || ' ' || ape_materno AS nombre_completo,
+                   edad,
+                   ssn_medico_cabecera,
+                   calle || ' ' || '#' || numero || ', ' || colonia || ', CP ' || codigo_postal AS direccion,
+                   'Y' AS editar,
+                   'X' AS eliminar
+            FROM pacientes
+            WHERE CAST(%s AS TEXT) ILIKE ?
+            ORDER BY nombre_completo ASC
+            """.formatted(columna);
+/*
         String consulta = """
             SELECT ssn,
                    nombre,
@@ -140,7 +163,7 @@ public class PacienteDAO implements IPacienteDAO{
             WHERE CAST(%s AS TEXT) ILIKE ?
             ORDER BY nombre ASC
             """.formatted(columna);
-
+*/
         String valor = "%" + texto + "%";
 
         return new ResultSetTableModel(

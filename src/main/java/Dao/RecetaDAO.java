@@ -44,6 +44,19 @@ public class RecetaDAO implements IRecetaDAO{
             SELECT id_receta,
                    ssn_medico,
                    ssn_paciente,
+                   medicamento || ' ' || cantidad || ' ' || unidad AS medicamento_dosis,
+                   fecha,
+                   indicaciones,
+                   'Y' AS editar,
+                   'X' AS eliminar
+            FROM recetas
+            ORDER BY id_receta DESC
+            """;
+        /*
+        String consulta = """
+            SELECT id_receta,
+                   ssn_medico,
+                   ssn_paciente,
                    medicamento,
                    fecha,
                    cantidad,
@@ -54,6 +67,7 @@ public class RecetaDAO implements IRecetaDAO{
             FROM recetas
             ORDER BY id_receta DESC
             """;
+        */
         try {
             return new ResultSetTableModel(
                 conexionBD.getDriver(),
@@ -119,7 +133,20 @@ public class RecetaDAO implements IRecetaDAO{
             case "Indicaciones" -> "indicaciones";
             default -> "id_receta";
         };
-
+        String consulta = """
+            SELECT id_receta,
+                   ssn_medico,
+                   ssn_paciente,
+                   medicamento || ' ' || cantidad || ' ' || unidad AS medicamento_dosis,
+                   fecha,
+                   indicaciones,
+                   'Y' AS editar,
+                   'X' AS eliminar
+            FROM recetas
+            WHERE CAST(%s AS TEXT) ILIKE ?
+            ORDER BY id_receta DESC
+            """.formatted(columna);
+/*
         String consulta = """
             SELECT id_receta,
                    ssn_medico,
@@ -135,7 +162,7 @@ public class RecetaDAO implements IRecetaDAO{
             WHERE CAST(%s AS TEXT) ILIKE ?
             ORDER BY id_receta DESC
             """.formatted(columna);
-
+*/
         String valor = "%" + texto + "%";
 
         return new ResultSetTableModel(

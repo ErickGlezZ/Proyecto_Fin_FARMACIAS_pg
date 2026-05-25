@@ -139,6 +139,8 @@ public class ResultSetTableModel extends AbstractTableModel {
             switch (nombreColumna) {
                 case "ssn":
                     return "SSN";
+                case "nombre_completo":
+                    return "Nombre Completo";
                 case "nombre":
                     return "Nombre";
                 case "ape_paterno":
@@ -149,6 +151,22 @@ public class ResultSetTableModel extends AbstractTableModel {
                     return "Especialidad";
                 case "años_experiencia":
                     return "Años Experiencia";
+                case "edad":
+                    return "Edad";
+                case "ssn_medico_cabecera":
+                    return "SSN Medico";
+                case "id_receta":
+                    return "Id Receta";
+                case "ssn_medico":
+                    return "SSN Medico";
+                case "ssn_paciente":
+                    return "SSN Paciente";
+                case "medicamento_dosis":
+                    return "Medicamento y Dosis";
+                case "fecha":
+                    return "Fecha";
+                case "indicaciones":
+                    return "Indicaciones";
                 default:
                     return nombreColumna;
             }

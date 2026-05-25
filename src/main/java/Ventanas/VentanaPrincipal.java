@@ -146,7 +146,7 @@ public class VentanaPrincipal extends javax.swing.JPanel {
 
         cardMedicamentos1.setBackground(new java.awt.Color(71, 85, 105));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/examen.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/examen (1).png"))); // NOI18N
 
         jLabel5.setForeground(new java.awt.Color(241, 245, 249));
         jLabel5.setText("Pacientes Registrados");

@@ -51,33 +51,43 @@ public class VentanaPacientes extends javax.swing.JPanel {
                 try {
                     tablaRegPacientes.setModel(get());
                     
-                    if (tablaRegPacientes.getColumnCount() >= 12) {
+                    tablaRegPacientes.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+                    
+                    tablaRegPacientes.getColumnModel().getColumn(0).setPreferredWidth(110);
+                    tablaRegPacientes.getColumnModel().getColumn(1).setPreferredWidth(200);
+                    tablaRegPacientes.getColumnModel().getColumn(2).setPreferredWidth(60);
+                    tablaRegPacientes.getColumnModel().getColumn(3).setPreferredWidth(110);
+                    tablaRegPacientes.getColumnModel().getColumn(4).setPreferredWidth(310);
+                    tablaRegPacientes.getColumnModel().getColumn(5).setPreferredWidth(40);
+                    tablaRegPacientes.getColumnModel().getColumn(6).setPreferredWidth(40);
+                    
+                    if (tablaRegPacientes.getColumnCount() >= 7) {
                         // Columna EDITAR
-                        tablaRegPacientes.getColumnModel().getColumn(10)
+                        tablaRegPacientes.getColumnModel().getColumn(5)
                                 .setCellRenderer(new EditarRenderer());
 
-                        tablaRegPacientes.getColumnModel().getColumn(10)
+                        tablaRegPacientes.getColumnModel().getColumn(5)
                                 .setMaxWidth(40);
 
-                        tablaRegPacientes.getColumnModel().getColumn(10)
+                        tablaRegPacientes.getColumnModel().getColumn(5)
                                 .setMinWidth(40);
 
-                        tablaRegPacientes.getColumnModel().getColumn(10)
+                        tablaRegPacientes.getColumnModel().getColumn(5)
                                 .setHeaderValue("");
 
 
 
                         // Columna ELIMINAR
-                        tablaRegPacientes.getColumnModel().getColumn(11)
+                        tablaRegPacientes.getColumnModel().getColumn(6)
                                 .setCellRenderer(new EliminarRenderer());
 
-                        tablaRegPacientes.getColumnModel().getColumn(11)
+                        tablaRegPacientes.getColumnModel().getColumn(6)
                                 .setMaxWidth(40);
 
-                        tablaRegPacientes.getColumnModel().getColumn(11)
+                        tablaRegPacientes.getColumnModel().getColumn(6)
                                 .setMinWidth(40);
 
-                        tablaRegPacientes.getColumnModel().getColumn(11)
+                        tablaRegPacientes.getColumnModel().getColumn(6)
                                 .setHeaderValue("");
                     }
                 } catch (Exception ex) {
@@ -192,9 +202,9 @@ public class VentanaPacientes extends javax.swing.JPanel {
         cajaBusquedaPacientes = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaRegPacientes = new javax.swing.JTable();
-        lblMedicoAsig = new java.awt.Label();
         jLabel11 = new javax.swing.JLabel();
         cbFiltro = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(46, 61, 84));
 
@@ -233,18 +243,16 @@ public class VentanaPacientes extends javax.swing.JPanel {
         tablaRegPacientes.setBackground(new java.awt.Color(71, 85, 105));
         tablaRegPacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "SSN", "Nombre", "Ap. Paterno", "Ap. Materno", "Edad", "SSN Medico", "Calle", "Número", "Colonia", "Cod. Postal"
+                "SSN", "Nombre Completo", "Edad", "SSN Medico Cabecera", "Direccion"
             }
         ));
         jScrollPane1.setViewportView(tablaRegPacientes);
-
-        lblMedicoAsig.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel11.setBackground(new java.awt.Color(241, 245, 249));
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -257,6 +265,8 @@ public class VentanaPacientes extends javax.swing.JPanel {
             }
         });
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/paccc.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -265,53 +275,52 @@ public class VentanaPacientes extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblMedicoAsig, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 551, Short.MAX_VALUE)
-                        .addComponent(btnLimpiarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnAgregarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 911, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 1081, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbFiltro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cajaBusquedaPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cajaBusquedaPacientes))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnLimpiarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnAgregarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLimpiarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cajaBusquedaPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cajaBusquedaPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnLimpiarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnAgregarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblMedicoAsig, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(67, 67, 67)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 538, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -330,33 +339,43 @@ public class VentanaPacientes extends javax.swing.JPanel {
                 try {
                     tablaRegPacientes.setModel(get());
                     
-                    if (tablaRegPacientes.getColumnCount() >= 12) {
+                    tablaRegPacientes.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+                    
+                    tablaRegPacientes.getColumnModel().getColumn(0).setPreferredWidth(110);
+                    tablaRegPacientes.getColumnModel().getColumn(1).setPreferredWidth(200);
+                    tablaRegPacientes.getColumnModel().getColumn(2).setPreferredWidth(60);
+                    tablaRegPacientes.getColumnModel().getColumn(3).setPreferredWidth(110);
+                    tablaRegPacientes.getColumnModel().getColumn(4).setPreferredWidth(310);
+                    tablaRegPacientes.getColumnModel().getColumn(5).setPreferredWidth(40);
+                    tablaRegPacientes.getColumnModel().getColumn(6).setPreferredWidth(40);
+                    
+                    if (tablaRegPacientes.getColumnCount() >= 7) {
                         // Columna EDITAR
-                        tablaRegPacientes.getColumnModel().getColumn(10)
+                        tablaRegPacientes.getColumnModel().getColumn(5)
                                 .setCellRenderer(new EditarRenderer());
 
-                        tablaRegPacientes.getColumnModel().getColumn(10)
+                        tablaRegPacientes.getColumnModel().getColumn(5)
                                 .setMaxWidth(40);
 
-                        tablaRegPacientes.getColumnModel().getColumn(10)
+                        tablaRegPacientes.getColumnModel().getColumn(5)
                                 .setMinWidth(40);
 
-                        tablaRegPacientes.getColumnModel().getColumn(10)
+                        tablaRegPacientes.getColumnModel().getColumn(5)
                                 .setHeaderValue("");
 
 
 
                         // Columna ELIMINAR
-                        tablaRegPacientes.getColumnModel().getColumn(11)
+                        tablaRegPacientes.getColumnModel().getColumn(6)
                                 .setCellRenderer(new EliminarRenderer());
 
-                        tablaRegPacientes.getColumnModel().getColumn(11)
+                        tablaRegPacientes.getColumnModel().getColumn(6)
                                 .setMaxWidth(40);
 
-                        tablaRegPacientes.getColumnModel().getColumn(11)
+                        tablaRegPacientes.getColumnModel().getColumn(6)
                                 .setMinWidth(40);
 
-                        tablaRegPacientes.getColumnModel().getColumn(11)
+                        tablaRegPacientes.getColumnModel().getColumn(6)
                                 .setHeaderValue("");
                     }
                     
@@ -469,8 +488,8 @@ public class VentanaPacientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private java.awt.Label lblMedicoAsig;
     private javax.swing.JTable tablaRegPacientes;
     // End of variables declaration//GEN-END:variables
 }

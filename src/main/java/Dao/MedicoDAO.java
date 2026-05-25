@@ -43,6 +43,17 @@ public class MedicoDAO implements IMedicoDAO{
     public ResultSetTableModel obtenerTodos() {
         //String consulta = "SELECT * FROM medicos ORDER BY SSN DESC";
         String consulta = """
+            SELECT ssn,
+                   nombre || ' ' || ape_paterno || ' ' || ape_materno AS nombre_completo,
+                   especialidad,
+                   años_experiencia,
+                   'Y' AS editar,
+                   'X' AS eliminar
+            FROM medicos
+            ORDER BY SSN DESC
+            """;
+        /*
+        String consulta = """
         SELECT ssn,
                nombre,
                ape_paterno,
@@ -54,7 +65,7 @@ public class MedicoDAO implements IMedicoDAO{
         FROM medicos
         ORDER BY SSN DESC
         """;
-        
+        */
         try {
             return new ResultSetTableModel(
                 conexionBD.getDriver(),
@@ -104,7 +115,19 @@ public class MedicoDAO implements IMedicoDAO{
             case "Años Experiencia" -> "años_experiencia";
             default -> "ssn";
         };
-
+        
+        String consulta = """
+            SELECT ssn,
+                   nombre || ' ' || ape_paterno || ' ' || ape_materno AS nombre_completo,
+                   especialidad,
+                   años_experiencia,
+                   'Y' AS editar,
+                   'X' AS eliminar
+            FROM medicos
+            WHERE CAST(%s AS TEXT) ILIKE ?
+            ORDER BY nombre ASC
+            """.formatted(columna);
+/*
         String consulta = """
             SELECT ssn,
                    nombre,
@@ -118,7 +141,7 @@ public class MedicoDAO implements IMedicoDAO{
             WHERE CAST(%s AS TEXT) ILIKE ?
             ORDER BY nombre ASC
             """.formatted(columna);
-
+*/
         String valor = "%" + texto + "%";
 
         return new ResultSetTableModel(

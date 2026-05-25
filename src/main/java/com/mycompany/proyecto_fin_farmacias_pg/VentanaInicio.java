@@ -31,7 +31,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         initComponents();
         
         setLocationRelativeTo(null);
-        setSize(1200, 700);
+        setSize(1100, 650);
         setVisible(true);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         // 1. Configura el JFrame para BorderLayout
@@ -282,7 +282,7 @@ public class VentanaInicio extends javax.swing.JFrame {
 
         panelMenu.setBackground(new java.awt.Color(30, 41, 59));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logito.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logitooo.png"))); // NOI18N
 
         panelInicio.setBackground(new java.awt.Color(30, 41, 59));
 
