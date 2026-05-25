@@ -346,6 +346,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         lblRecetas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblRecetas.setForeground(new java.awt.Color(241, 245, 249));
         lblRecetas.setText("RECETAS");
+        lblRecetas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout panelRecetasLayout = new javax.swing.GroupLayout(panelRecetas);
         panelRecetas.setLayout(panelRecetasLayout);
@@ -365,6 +366,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         lblCerrarSesion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblCerrarSesion.setForeground(new java.awt.Color(241, 245, 249));
         lblCerrarSesion.setText("CERRAR SESIÓN");
+        lblCerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout panelCerrarSesionLayout = new javax.swing.GroupLayout(panelCerrarSesion);
         panelCerrarSesion.setLayout(panelCerrarSesionLayout);
