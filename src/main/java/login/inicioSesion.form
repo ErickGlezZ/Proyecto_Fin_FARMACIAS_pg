@@ -147,9 +147,6 @@
               <Color blue="69" green="55" red="47" type="rgb"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cajaUsuarioActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="cajaPassword">
           <Properties>

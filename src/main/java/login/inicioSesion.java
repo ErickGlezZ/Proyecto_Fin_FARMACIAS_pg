@@ -4,8 +4,12 @@
  */
 package login;
 
+import Controlador.LoginController;
+import Dao.LoginDAO;
+import Interfaces.ILoginDAO;
 import com.mycompany.proyecto_fin_farmacias_pg.VentanaInicio;
 import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
@@ -20,8 +24,11 @@ public class inicioSesion extends javax.swing.JFrame {
     /**
      * Creates new form inicioSesion
      */
+    private LoginController controller;
     public inicioSesion() {
         initComponents();
+        
+        controller = new LoginController(LoginDAO.getInstancia());
         
         setLocationRelativeTo(null);
         setSize(700, 600);
@@ -86,11 +93,6 @@ public class inicioSesion extends javax.swing.JFrame {
         jLabel1.setText("ACCESO AL SYSTEMA");
 
         cajaUsuario.setBackground(new java.awt.Color(71, 85, 105));
-        cajaUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cajaUsuarioActionPerformed(evt);
-            }
-        });
 
         cajaPassword.setBackground(new java.awt.Color(71, 85, 105));
 
@@ -166,27 +168,37 @@ public class inicioSesion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cajaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cajaUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cajaUsuarioActionPerformed
-
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         
         
-        SwingUtilities.invokeLater(new Runnable() {
+        String usuario = cajaUsuario.getText();
 
-                    @Override
-                    public void run() {
-                        
-                        new VentanaInicio();
-                        
-                        
-                        //new VentanaInicio(Login.this);
-                    }
-                });
-                cajaUsuario.setText("");
-                cajaPassword.setText("");
-                this.setVisible(false);
+        String password = String.valueOf(cajaPassword.getPassword());
+
+        boolean acceso = controller.login(usuario, password);
+
+        if (acceso) {
+
+            SwingUtilities.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    new VentanaInicio();
+                }
+            });
+
+            cajaUsuario.setText("");
+            cajaPassword.setText("");
+
+            this.setVisible(false);
+
+        } else {
+
+            JOptionPane.showMessageDialog(this,
+                    "Usuario o contraseña incorrectos");
+        }
+
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

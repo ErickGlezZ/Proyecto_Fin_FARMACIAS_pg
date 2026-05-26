@@ -57,7 +57,7 @@ public class VentanaPacientes extends javax.swing.JPanel {
                     tablaRegPacientes.getColumnModel().getColumn(1).setPreferredWidth(200);
                     tablaRegPacientes.getColumnModel().getColumn(2).setPreferredWidth(60);
                     tablaRegPacientes.getColumnModel().getColumn(3).setPreferredWidth(110);
-                    tablaRegPacientes.getColumnModel().getColumn(4).setPreferredWidth(310);
+                    tablaRegPacientes.getColumnModel().getColumn(4).setPreferredWidth(314);
                     tablaRegPacientes.getColumnModel().getColumn(5).setPreferredWidth(40);
                     tablaRegPacientes.getColumnModel().getColumn(6).setPreferredWidth(40);
                     
@@ -275,8 +275,8 @@ public class VentanaPacientes extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 911, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -294,7 +294,7 @@ public class VentanaPacientes extends javax.swing.JPanel {
                                     .addComponent(btnLimpiarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAgregarPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(61, 61, 61))))
         );
@@ -345,7 +345,7 @@ public class VentanaPacientes extends javax.swing.JPanel {
                     tablaRegPacientes.getColumnModel().getColumn(1).setPreferredWidth(200);
                     tablaRegPacientes.getColumnModel().getColumn(2).setPreferredWidth(60);
                     tablaRegPacientes.getColumnModel().getColumn(3).setPreferredWidth(110);
-                    tablaRegPacientes.getColumnModel().getColumn(4).setPreferredWidth(310);
+                    tablaRegPacientes.getColumnModel().getColumn(4).setPreferredWidth(314);
                     tablaRegPacientes.getColumnModel().getColumn(5).setPreferredWidth(40);
                     tablaRegPacientes.getColumnModel().getColumn(6).setPreferredWidth(40);
                     
