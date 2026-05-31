@@ -1,6 +1,5 @@
 package Controlador;
 
-import Dao.LoginDAO;
 import Interfaces.ILoginDAO;
 
 public class LoginController {

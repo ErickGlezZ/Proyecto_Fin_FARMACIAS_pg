@@ -27,12 +27,12 @@
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="cardReporte" alignment="0" max="32767" attributes="0"/>
-                  <Component id="cardMedicamentos4" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="cardEliminaciones" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="cardMedicamentos5" alignment="0" max="32767" attributes="0"/>
-                  <Component id="cardMedicamentos3" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="cardGrafMedicamentos" alignment="0" max="32767" attributes="0"/>
+                  <Component id="cardGrafRecetas" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="166" max="32767" attributes="0"/>
           </Group>
@@ -43,13 +43,13 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="cardMedicamentos5" alignment="0" max="32767" attributes="0"/>
+                  <Component id="cardGrafMedicamentos" alignment="0" max="32767" attributes="0"/>
                   <Component id="cardReporte" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="cardMedicamentos4" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="cardMedicamentos3" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="cardEliminaciones" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="cardGrafRecetas" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="120" max="32767" attributes="0"/>
           </Group>
@@ -57,7 +57,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="cardMedicamentos4">
+    <Container class="javax.swing.JPanel" name="cardEliminaciones">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="69" green="55" red="47" type="rgb"/>
@@ -67,7 +67,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cardMedicamentos4MouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cardEliminacionesMouseClicked"/>
       </Events>
 
       <Layout>
@@ -199,7 +199,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="cardMedicamentos5">
+    <Container class="javax.swing.JPanel" name="cardGrafMedicamentos">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="69" green="55" red="47" type="rgb"/>
@@ -209,7 +209,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cardMedicamentos5MouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cardGrafMedicamentosMouseClicked"/>
       </Events>
 
       <Layout>
@@ -270,7 +270,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="cardMedicamentos3">
+    <Container class="javax.swing.JPanel" name="cardGrafRecetas">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="69" green="55" red="47" type="rgb"/>
@@ -280,7 +280,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cardMedicamentos3MouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cardGrafRecetasMouseClicked"/>
       </Events>
 
       <Layout>

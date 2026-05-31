@@ -266,7 +266,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
             }
         });
 
-        jScrollPane1.setBackground(new java.awt.Color(241, 245, 249));
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setForeground(new java.awt.Color(40, 40, 40));
 
         tablaRegMedicos.setBackground(new java.awt.Color(71, 85, 105));
@@ -508,7 +508,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
     public EliminarRenderer() {
 
         setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/img/borrar.png")
+                getClass().getResource("/img/delete2.png")
         ));
 
         setBorderPainted(false);
@@ -535,7 +535,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
     public EditarRenderer() {
 
         setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/img/boton-editar.png")
+                getClass().getResource("/img/editar-informacion.png")
         ));
 
         setBorderPainted(false);

@@ -432,7 +432,7 @@ public class VentanaPacientes extends javax.swing.JPanel {
         public EliminarRenderer() {
 
             setIcon(new javax.swing.ImageIcon(
-                    getClass().getResource("/img/borrar.png")
+                    getClass().getResource("/img/delete2.png")
             ));
 
             setBorderPainted(false);
@@ -459,7 +459,7 @@ public class VentanaPacientes extends javax.swing.JPanel {
         public EditarRenderer() {
 
             setIcon(new javax.swing.ImageIcon(
-                    getClass().getResource("/img/boton-editar.png")
+                    getClass().getResource("/img/editar-informacion.png")
             ));
 
             setBorderPainted(false);

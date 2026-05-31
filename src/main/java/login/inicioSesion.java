@@ -6,6 +6,7 @@ package login;
 
 import Controlador.LoginController;
 import Dao.LoginDAO;
+import Fachada.SistemaFacade;
 import Interfaces.ILoginDAO;
 import com.mycompany.proyecto_fin_farmacias_pg.VentanaInicio;
 import java.awt.BorderLayout;
@@ -24,11 +25,13 @@ public class inicioSesion extends javax.swing.JFrame {
     /**
      * Creates new form inicioSesion
      */
-    private LoginController controller;
+    //private LoginController controller;
+    private SistemaFacade sistema;
     public inicioSesion() {
         initComponents();
         
-        controller = new LoginController(LoginDAO.getInstancia());
+        //controller = new LoginController(LoginDAO.getInstancia());
+        sistema = new SistemaFacade();
         
         setLocationRelativeTo(null);
         setSize(700, 600);
@@ -175,7 +178,8 @@ public class inicioSesion extends javax.swing.JFrame {
 
         String password = String.valueOf(cajaPassword.getPassword());
 
-        boolean acceso = controller.login(usuario, password);
+        //boolean acceso = controller.login(usuario, password);
+        boolean acceso = sistema.iniciarSesion(usuario, password);
 
         if (acceso) {
 
