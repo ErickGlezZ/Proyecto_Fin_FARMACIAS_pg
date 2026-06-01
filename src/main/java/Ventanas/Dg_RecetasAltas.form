@@ -37,7 +37,7 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="cajaFechaAltas" alignment="0" max="32767" attributes="0"/>
                           <Component id="cbUnidadAltas" pref="139" max="32767" attributes="0"/>
-                          <Component id="spCantidadAltas" max="32767" attributes="0"/>
+                          <Component id="cajaCantidadAltas" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -102,7 +102,7 @@
               <EmptySpace type="unrelated" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jLabel6" pref="40" max="32767" attributes="0"/>
-                  <Component id="spCantidadAltas" max="32767" attributes="0"/>
+                  <Component id="cajaCantidadAltas" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -183,6 +183,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaIndicacionesAltasKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAgregarRecetas">
       <Properties>
@@ -201,12 +204,7 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <Events>
@@ -222,12 +220,7 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <Events>
@@ -243,6 +236,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaMedicamentoAltasKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblMedico">
       <Properties>
@@ -279,7 +275,7 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="9">
+          <StringArray count="11">
             <StringItem index="0" value="Elije Unidad..."/>
             <StringItem index="1" value="mg"/>
             <StringItem index="2" value="g"/>
@@ -289,6 +285,8 @@
             <StringItem index="6" value="c&#xe1;psulas"/>
             <StringItem index="7" value="gotas"/>
             <StringItem index="8" value="ampolletas"/>
+            <StringItem index="9" value="inyecciones"/>
+            <StringItem index="10" value="inhalador"/>
           </StringArray>
         </Property>
       </Properties>
@@ -296,12 +294,15 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JSpinner" name="spCantidadAltas">
+    <Component class="javax.swing.JTextField" name="cajaCantidadAltas">
       <Properties>
-        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="1" maximum="1000" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaCantidadAltasKeyTyped"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -91,8 +91,7 @@ public class RecetaDAO implements IRecetaDAO{
 
         try {
 
-            PreparedStatement ps =
-                    conexionBD.getConexion().prepareStatement(sql);
+            PreparedStatement ps = conexionBD.getConexion().prepareStatement(sql);
 
             ps.setInt(1, idReceta);
 

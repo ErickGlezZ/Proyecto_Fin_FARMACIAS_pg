@@ -179,11 +179,21 @@ public class Dg_PacientesCambios extends javax.swing.JDialog {
         jLabel9.setText("Colonia:");
 
         cajaColoniaCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaColoniaCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaColoniaCambiosKeyTyped(evt);
+            }
+        });
 
         jLabel10.setForeground(new java.awt.Color(241, 245, 249));
         jLabel10.setText("Código Postal:");
 
         cajaCodPostalCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaCodPostalCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaCodPostalCambiosKeyTyped(evt);
+            }
+        });
 
         btnEditarPacientes.setBackground(new java.awt.Color(40, 40, 40));
         btnEditarPacientes.setForeground(new java.awt.Color(241, 245, 249));
@@ -195,16 +205,31 @@ public class Dg_PacientesCambios extends javax.swing.JDialog {
         });
 
         cajaNombreCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaNombreCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaNombreCambiosKeyTyped(evt);
+            }
+        });
 
         jLabel2.setForeground(new java.awt.Color(241, 245, 249));
         jLabel2.setText("Nombre:");
 
         cajaApPaternoCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaApPaternoCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaApPaternoCambiosKeyTyped(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(241, 245, 249));
         jLabel3.setText("Apellido Paterno:");
 
         cajaApMaternoCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaApMaternoCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaApMaternoCambiosKeyTyped(evt);
+            }
+        });
 
         jLabel4.setForeground(new java.awt.Color(241, 245, 249));
         jLabel4.setText("Apellido Materno:");
@@ -232,11 +257,21 @@ public class Dg_PacientesCambios extends javax.swing.JDialog {
         jLabel7.setText("Calle:");
 
         cajaCalleCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaCalleCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaCalleCambiosKeyTyped(evt);
+            }
+        });
 
         jLabel8.setForeground(new java.awt.Color(241, 245, 249));
         jLabel8.setText("Número:");
 
         cajaNumeroCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaNumeroCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaNumeroCambiosKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -330,6 +365,83 @@ public class Dg_PacientesCambios extends javax.swing.JDialog {
 
     private void btnEditarPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPacientesActionPerformed
 
+        if (cajaNombreCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
+            return;
+        }
+
+        if (cajaApPaternoCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El apellido paterno es obligatorio");
+            return;
+        }
+
+        if (cajaApMaternoCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El apellido materno es obligatorio");
+            return;
+        }
+
+        int edad = (int) spEdadCambios.getValue();
+        if (edad < 0 || edad > 120) {
+            JOptionPane.showMessageDialog(this, "Edad inválida (0-120)");
+            return;
+        }
+
+
+        if (cajaCalleCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La calle es obligatoria");
+            return;
+        }
+
+        if (cajaNumeroCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El número es obligatorio");
+            return;
+        }
+
+        if (cajaColoniaCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La colonia es obligatoria");
+            return;
+        }
+
+        if (cajaCodPostalCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El código postal es obligatorio");
+            return;
+        }
+
+        if (cajaNombreCambios.getText().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Nombre máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaApPaternoCambios.getText().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Apellido paterno máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaApMaternoCambios.getText().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Apellido materno máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaColoniaCambios.getText().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Colonia máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaCalleCambios.getText().length() > 100) {
+            JOptionPane.showMessageDialog(this, "Calle máximo 100 caracteres");
+            return;
+        }
+
+        if (cajaNumeroCambios.getText().length() > 10) {
+            JOptionPane.showMessageDialog(this, "Número máximo 10 caracteres");
+            return;
+        }
+
+        if (cajaCodPostalCambios.getText().length() != 5) {
+            JOptionPane.showMessageDialog(this, "Código postal debe tener 5 dígitos");
+            return;
+        }
+        
         Paciente p = new Paciente(ssnPaciente,
             cajaNombreCambios.getText(),
             cajaApPaternoCambios.getText(),
@@ -356,6 +468,62 @@ public class Dg_PacientesCambios extends javax.swing.JDialog {
     private void cbSSNMedicoCabCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSSNMedicoCabCambiosActionPerformed
         actualizarLabelMedico();
     }//GEN-LAST:event_cbSSNMedicoCabCambiosActionPerformed
+
+    private void cajaNombreCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaNombreCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaNombreCambiosKeyTyped
+
+    private void cajaApPaternoCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaApPaternoCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaApPaternoCambiosKeyTyped
+
+    private void cajaApMaternoCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaApMaternoCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaApMaternoCambiosKeyTyped
+
+    private void cajaCalleCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaCalleCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaCalleCambiosKeyTyped
+
+    private void cajaNumeroCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaNumeroCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaNumeroCambiosKeyTyped
+
+    private void cajaColoniaCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaColoniaCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaColoniaCambiosKeyTyped
+
+    private void cajaCodPostalCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaCodPostalCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaCodPostalCambiosKeyTyped
 
     /**
      * @param args the command line arguments

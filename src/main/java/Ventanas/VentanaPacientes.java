@@ -23,6 +23,7 @@ public class VentanaPacientes extends javax.swing.JPanel {
      * Creates new form VentanaPacientes
      */
     private Timer timerBusqueda;
+    private String tipoEntrada = "numerosg";
     private PacienteController controller;
     
     public VentanaPacientes() {
@@ -184,7 +185,83 @@ public class VentanaPacientes extends javax.swing.JPanel {
             }
         }
     });
+        
+        
+        cbFiltro.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+            String opcion = cbFiltro.getSelectedItem().toString();
+
+            cajaBusquedaPacientes.setText("");
+
+            switch (opcion) {
+
+                case "SSN Paciente":
+                case "SSN Médico":
+                    tipoEntrada = "numerosg"; // permite guiones
+                    break;
+
+                case "Nombre":
+                case "Apellido Paterno":
+                case "Apellido Materno":
+                case "Calle":
+                case "Colonia":
+                    tipoEntrada = "letras";
+                    break;
+
+                case "Edad":
+                case "Número":
+                case "Código Postal":
+                    tipoEntrada = "numeros";
+                    break;
+
+                default:
+                    tipoEntrada = "libre";
+                    break;
+            }
+        }
+    });
+        
+        
+        
+        
+        cajaBusquedaPacientes.addKeyListener(new java.awt.event.KeyAdapter() {
+        @Override
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+
+            char c = evt.getKeyChar();
+
+            switch (tipoEntrada) {
+
+                case "letras":
+                    if (!Character.isLetter(c) && c != ' ') {
+                        evt.consume();
+                    }
+                    break;
+
+                case "numeros":
+                    if (!Character.isDigit(c)) {
+                        evt.consume();
+                    }
+                    break;
+
+                case "numerosg": // SSN o códigos con guiones
+                    if (!Character.isDigit(c) && c != '-') {
+                        evt.consume();
+                    }
+                    break;
+
+                case "libre":
+                    // no bloquea nada
+                    break;
+            }
+        }
+    });
     }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

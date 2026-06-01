@@ -25,6 +25,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
      * Creates new form VentanaRecetas
      */
     private Timer timerBusqueda;
+    private String tipoEntrada = "numeros";
     private RecetaController controller;
     
     public VentanaRecetas() {
@@ -187,6 +188,88 @@ public class VentanaRecetas extends javax.swing.JPanel {
             }
         }
     });
+        
+        
+        cbFiltro.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+            String opcion = cbFiltro.getSelectedItem().toString();
+
+            cajaBusquedaRecetas.setText("");
+
+            switch (opcion) {
+
+                case "No. Receta":
+                    tipoEntrada = "numeros";
+                    break;
+
+                case "SSN Médico":
+                case "SSN Paciente":
+                    tipoEntrada = "numerosg"; 
+                    break;
+
+                case "Medicamento":
+                case "Indicaciones":
+                case "Unidad":
+                    tipoEntrada = "letras";
+                    break;
+
+                case "Cantidad":
+                    tipoEntrada = "numeros";
+                    break;
+
+                case "Fecha":
+                    tipoEntrada = "fecha"; 
+                    break;
+
+                default:
+                    tipoEntrada = "libre";
+                    break;
+            }
+        }
+    });
+        
+        
+        
+        cajaBusquedaRecetas.addKeyListener(new java.awt.event.KeyAdapter() {
+        @Override
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+
+            char c = evt.getKeyChar();
+
+            switch (tipoEntrada) {
+
+                case "letras":
+                    if (!Character.isLetter(c) && c != ' ') {
+                        evt.consume();
+                    }
+                    break;
+
+                case "numeros":
+                    if (!Character.isDigit(c)) {
+                        evt.consume();
+                    }
+                    break;
+
+                case "numerosg": // SSN o códigos con guiones
+                    if (!Character.isDigit(c) && c != '-') {
+                        evt.consume();
+                    }
+                    break;
+
+                case "fecha":
+                    if (!Character.isDigit(c) && !Character.isLetter(c) && c != ' ') {
+                        evt.consume();
+                    }
+                    break;
+
+                case "libre":
+                    // no bloquea nada
+                    break;
+            }
+        }
+    });
     }
     
     public void limpiarCampos(){
@@ -295,6 +378,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(241, 245, 249));
         jLabel1.setText("RECETAS");
 
+        btnLimpiarRecetas.setBackground(new java.awt.Color(40, 40, 40));
         btnLimpiarRecetas.setText("LIMPIAR");
         btnLimpiarRecetas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -302,6 +386,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
             }
         });
 
+        btnNuevoReceta.setBackground(new java.awt.Color(40, 40, 40));
         btnNuevoReceta.setText("NUEVO");
         btnNuevoReceta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -311,6 +396,7 @@ public class VentanaRecetas extends javax.swing.JPanel {
 
         jLabel11.setText("Buscar");
 
+        cajaBusquedaRecetas.setBackground(new java.awt.Color(71, 85, 105));
         cajaBusquedaRecetas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 cajaBusquedaRecetasKeyReleased(evt);

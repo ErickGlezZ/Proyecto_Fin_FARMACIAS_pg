@@ -25,6 +25,7 @@ public class VentanaMedicos extends javax.swing.JPanel {
      * Creates new form VentanaMedicos
      */
     private Timer timerBusqueda;
+    private String tipoEntrada = "numerosg";
     //private MedicoController controller = new MedicoController();
     private MedicoController controller;
     
@@ -233,7 +234,78 @@ public class VentanaMedicos extends javax.swing.JPanel {
     }
     });
         
+    
+    
+    
+    cbFiltro.addActionListener(new java.awt.event.ActionListener() {
+    @Override
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+        String opcion = cbFiltro.getSelectedItem().toString();
+
+        cajaBusqueda.setText(""); // limpiar al cambiar filtro
+
+        switch (opcion) {
+
+            case "SSN":
+                tipoEntrada = "numerosg";
+                break;
+
+            case "Nombre":
+            case "Apellido Paterno":
+            case "Apellido Materno":
+            case "Especialidad":
+                tipoEntrada = "letras";
+                break;
+
+            case "Años Experiencia":
+                tipoEntrada = "numeros";
+                break;
+
+            default:
+                tipoEntrada = "libre";
+                break;
+        }
     }
+});
+    
+    
+    cajaBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+    @Override
+    public void keyTyped(java.awt.event.KeyEvent evt) {
+
+        char c = evt.getKeyChar();
+
+        switch (tipoEntrada) {
+
+            case "letras":
+                if (!Character.isLetter(c) && c != ' ') {
+                    evt.consume();
+                }
+                break;
+
+            case "numeros":
+                if (!Character.isDigit(c)) {
+                    evt.consume();
+                }
+                break;
+                
+            case "numerosg":
+                if (!Character.isDigit(c) && c != '-') {
+                    evt.consume();
+                }
+                break;
+
+            case "libre":
+                // no bloquea nada
+                break;
+        }
+    }
+});
+    
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -248,12 +320,12 @@ public class VentanaMedicos extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaRegMedicos = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        cajaBusqueda = new javax.swing.JTextField();
         btnLimpiarCampos = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         cbFiltro = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        cajaBusqueda = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(46, 61, 84));
 
@@ -282,13 +354,6 @@ public class VentanaMedicos extends javax.swing.JPanel {
 
         jLabel3.setText("Buscar");
 
-        cajaBusqueda.setBackground(new java.awt.Color(71, 85, 105));
-        cajaBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                cajaBusquedaKeyReleased(evt);
-            }
-        });
-
         btnLimpiarCampos.setBackground(new java.awt.Color(40, 40, 40));
         btnLimpiarCampos.setText("LIMPIAR");
         btnLimpiarCampos.addActionListener(new java.awt.event.ActionListener() {
@@ -311,6 +376,13 @@ public class VentanaMedicos extends javax.swing.JPanel {
         });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/doccc.png"))); // NOI18N
+
+        cajaBusqueda.setBackground(new java.awt.Color(71, 85, 105));
+        cajaBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cajaBusquedaKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -357,17 +429,18 @@ public class VentanaMedicos extends javax.swing.JPanel {
                             .addComponent(btnLimpiarCampos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cbFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cajaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnAgregarMedicos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -486,12 +559,6 @@ public class VentanaMedicos extends javax.swing.JPanel {
         cargarTabla();
     }//GEN-LAST:event_btnAgregarMedicosActionPerformed
 
-    private void cajaBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaBusquedaKeyReleased
-        if (timerBusqueda != null) {
-        timerBusqueda.restart();
-        }
-    }//GEN-LAST:event_cajaBusquedaKeyReleased
-
     private void btnLimpiarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarCamposActionPerformed
         limpiarCampos();
     }//GEN-LAST:event_btnLimpiarCamposActionPerformed
@@ -501,6 +568,12 @@ public class VentanaMedicos extends javax.swing.JPanel {
         tablaRegMedicos.clearSelection();
         cargarTabla();
     }//GEN-LAST:event_cbFiltroActionPerformed
+
+    private void cajaBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaBusquedaKeyReleased
+        if (timerBusqueda != null) {
+            timerBusqueda.restart();
+        }
+    }//GEN-LAST:event_cajaBusquedaKeyReleased
 
     
     class EliminarRenderer extends javax.swing.JButton implements javax.swing.table.TableCellRenderer {

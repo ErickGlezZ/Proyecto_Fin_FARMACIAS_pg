@@ -94,8 +94,7 @@ public class PacienteDAO implements IPacienteDAO{
 
     try {
 
-        PreparedStatement ps =
-                conexionBD.getConexion().prepareStatement(sql);
+        PreparedStatement ps = conexionBD.getConexion().prepareStatement(sql);
 
         ps.setString(1, ssn);
 
@@ -220,13 +219,14 @@ public class PacienteDAO implements IPacienteDAO{
             cs.setString(10,String.valueOf(paciente.getCodigoPostal()));
 
             cs.execute();
-
+            /*
             JOptionPane.showMessageDialog(
                     null,
                     "Paciente registrado correctamente mediante PROCEDURE",
                     "Registro exitoso",
                     JOptionPane.INFORMATION_MESSAGE
             );
+            */
 
             return true;
 

@@ -12,6 +12,7 @@ import java.awt.event.FocusEvent;
 import java.text.ParseException;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.text.DefaultFormatterFactory;
@@ -40,6 +41,14 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
         setResizable(false); 
         
         controller = new MedicoController(MedicoDAO.getInstancia());
+        
+       
+        JSpinner.DefaultEditor editor =
+        (JSpinner.DefaultEditor) spAñosExpAltas.getEditor();
+
+        editor.getTextField().setEditable(false);
+        editor.getTextField().setFocusable(false);
+        editor.getTextField().setHorizontalAlignment(javax.swing.JTextField.CENTER);
         
         cajaSSNAltas.addFocusListener(new FocusAdapter() {
         @Override
@@ -76,6 +85,10 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
         cbEspecialidadAltas.setSelectedIndex(0);
         spAñosExpAltas.setValue(0);
     }
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -121,8 +134,18 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
         jLabel7.setText("Años Experiencia:");
 
         cajaNombreAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaNombreAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaNombreAltasKeyTyped(evt);
+            }
+        });
 
         cajaPaternoAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaPaternoAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaPaternoAltasKeyTyped(evt);
+            }
+        });
 
         cbEspecialidadAltas.setBackground(new java.awt.Color(71, 85, 105));
         cbEspecialidadAltas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elige Especialidad...", "Cardiología", "Pediatría", "Ginecología", "Medicina General", "Dermatología", "Neurología", "Oncología", "Oftalmología" }));
@@ -136,6 +159,11 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
         });
 
         cajaMaternoAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaMaternoAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaMaternoAltasKeyTyped(evt);
+            }
+        });
 
         spAñosExpAltas.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
 
@@ -202,6 +230,54 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
 
     private void btnAgregarMedAltasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMedAltasActionPerformed
         
+        // ================= VALIDACIONES =================
+    
+        if (cajaSSNAltas.getText().contains("_") || cajaSSNAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El SSN es obligatorio");
+            return;
+        }
+
+        if (cajaNombreAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
+            return;
+        }
+
+        if (cajaPaternoAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El apellido paterno es obligatorio");
+            return;
+        }
+
+        if (cajaMaternoAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El apellido materno es obligatorio");
+            return;
+        }
+
+        if (cbEspecialidadAltas.getSelectedItem().toString().equals("Elige Especialidad...")) {
+            JOptionPane.showMessageDialog(this, "Selecciona una especialidad");
+            return;
+        }
+
+        int años = (int) spAñosExpAltas.getValue();
+        if (años < 0 || años > 50) {
+            JOptionPane.showMessageDialog(this, "Años de experiencia inválidos (0-50)");
+            return;
+        }
+        
+        if (cajaNombreAltas.getText().length() > 50) {
+        JOptionPane.showMessageDialog(this, "Nombre máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaPaternoAltas.getText().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Apellido paterno máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaMaternoAltas.getText().length() > 50) {
+            JOptionPane.showMessageDialog(null, "Apellido materno máximo 50 caracteres");
+            return;
+        }
+        
         Medico m = new Medico(cajaSSNAltas.getText(),
                 cajaNombreAltas.getText(),
                 cajaPaternoAltas.getText(),
@@ -223,6 +299,29 @@ public class Dg_MedicosAltas extends javax.swing.JDialog {
                     System.out.println("ERROR en la insercion");
              }
     }//GEN-LAST:event_btnAgregarMedAltasActionPerformed
+
+    private void cajaNombreAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaNombreAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaNombreAltasKeyTyped
+
+    private void cajaPaternoAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaPaternoAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaPaternoAltasKeyTyped
+
+    private void cajaMaternoAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaMaternoAltasKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaMaternoAltasKeyTyped
 
     /**
      * @param args the command line arguments

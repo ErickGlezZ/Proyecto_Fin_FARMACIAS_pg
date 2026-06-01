@@ -37,7 +37,7 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="cajaFechaCambios" alignment="0" max="32767" attributes="0"/>
                           <Component id="cbUnidadCambios" alignment="0" pref="139" max="32767" attributes="0"/>
-                          <Component id="spCantidadCambios" max="32767" attributes="0"/>
+                          <Component id="cajaCantidadCambios" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -102,7 +102,7 @@
               <EmptySpace type="unrelated" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jLabel6" pref="40" max="32767" attributes="0"/>
-                  <Component id="spCantidadCambios" max="32767" attributes="0"/>
+                  <Component id="cajaCantidadCambios" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -127,6 +127,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaIndicacionesCambiosKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnEditarRecetas">
       <Properties>
@@ -195,6 +198,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaMedicamentoCambiosKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -271,7 +277,7 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="9">
+          <StringArray count="11">
             <StringItem index="0" value="Elije Unidad..."/>
             <StringItem index="1" value="mg"/>
             <StringItem index="2" value="g"/>
@@ -281,6 +287,8 @@
             <StringItem index="6" value="c&#xe1;psulas"/>
             <StringItem index="7" value="gotas"/>
             <StringItem index="8" value="ampolletas"/>
+            <StringItem index="9" value="inyecciones"/>
+            <StringItem index="10" value="inhalador"/>
           </StringArray>
         </Property>
       </Properties>
@@ -296,12 +304,15 @@
         <Property name="text" type="java.lang.String" value="Indicaciones:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JSpinner" name="spCantidadCambios">
+    <Component class="javax.swing.JTextField" name="cajaCantidadCambios">
       <Properties>
-        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="1" maximum="1000" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaCantidadCambiosKeyTyped"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

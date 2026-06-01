@@ -17,8 +17,8 @@ public class ConexionBD {
 
     // Datos de tu PostgreSQL
     private final String URL = "jdbc:postgresql://localhost:5432/bd_farmacias";
-    private final String USUARIO = "erick";
-    private final String CONTRASEÑA = "erick";
+    private final String USUARIO = "app_farmacia";
+    private final String CONTRASEÑA = "1234";
 
     // Constructor privado
     private ConexionBD() {

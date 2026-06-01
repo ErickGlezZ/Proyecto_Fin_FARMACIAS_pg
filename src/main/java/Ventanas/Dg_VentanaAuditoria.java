@@ -60,14 +60,11 @@ public class Dg_VentanaAuditoria extends javax.swing.JDialog {
 
         try {
 
-            Connection cn =
-                    ConexionBD.getInstancia().getConexion();
+            Connection cn = ConexionBD.getInstancia().getConexion();
 
-            PreparedStatement ps =
-                    cn.prepareStatement(sql);
+            PreparedStatement ps = cn.prepareStatement(sql);
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
 
@@ -101,6 +98,10 @@ public class Dg_VentanaAuditoria extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jScrollPane1.setForeground(new java.awt.Color(241, 245, 249));
+
+        tablaAuditoria.setAutoCreateRowSorter(true);
+        tablaAuditoria.setBackground(new java.awt.Color(71, 85, 105));
         tablaAuditoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -114,7 +115,9 @@ public class Dg_VentanaAuditoria extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(tablaAuditoria);
 
-        lblTitulo.setText("jLabel1");
+        lblTitulo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(241, 245, 249));
+        lblTitulo.setText("Visulización: Auditoria de Eliminaciones");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,10 +126,10 @@ public class Dg_VentanaAuditoria extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 827, Short.MAX_VALUE))
+                        .addComponent(lblTitulo)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

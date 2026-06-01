@@ -145,6 +145,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaNombreAltasKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="cajaPaternoAltas">
       <Properties>
@@ -152,6 +155,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaPaternoAltasKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="cbEspecialidadAltas">
       <Properties>
@@ -193,6 +199,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaMaternoAltasKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JSpinner" name="spA&#xf1;osExpAltas">
       <Properties>

@@ -144,6 +144,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaColoniaCambiosKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel10">
       <Properties>
@@ -159,6 +162,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaCodPostalCambiosKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnEditarPacientes">
       <Properties>
@@ -180,6 +186,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaNombreCambiosKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -195,6 +204,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaApPaternoCambiosKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -210,6 +222,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaApMaternoCambiosKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
@@ -283,6 +298,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaCalleCambiosKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
@@ -298,6 +316,9 @@
           <Color blue="69" green="55" red="47" type="rgb"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaNumeroCambiosKeyTyped"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

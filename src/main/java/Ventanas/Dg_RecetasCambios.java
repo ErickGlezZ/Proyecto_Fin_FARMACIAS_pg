@@ -65,7 +65,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
         cbSSNPacienteCambios.setSelectedIndex(0);
         cajaMedicamentoCambios.setText("");
         cajaFechaCambios.setText("");
-        spCantidadCambios.setValue(1);
+        cajaCantidadCambios.setText("");
         cbUnidadCambios.setSelectedIndex(0);
         cajaIndicacionesCambios.setText("");
     }
@@ -141,7 +141,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
 
                 cajaFechaCambios.setText(rs.getDate("fecha").toLocalDate().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
-                spCantidadCambios.setValue(rs.getInt("cantidad"));
+                cajaCantidadCambios.setText(rs.getString("cantidad"));
 
                 cbUnidadCambios.setSelectedItem(rs.getString("unidad"));
 
@@ -187,11 +187,16 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         cbUnidadCambios = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        spCantidadCambios = new javax.swing.JSpinner();
+        cajaCantidadCambios = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         cajaIndicacionesCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaIndicacionesCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaIndicacionesCambiosKeyTyped(evt);
+            }
+        });
 
         btnEditarRecetas.setBackground(new java.awt.Color(40, 40, 40));
         btnEditarRecetas.setText("EDITAR");
@@ -221,6 +226,11 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
         jLabel2.setText("SSN_Medico:");
 
         cajaMedicamentoCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaMedicamentoCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaMedicamentoCambiosKeyTyped(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(241, 245, 249));
         jLabel3.setText("SSN_Paciente:");
@@ -248,12 +258,17 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
         jLabel7.setText("Unidad:");
 
         cbUnidadCambios.setBackground(new java.awt.Color(71, 85, 105));
-        cbUnidadCambios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elije Unidad...", "mg", "g", "mcg", "ml", "tabletas", "cápsulas", "gotas", "ampolletas" }));
+        cbUnidadCambios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elije Unidad...", "mg", "g", "mcg", "ml", "tabletas", "cápsulas", "gotas", "ampolletas", "inyecciones", "inhalador" }));
 
         jLabel8.setForeground(new java.awt.Color(241, 245, 249));
         jLabel8.setText("Indicaciones:");
 
-        spCantidadCambios.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1000, 1));
+        cajaCantidadCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaCantidadCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaCantidadCambiosKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -272,7 +287,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cajaFechaCambios)
                             .addComponent(cbUnidadCambios, 0, 139, Short.MAX_VALUE)
-                            .addComponent(spCantidadCambios))
+                            .addComponent(cajaCantidadCambios))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -321,7 +336,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(spCantidadCambios))
+                    .addComponent(cajaCantidadCambios))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
@@ -353,6 +368,55 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
     
     
     private void btnEditarRecetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarRecetasActionPerformed
+       
+         // ================= VALIDACIONES =================
+
+        // Medicamento
+        if (cajaMedicamentoCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El medicamento es obligatorio");
+            return;
+        }
+
+        if (cajaMedicamentoCambios.getText().length() > 100) {
+            JOptionPane.showMessageDialog(this, "Medicamento máximo 100 caracteres");
+            return;
+        }
+
+        String textoCantidad = cajaCantidadCambios.getText();
+
+        if (textoCantidad.length() > 3){
+            JOptionPane.showMessageDialog(this, "La cantidad es solo de 3 digitos");
+            return;
+        }
+        
+        if (textoCantidad.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La cantidad es obligatoria");
+            return;
+        }
+
+        int cantidad = Integer.parseInt(textoCantidad);
+        if (cantidad < 1 || cantidad > 500) {
+            JOptionPane.showMessageDialog(this, "La cantidad debe estar entre 1 y 500");
+            return;
+        }
+        
+        if (cbUnidadCambios.getSelectedItem().toString().equals("Elije Unidad...")) {
+            JOptionPane.showMessageDialog(this, "Selecciona una unidad");
+            return;
+        }
+
+        // Indicaciones
+        if (cajaIndicacionesCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Las indicaciones son obligatorias");
+            return;
+        }
+
+        if (cajaIndicacionesCambios.getText().length() > 255) {
+            JOptionPane.showMessageDialog(this, "Indicaciones demasiado largas (máx 255 recomendado)");
+            return;
+        }
+        
+        
         String fechaTexto = cajaFechaCambios.getText();
 
         if (fechaTexto.contains("_")) {
@@ -376,7 +440,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
                 cbSSNPacienteCambios.getSelectedItem().toString(),
                 cajaMedicamentoCambios.getText(),
                 fechaLocal,
-                Integer.parseInt(spCantidadCambios.getValue().toString()),
+                Integer.parseInt(cajaCantidadCambios.getText()),
                 cbUnidadCambios.getSelectedItem().toString(),
                 cajaIndicacionesCambios.getText());
 
@@ -405,6 +469,30 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
     private void cbSSNPacienteCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSSNPacienteCambiosActionPerformed
         actualizarLabelPaciente();
     }//GEN-LAST:event_cbSSNPacienteCambiosActionPerformed
+
+    private void cajaCantidadCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaCantidadCambiosKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaCantidadCambiosKeyTyped
+
+    private void cajaMedicamentoCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaMedicamentoCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaMedicamentoCambiosKeyTyped
+
+    private void cajaIndicacionesCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaIndicacionesCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ' && !Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaIndicacionesCambiosKeyTyped
 
     /**
      * @param args the command line arguments
@@ -445,6 +533,7 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditarRecetas;
+    private javax.swing.JTextField cajaCantidadCambios;
     private javax.swing.JFormattedTextField cajaFechaCambios;
     private javax.swing.JTextField cajaIndicacionesCambios;
     private javax.swing.JTextField cajaMedicamentoCambios;
@@ -460,6 +549,5 @@ public class Dg_RecetasCambios extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel lblMedico;
     private javax.swing.JLabel lblPaciente;
-    private javax.swing.JSpinner spCantidadCambios;
     // End of variables declaration//GEN-END:variables
 }

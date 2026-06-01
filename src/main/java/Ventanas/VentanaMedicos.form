@@ -74,22 +74,23 @@
                           <Component id="jLabel1" max="32767" attributes="0"/>
                           <Component id="cbFiltro" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnAgregarMedicos" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel3" alignment="3" max="32767" attributes="0"/>
                               <Component id="cajaBusqueda" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="jLabel3" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="btnAgregarMedicos" max="32767" attributes="0"/>
                       </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" pref="130" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="419" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="418" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -171,16 +172,6 @@
         <Property name="text" type="java.lang.String" value="Buscar"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="cajaBusqueda">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="69" green="55" red="47" type="rgb"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaBusquedaKeyReleased"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="btnLimpiarCampos">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -234,6 +225,16 @@
           <Image iconType="3" name="/img/doccc.png"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="cajaBusqueda">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="69" green="55" red="47" type="rgb"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cajaBusquedaKeyReleased"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

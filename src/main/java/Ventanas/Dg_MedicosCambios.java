@@ -61,8 +61,18 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         cajaNombreCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaNombreCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaNombreCambiosKeyTyped(evt);
+            }
+        });
 
         cajaPaternoCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaPaternoCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaPaternoCambiosKeyTyped(evt);
+            }
+        });
 
         cbEspecialidadCambios.setBackground(new java.awt.Color(71, 85, 105));
         cbEspecialidadCambios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elige Especialidad...", "Cardiología", "Pediatría", "Ginecología", "Medicina General", "Dermatología", "Neurología", "Oncología", "Oftalmología" }));
@@ -79,6 +89,11 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
         jLabel3.setText("Nombre:");
 
         cajaMaternoCambios.setBackground(new java.awt.Color(71, 85, 105));
+        cajaMaternoCambios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaMaternoCambiosKeyTyped(evt);
+            }
+        });
 
         jLabel4.setForeground(new java.awt.Color(241, 245, 249));
         jLabel4.setText("Apellido Paterno:");
@@ -149,6 +164,49 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
 
     private void btnEditarMedCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarMedCambiosActionPerformed
         
+        // ================= VALIDACIONES =================
+
+        if (cajaNombreCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
+            return;
+        }
+
+        if (cajaPaternoCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El apellido paterno es obligatorio");
+            return;
+        }
+
+        if (cajaMaternoCambios.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El apellido materno es obligatorio");
+            return;
+        }
+
+        if (cbEspecialidadCambios.getSelectedItem().toString().equals("Elige Especialidad...")) {
+            JOptionPane.showMessageDialog(this, "Selecciona una especialidad");
+            return;
+        }
+
+        int años = (int) spAñosExpCambios.getValue();
+        if (años < 0 || años > 50) {
+            JOptionPane.showMessageDialog(this, "Años de experiencia inválidos (0-50)");
+            return;
+        }
+        
+        if (cajaNombreCambios.getText().length() > 50) {
+        JOptionPane.showMessageDialog(this, "Nombre máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaPaternoCambios.getText().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Apellido paterno máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaMaternoCambios.getText().length() > 50) {
+            JOptionPane.showMessageDialog(null, "Apellido materno máximo 50 caracteres");
+            return;
+        }
+        
         Medico m = new Medico(
         ssnMedico,
         cajaNombreCambios.getText(),
@@ -170,6 +228,30 @@ public class Dg_MedicosCambios extends javax.swing.JDialog {
             System.out.println("ERROR en la insercion");
         }
     }//GEN-LAST:event_btnEditarMedCambiosActionPerformed
+
+    private void cajaNombreCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaNombreCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaNombreCambiosKeyTyped
+
+    private void cajaPaternoCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaPaternoCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaPaternoCambiosKeyTyped
+
+    private void cajaMaternoCambiosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaMaternoCambiosKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaMaternoCambiosKeyTyped
 
     private void limpiarCampos(){
         

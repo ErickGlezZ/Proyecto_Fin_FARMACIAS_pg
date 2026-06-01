@@ -40,6 +40,8 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         cargarMedicosEnCombo();
         cargarPacientesEnCombo();
         
+       
+        
         
         try {
         MaskFormatter formatoFecha = new MaskFormatter("##/##/####");
@@ -61,7 +63,7 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         cbSSNPacienteAltas.setSelectedIndex(0);
         cajaMedicamentoAltas.setText("");
         cajaFechaAltas.setText("");
-        spCantidadAltas.setValue(1);
+        cajaCantidadAltas.setText("");
         cbUnidadAltas.setSelectedIndex(0);
         cajaIndicacionesAltas.setText("");
     }
@@ -69,7 +71,7 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
     private void cargarMedicosEnCombo(){
         cbSSNMedicoAltas.removeAllItems();
         
-        cbSSNMedicoAltas.addItem("Elije Médico...");
+        //cbSSNMedicoAltas.addItem("Elije Médico...");
         ResultSet rs = controller.obtenerMedicos();
         try {
             while (rs.next()) {
@@ -96,7 +98,7 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
     private void cargarPacientesEnCombo(){
         cbSSNPacienteAltas.removeAllItems();
         
-        cbSSNPacienteAltas.addItem("Elije Paciente...");
+        //cbSSNPacienteAltas.addItem("Elije Paciente...");
         ResultSet rs = controller.obtenerPacientes();
         try {
             while (rs.next()) {
@@ -148,7 +150,7 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         lblPaciente = new javax.swing.JLabel();
         cajaFechaAltas = new javax.swing.JFormattedTextField();
         cbUnidadAltas = new javax.swing.JComboBox<>();
-        spCantidadAltas = new javax.swing.JSpinner();
+        cajaCantidadAltas = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -174,6 +176,11 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         jLabel8.setText("Indicaciones:");
 
         cajaIndicacionesAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaIndicacionesAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaIndicacionesAltasKeyTyped(evt);
+            }
+        });
 
         btnAgregarRecetas.setBackground(new java.awt.Color(40, 40, 40));
         btnAgregarRecetas.setText("AGREGAR");
@@ -184,7 +191,6 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         });
 
         cbSSNMedicoAltas.setBackground(new java.awt.Color(71, 85, 105));
-        cbSSNMedicoAltas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbSSNMedicoAltas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbSSNMedicoAltasActionPerformed(evt);
@@ -192,7 +198,6 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         });
 
         cbSSNPacienteAltas.setBackground(new java.awt.Color(71, 85, 105));
-        cbSSNPacienteAltas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbSSNPacienteAltas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbSSNPacienteAltasActionPerformed(evt);
@@ -200,6 +205,11 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         });
 
         cajaMedicamentoAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaMedicamentoAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaMedicamentoAltasKeyTyped(evt);
+            }
+        });
 
         lblMedico.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblMedico.setForeground(new java.awt.Color(241, 245, 249));
@@ -212,9 +222,14 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
         cajaFechaAltas.setBackground(new java.awt.Color(71, 85, 105));
 
         cbUnidadAltas.setBackground(new java.awt.Color(71, 85, 105));
-        cbUnidadAltas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elije Unidad...", "mg", "g", "mcg", "ml", "tabletas", "cápsulas", "gotas", "ampolletas" }));
+        cbUnidadAltas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elije Unidad...", "mg", "g", "mcg", "ml", "tabletas", "cápsulas", "gotas", "ampolletas", "inyecciones", "inhalador" }));
 
-        spCantidadAltas.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1000, 1));
+        cajaCantidadAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaCantidadAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaCantidadAltasKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -233,7 +248,7 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cajaFechaAltas)
                             .addComponent(cbUnidadAltas, 0, 139, Short.MAX_VALUE)
-                            .addComponent(spCantidadAltas))
+                            .addComponent(cajaCantidadAltas))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -282,7 +297,7 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(spCantidadAltas))
+                    .addComponent(cajaCantidadAltas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
@@ -300,7 +315,57 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarRecetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarRecetasActionPerformed
-       String fechaTexto = cajaFechaAltas.getText();
+       
+        // ================= VALIDACIONES =================
+
+        // Medicamento
+        if (cajaMedicamentoAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El medicamento es obligatorio");
+            return;
+        }
+
+        if (cajaMedicamentoAltas.getText().length() > 100) {
+            JOptionPane.showMessageDialog(this, "Medicamento máximo 100 caracteres");
+            return;
+        }
+
+        String textoCantidad = cajaCantidadAltas.getText();
+
+        if (textoCantidad.length() > 3){
+            JOptionPane.showMessageDialog(this, "La cantidad es solo de 3 digitos");
+            return;
+        }
+        
+        if (textoCantidad.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La cantidad es obligatoria");
+            return;
+        }
+
+        int cantidad = Integer.parseInt(textoCantidad);
+        if (cantidad < 1 || cantidad > 500) {
+            JOptionPane.showMessageDialog(this, "La cantidad debe estar entre 1 y 500");
+            return;
+        }
+        
+        if (cbUnidadAltas.getSelectedItem().toString().equals("Elije Unidad...")) {
+            JOptionPane.showMessageDialog(this, "Selecciona una unidad");
+            return;
+        }
+
+        // Indicaciones
+        if (cajaIndicacionesAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Las indicaciones son obligatorias");
+            return;
+        }
+
+        if (cajaIndicacionesAltas.getText().length() > 255) {
+            JOptionPane.showMessageDialog(this, "Indicaciones demasiado largas (máx 255 recomendado)");
+            return;
+        }
+        
+        
+        
+        String fechaTexto = cajaFechaAltas.getText();
 
         if (fechaTexto.contains("_")) {
             JOptionPane.showMessageDialog(null, "Completa la fecha");
@@ -324,7 +389,7 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
                     cbSSNPacienteAltas.getSelectedItem().toString(), 
                     cajaMedicamentoAltas.getText(), 
                     fechaLocal, 
-                    Integer.parseInt(spCantidadAltas.getValue().toString()), 
+                    Integer.parseInt(cajaCantidadAltas.getText()), 
                     cbUnidadAltas.getSelectedItem().toString(), 
                     cajaIndicacionesAltas.getText());
             
@@ -354,6 +419,30 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
     private void cbSSNPacienteAltasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSSNPacienteAltasActionPerformed
         actualizarLabelPaciente();
     }//GEN-LAST:event_cbSSNPacienteAltasActionPerformed
+
+    private void cajaMedicamentoAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaMedicamentoAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaMedicamentoAltasKeyTyped
+
+    private void cajaCantidadAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaCantidadAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaCantidadAltasKeyTyped
+
+    private void cajaIndicacionesAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaIndicacionesAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ' && !Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaIndicacionesAltasKeyTyped
 
     /**
      * @param args the command line arguments
@@ -394,6 +483,7 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarRecetas;
+    private javax.swing.JTextField cajaCantidadAltas;
     private javax.swing.JFormattedTextField cajaFechaAltas;
     private javax.swing.JTextField cajaIndicacionesAltas;
     private javax.swing.JTextField cajaMedicamentoAltas;
@@ -409,6 +499,5 @@ public class Dg_RecetasAltas extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel lblMedico;
     private javax.swing.JLabel lblPaciente;
-    private javax.swing.JSpinner spCantidadAltas;
     // End of variables declaration//GEN-END:variables
 }

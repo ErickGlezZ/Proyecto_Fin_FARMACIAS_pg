@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
@@ -39,6 +40,13 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
         setResizable(false); 
         controller = new PacienteController(PacienteDAO.getInstancia());
         cargarMedicosEnCombo();
+        
+        JSpinner.DefaultEditor editor =
+        (JSpinner.DefaultEditor) spEdadAltas.getEditor();
+
+        editor.getTextField().setEditable(false);
+        editor.getTextField().setFocusable(false);
+        editor.getTextField().setHorizontalAlignment(javax.swing.JTextField.CENTER);
         
         cajaSSNAltas.addFocusListener(new FocusAdapter() {
         @Override
@@ -173,10 +181,25 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
         jLabel10.setText("Código Postal:");
 
         cajaNombreAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaNombreAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaNombreAltasKeyTyped(evt);
+            }
+        });
 
         cajaApPaternoAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaApPaternoAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaApPaternoAltasKeyTyped(evt);
+            }
+        });
 
         cajaApMaternoAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaApMaternoAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaApMaternoAltasKeyTyped(evt);
+            }
+        });
 
         spEdadAltas.setModel(new javax.swing.SpinnerNumberModel(18, 0, 120, 1));
 
@@ -192,12 +215,32 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
         lblNombreMedico.setText("jLabel11");
 
         cajaCalleAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaCalleAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaCalleAltasKeyTyped(evt);
+            }
+        });
 
         cajaNumeroAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaNumeroAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaNumeroAltasKeyTyped(evt);
+            }
+        });
 
         cajaColoniaAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaColoniaAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaColoniaAltasKeyTyped(evt);
+            }
+        });
 
         cajaCodPostalAltas.setBackground(new java.awt.Color(71, 85, 105));
+        cajaCodPostalAltas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaCodPostalAltasKeyTyped(evt);
+            }
+        });
 
         btnAgregarPacientes.setBackground(new java.awt.Color(40, 40, 40));
         btnAgregarPacientes.setForeground(new java.awt.Color(241, 245, 249));
@@ -308,6 +351,92 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
 
     private void btnAgregarPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPacientesActionPerformed
         
+                // ================= VALIDACIONES =================
+
+        if (cajaSSNAltas.getText().contains("_") || cajaSSNAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El SSN del paciente es obligatorio");
+            return;
+        }
+
+        if (cajaNombreAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
+            return;
+        }
+
+        if (cajaApPaternoAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El apellido paterno es obligatorio");
+            return;
+        }
+
+        if (cajaApMaternoAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El apellido materno es obligatorio");
+            return;
+        }
+
+        int edad = (int) spEdadAltas.getValue();
+        if (edad < 0 || edad > 120) {
+            JOptionPane.showMessageDialog(this, "Edad inválida (0-120)");
+            return;
+        }
+
+
+        if (cajaCalleAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La calle es obligatoria");
+            return;
+        }
+
+        if (cajaNumeroAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El número es obligatorio");
+            return;
+        }
+
+        if (cajaColoniaAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La colonia es obligatoria");
+            return;
+        }
+
+        if (cajaCodPostalAltas.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El código postal es obligatorio");
+            return;
+        }
+
+        if (cajaNombreAltas.getText().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Nombre máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaApPaternoAltas.getText().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Apellido paterno máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaApMaternoAltas.getText().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Apellido materno máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaColoniaAltas.getText().length() > 50) {
+            JOptionPane.showMessageDialog(this, "Colonia máximo 50 caracteres");
+            return;
+        }
+
+        if (cajaCalleAltas.getText().length() > 100) {
+            JOptionPane.showMessageDialog(this, "Calle máximo 100 caracteres");
+            return;
+        }
+
+        if (cajaNumeroAltas.getText().length() > 10) {
+            JOptionPane.showMessageDialog(this, "Número máximo 10 caracteres");
+            return;
+        }
+
+        if (cajaCodPostalAltas.getText().length() != 5) {
+            JOptionPane.showMessageDialog(this, "Código postal debe tener 5 dígitos");
+            return;
+        }
+        
+        
+        
         Paciente p = new Paciente(cajaSSNAltas.getText(),
                 cajaNombreAltas.getText(),
                 cajaApPaternoAltas.getText(),
@@ -335,6 +464,62 @@ public class Dg_PacientesAltas extends javax.swing.JDialog {
     private void cbSSNMedicoCabAltasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSSNMedicoCabAltasActionPerformed
         actualizarLabelMedico();
     }//GEN-LAST:event_cbSSNMedicoCabAltasActionPerformed
+
+    private void cajaNombreAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaNombreAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaNombreAltasKeyTyped
+
+    private void cajaApPaternoAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaApPaternoAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaApPaternoAltasKeyTyped
+
+    private void cajaApMaternoAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaApMaternoAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaApMaternoAltasKeyTyped
+
+    private void cajaCalleAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaCalleAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaCalleAltasKeyTyped
+
+    private void cajaNumeroAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaNumeroAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaNumeroAltasKeyTyped
+
+    private void cajaColoniaAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaColoniaAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isLetter(c) && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaColoniaAltasKeyTyped
+
+    private void cajaCodPostalAltasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaCodPostalAltasKeyTyped
+        char c = evt.getKeyChar();
+        
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cajaCodPostalAltasKeyTyped
 
     /**
      * @param args the command line arguments
